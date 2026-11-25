@@ -1,0 +1,222 @@
+---
+import { Icon } from 'astro-icon/components';
+import Section from '~/components/ui/Section.astro';
+import SectionHeader from '~/components/ui/SectionHeader.astro';
+import Image from '~/components/common/Image.astro';
+import { SITE_INFO } from '~/data/site';
+import { getPermalink } from '~/utils/permalinks';
+
+const rawWhatsapp = String(SITE_INFO.contact.whatsapp || '');
+const whatsappDigits = rawWhatsapp !== '' && rawWhatsapp !== 'TODO' ? rawWhatsapp.replace(/[^0-9]/g, '') : '';
+const contactUrl = getPermalink('/contact');
+---
+
+<Section id="inquiry-cta" tone="image" class="py-16 sm:py-24">
+  <Fragment slot="bg">
+    <div class="absolute inset-0 overflow-hidden bg-[var(--tt-teal-navy-deep)]" aria-hidden="true">
+      <Image
+        src="~/assets/images/cities/mumbai-gateway-of-india.jpg"
+        alt="Indian waterfront heritage monument at dusk"
+        class="w-full h-full object-cover object-center opacity-55"
+        width={1600}
+        height={900}
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-[#071D28]/95 via-[#0B2A3A]/80 to-[#071D28]/90"></div>
+    </div>
+  </Fragment>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+    <!-- Left copy -->
+    <div class="lg:col-span-6">
+      <SectionHeader
+        tone="dark"
+        eyebrow="Let's Plan Your Study Journey"
+        title="Ready to Start Your Admission Journey?"
+        subtitle="Speak directly with an education counsellor today. We evaluate your profile, cutoffs, and guide you through every round of admission."
+      />
+    </div>
+
+    <!-- Right glass inquiry card -->
+    <div class="lg:col-span-6">
+      <div
+        class="rounded-[20px] bg-[#071D28]/70 backdrop-blur-md border border-white/20 p-6 sm:p-8 shadow-[var(--tt-shadow-glass)] intersect-once js:motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+      >
+        <!-- TODO: Replace client-side handler with Formspree, Netlify Forms (data-netlify="true"), or an Astro API endpoint when backend is ready -->
+        <form
+          id="tt-inquiry-form"
+          data-whatsapp={whatsappDigits}
+          data-contact-url={contactUrl}
+          novalidate
+          class="space-y-4"
+        >
+          <div>
+            <label for="tt-inquiry-name" class="sr-only">Your Name</label>
+            <div class="relative">
+              <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-white/60">
+                <Icon name="tabler:user" class="w-4 h-4" />
+              </span>
+              <input
+                id="tt-inquiry-name"
+                name="name"
+                type="text"
+                required
+                autocomplete="name"
+                placeholder="Your Name"
+                class="w-full min-h-[48px] rounded-xl bg-white/[0.08] border border-white/20 pl-10 pr-4 py-3 text-base text-white placeholder:text-white/60 focus:outline-none focus:border-[var(--tt-gold)] focus:ring-2 focus:ring-[var(--tt-gold)]/40 transition"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="tt-inquiry-phone" class="sr-only">Phone Number</label>
+            <div class="relative">
+              <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-white/60">
+                <Icon name="tabler:phone" class="w-4 h-4" />
+              </span>
+              <input
+                id="tt-inquiry-phone"
+                name="phone"
+                type="tel"
+                inputmode="numeric"
+                required
+                autocomplete="tel"
+                placeholder="Phone Number (e.g. +91 98765 43210)"
+                class="w-full min-h-[48px] rounded-xl bg-white/[0.08] border border-white/20 pl-10 pr-4 py-3 text-base text-white placeholder:text-white/60 focus:outline-none focus:border-[var(--tt-gold)] focus:ring-2 focus:ring-[var(--tt-gold)]/40 transition"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="tt-inquiry-interests" class="sr-only">Tell us about your interests or course</label>
+            <div class="relative">
+              <span class="pointer-events-none absolute top-3.5 left-0 flex items-start pl-3.5 text-white/60">
+                <Icon name="tabler:message-circle" class="w-4 h-4" />
+              </span>
+              <textarea
+                id="tt-inquiry-interests"
+                name="interests"
+                rows="3"
+                required
+                placeholder="Tell us about your interests / course (e.g. MBBS, B.Tech, MBA)..."
+                class="w-full rounded-xl bg-white/[0.08] border border-white/20 pl-10 pr-4 py-3 text-base text-white placeholder:text-white/60 focus:outline-none focus:border-[var(--tt-gold)] focus:ring-2 focus:ring-[var(--tt-gold)]/40 transition resize-none"
+              ></textarea>
+            </div>
+          </div>
+
+          <button type="submit" id="tt-inquiry-submit" class="btn-primary w-full py-3.5 text-sm">
+            Send Inquiry &rarr;
+          </button>
+
+          <p
+            id="tt-inquiry-status"
+            role="status"
+            aria-live="polite"
+            class="hidden text-xs sm:text-sm rounded-xl px-3.5 py-2.5"
+          >
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<script>
+  const bindInquiryForm = () => {
+    const form = document.getElementById('tt-inquiry-form') as HTMLFormElement | null;
+    if (!form || form.dataset.bound === 'true') return;
+    form.dataset.bound = 'true';
+
+    // Subtle magnetic pull on main CTA button (fine pointer devices only)
+    const submitBtn = document.getElementById('tt-inquiry-submit') as HTMLButtonElement | null;
+    if (
+      submitBtn &&
+      window.matchMedia('(pointer: fine)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      const maxOffset = 6;
+      submitBtn.addEventListener('mousemove', (ev) => {
+        const rect = submitBtn.getBoundingClientRect();
+        const relX = (ev.clientX - rect.left) / Math.max(1, rect.width) - 0.5;
+        const relY = (ev.clientY - rect.top) / Math.max(1, rect.height) - 0.5;
+        const tx = (relX * 2 * maxOffset).toFixed(2);
+        const ty = (relY * 2 * maxOffset).toFixed(2);
+        submitBtn.style.transform = `translate(${tx}px, ${ty}px)`;
+      });
+      submitBtn.addEventListener('mouseleave', () => {
+        submitBtn.style.transform = '';
+      });
+    }
+
+    const statusEl = document.getElementById('tt-inquiry-status');
+
+    const showStatus = (message: string, isError: boolean) => {
+      if (!statusEl) return;
+      statusEl.textContent = message;
+      statusEl.classList.remove(
+        'hidden',
+        'bg-red-950/70',
+        'text-red-200',
+        'border',
+        'border-red-400/40',
+        'bg-emerald-950/70',
+        'text-emerald-200',
+        'border-emerald-400/40'
+      );
+      if (isError) {
+        statusEl.classList.add('bg-red-950/70', 'text-red-200', 'border', 'border-red-400/40');
+      } else {
+        statusEl.classList.add('bg-emerald-950/70', 'text-emerald-200', 'border', 'border-emerald-400/40');
+      }
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nameInput = form.querySelector<HTMLInputElement>('input[name="name"]');
+      const phoneInput = form.querySelector<HTMLInputElement>('input[name="phone"]');
+      const interestsInput = form.querySelector<HTMLTextAreaElement>('textarea[name="interests"]');
+
+      const name = nameInput?.value.trim() || '';
+      const phone = phoneInput?.value.trim() || '';
+      const interests = interestsInput?.value.trim() || '';
+
+      if (name.length < 2) {
+        showStatus('Please enter your name (at least 2 characters).', true);
+        nameInput?.focus();
+        return;
+      }
+
+      const digits = phone.replace(/[^0-9]/g, '');
+      if (digits.length < 10 || digits.length > 15) {
+        showStatus('Please enter a valid 10 to 15 digit phone number.', true);
+        phoneInput?.focus();
+        return;
+      }
+
+      if (interests.length < 3) {
+        showStatus('Please share your preferred course or study interests.', true);
+        interestsInput?.focus();
+        return;
+      }
+
+      const whatsapp = form.dataset.whatsapp || '';
+      if (whatsapp) {
+        const text = encodeURIComponent(
+          `Hello Tawam Travels, my name is ${name} (${phone}). I am interested in: ${interests}`
+        );
+        window.open(`https://wa.me/${whatsapp}?text=${text}`, '_blank', 'noopener,noreferrer');
+        showStatus(`Thank you, ${name}! Opening WhatsApp to connect you with a counsellor.`, false);
+      } else {
+        showStatus(
+          `Thank you, ${name}! Your inquiry has been noted. You can also reach us via the Contact page.`,
+          false
+        );
+      }
+
+      form.reset();
+    });
+  };
+
+  bindInquiryForm();
+  document.addEventListener('astro:page-load', bindInquiryForm);
+</script>

@@ -1,0 +1,644 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Image from '~/components/common/Image.astro';
+import { findImage } from '~/utils/images';
+import Layout from '~/layouts/PageLayout.astro';
+import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
+import Button from '~/components/ui/Button.astro';
+import MobileDetailActionBar from '~/components/common/MobileDetailActionBar.astro';
+import { getPermalink } from '~/utils/permalinks';
+
+export const prerender = true;
+
+export const getStaticPaths = (async () => {
+  const entries = await getCollection('colleges');
+  return entries.map((entry) => ({
+    params: { slug: entry.data.slug || entry.id },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { entry } = Astro.props as Props;
+const d = entry.data;
+const { Content } = await render(entry);
+const cover = await findImage(d.cover_image);
+
+const cityUrl = getPermalink(`/colleges-in/${d.city_slug}`);
+const stateUrl = getPermalink(`/colleges-in/${d.state_slug}`);
+
+const metadata = {
+  title: `${d.name} (${d.city}, ${d.state}) — Fees, Cutoffs, Admissions | Tawam`,
+  description:
+    d.description ||
+    `${d.name} in ${d.city}, ${d.state}. Complete details on courses, fees, NIRF rank, NAAC grade, cutoffs, and admission counselling.`,
+};
+
+const typeBadgeStyles = {
+  Government: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+  Private: 'bg-blue-50 text-blue-900 border-blue-200',
+  Deemed: 'bg-amber-50 text-amber-900 border-amber-200',
+};
+---
+
+<Layout metadata={metadata}>
+  <Breadcrumbs
+    bar
+    hideCurrent
+    items={[
+      { text: 'Home', href: getPermalink('/') },
+      { text: 'Colleges', href: getPermalink('/colleges') },
+      { text: d.state, href: stateUrl },
+      { text: d.city, href: cityUrl },
+      { text: d.short_name || d.name },
+    ]}
+  />
+
+  <article class="px-4 sm:px-6 py-8 sm:py-12 mx-auto max-w-6xl">
+    <!-- Hero / College Header Banner -->
+    <header class="mb-10 bg-white border border-[var(--aw-color-border)] rounded-3xl overflow-hidden shadow-sm">
+      <!-- Cover Photo with Badge Overlays -->
+      <div class="relative aspect-[21/9] sm:aspect-[24/9] w-full bg-[var(--aw-color-bg-soft)] overflow-hidden">
+        {
+          cover && (
+            <Image
+              src={cover}
+              class="w-full h-full object-cover"
+              widths={[600, 1200, 1920]}
+              width={1200}
+              height={500}
+              sizes="(max-width: 1200px) 100vw, 1200px"
+              alt={d.imageAlt || d.name}
+              format="webp"
+              loading="eager"
+              decoding="async"
+            />
+          )
+        }
+        <div class="absolute inset-0 bg-gradient-to-t from-[var(--aw-color-primary)]/80 via-transparent to-transparent">
+        </div>
+
+        <div class="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-8 flex flex-wrap gap-2 items-center">
+          <span
+            class={`px-3 py-1 text-xs font-semibold rounded-full border shadow-sm ${typeBadgeStyles[d.type] || 'bg-white text-slate-800'}`}
+          >
+            {d.type} Institution
+          </span>
+          {
+            d.naac_grade && (
+              <span class="px-3 py-1 text-xs font-bold rounded-full bg-[var(--aw-color-primary)] text-white border border-white/20 shadow-sm">
+                NAAC {d.naac_grade}
+              </span>
+            )
+          }
+          {
+            d.nirf_rank && (
+              <span class="px-3 py-1 text-xs font-bold rounded-full bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] shadow-sm">
+                NIRF #{d.nirf_rank}
+              </span>
+            )
+          }
+        </div>
+      </div>
+
+      <!-- Header Content -->
+      <div class="p-6 sm:p-8">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div>
+            <div class="flex items-center gap-2 text-xs sm:text-sm text-[var(--aw-color-text-muted)] mb-2">
+              <svg class="w-4 h-4 text-[#9A6300] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <span>
+                <a
+                  href={cityUrl}
+                  class="font-bold text-[var(--aw-color-link)] hover:underline hover:text-[var(--aw-color-primary)]"
+                >
+                  {d.city}
+                </a>,{' '}
+                <a
+                  href={stateUrl}
+                  class="text-[var(--aw-color-text-muted)] hover:underline hover:text-[var(--aw-color-primary)]"
+                >
+                  {d.state}
+                </a>
+              </span>
+              {d.established && <span class="text-slate-300">•</span>}
+              {d.established && <span>Established {d.established}</span>}
+              {d.affiliation && <span class="text-slate-300 hidden sm:inline">•</span>}
+              {d.affiliation && <span class="hidden sm:inline text-xs">{d.affiliation}</span>}
+            </div>
+
+            <h1
+              class="text-2xl sm:text-4xl font-serif font-bold text-[var(--aw-color-text-heading)] leading-tight mb-2"
+            >
+              {d.name}
+              {d.short_name && <span class="text-[var(--aw-color-secondary)] font-normal">({d.short_name})</span>}
+            </h1>
+
+            {
+              d.streams && d.streams.length > 0 && (
+                <div class="flex flex-wrap gap-1.5 mt-3">
+                  {d.streams.map((stream) => (
+                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]">
+                      {stream}
+                    </span>
+                  ))}
+                </div>
+              )
+            }
+          </div>
+
+          <!-- Direct Enquire CTA -->
+          <div class="shrink-0 flex flex-col sm:flex-row lg:flex-col gap-2.5">
+            <Button
+              variant="primary"
+              text={`Enquire for ${d.short_name || 'Admission'}`}
+              href={`${getPermalink('/contact')}?college=${encodeURIComponent(d.name)}`}
+            />
+            {
+              d.website && (
+                <a
+                  href={d.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-center py-2 px-4 text-xs font-semibold rounded-full border border-[var(--aw-color-border)] text-[var(--aw-color-text-default)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
+                >
+                  Visit Official Website &nearr;
+                </a>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sticky Section Menu -->
+    <nav
+      id="college-section-nav"
+      aria-label="College sections"
+      class="sticky top-[62px] lg:top-[74px] z-20 mb-8 -mx-2 px-2 py-2"
+    >
+      <div
+        class="inline-flex max-w-full overflow-x-auto aw-no-scrollbar items-center gap-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[var(--aw-color-border)] px-2.5 py-1.5 shadow-sm"
+      >
+        <a
+          href="#overview-metrics"
+          data-college-nav-link="overview-metrics"
+          class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-full text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
+        >
+          Overview
+        </a>
+        {
+          d.courses_offered && d.courses_offered.length > 0 && (
+            <a
+              href="#courses-fees"
+              data-college-nav-link="courses-fees"
+              class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-full text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
+            >
+              Courses &amp; Fees
+            </a>
+          )
+        }
+        {
+          d.accepted_exams && d.accepted_exams.length > 0 && (
+            <a
+              href="#accepted-exams"
+              data-college-nav-link="accepted-exams"
+              class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-full text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
+            >
+              Entrance Exams
+            </a>
+          )
+        }
+        <a
+          href="#college-overview"
+          data-college-nav-link="college-overview"
+          class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-full text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
+        >
+          Campus Guide
+        </a>
+        {
+          d.top_recruiters && d.top_recruiters.length > 0 && (
+            <a
+              href="#placements"
+              data-college-nav-link="placements"
+              class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-full text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
+            >
+              Placements
+            </a>
+          )
+        }
+      </div>
+    </nav>
+
+    <!-- Quick Facts Grid -->
+    <section id="overview-metrics" data-college-section="overview-metrics" class="mb-12 scroll-mt-32">
+      <h2 class="text-sm font-bold uppercase tracking-wider text-[var(--aw-color-primary)] mb-4">
+        Institutional Overview &amp; Key Metrics
+      </h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 shadow-sm text-center">
+          <span class="block text-[11px] text-[var(--aw-color-text-muted)] uppercase tracking-wider mb-1">Type</span>
+          <span class="font-bold text-sm sm:text-base text-[var(--aw-color-primary)]">{d.type}</span>
+        </div>
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 shadow-sm text-center">
+          <span class="block text-[11px] text-[var(--aw-color-text-muted)] uppercase tracking-wider mb-1"
+            >NIRF Rank</span
+          >
+          <span
+            class="font-bold text-sm sm:text-base text-[#9A6300] tabular-nums"
+            data-aw-metric-countup={d.nirf_rank ? String(d.nirf_rank) : undefined}
+          >
+            {d.nirf_rank || 'Recognized'}
+          </span>
+        </div>
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 shadow-sm text-center">
+          <span class="block text-[11px] text-[var(--aw-color-text-muted)] uppercase tracking-wider mb-1"
+            >NAAC Rating</span
+          >
+          <span class="font-bold text-sm sm:text-base text-[var(--aw-color-primary)]"
+            >{d.naac_grade || 'Accredited'}</span
+          >
+        </div>
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 shadow-sm text-center">
+          <span class="block text-[11px] text-[var(--aw-color-text-muted)] uppercase tracking-wider mb-1"
+            >Campus Size</span
+          >
+          <span
+            class="font-bold text-sm sm:text-base text-[var(--aw-color-text-default)] tabular-nums"
+            data-aw-metric-countup={d.campus_size ? String(d.campus_size) : undefined}
+          >
+            {d.campus_size || 'N/A'}
+          </span>
+        </div>
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 shadow-sm text-center">
+          <span class="block text-[11px] text-[var(--aw-color-text-muted)] uppercase tracking-wider mb-1"
+            >Avg Package</span
+          >
+          <span
+            class="font-bold text-sm sm:text-base text-[var(--aw-color-primary)] tabular-nums"
+            data-aw-metric-countup={d.average_package ? String(d.average_package) : undefined}
+          >
+            {d.average_package || 'N/A'}
+          </span>
+        </div>
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 shadow-sm text-center">
+          <span class="block text-[11px] text-[var(--aw-color-text-muted)] uppercase tracking-wider mb-1">Hostels</span>
+          <span class="font-bold text-sm sm:text-base text-emerald-700"
+            >{d.hostel_available ? 'Available' : 'Day Scholar'}</span
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content & Sidebar Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <!-- Main Content (2 cols) -->
+      <div class="lg:col-span-2 space-y-10">
+        <!-- Courses & Fee Structure Table -->
+        {
+          d.courses_offered && d.courses_offered.length > 0 && (
+            <section
+              id="courses-fees"
+              data-college-section="courses-fees"
+              class="bg-white border border-[var(--aw-color-border)] rounded-3xl p-6 sm:p-8 shadow-sm scroll-mt-32"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h2 class="text-xl font-serif font-bold text-[var(--aw-color-text-heading)]">
+                    Courses Offered &amp; Fee Structure
+                  </h2>
+                  <p class="text-xs text-[var(--aw-color-text-muted)]">
+                    Annual academic tuition and estimated cutoff ranges
+                  </p>
+                </div>
+              </div>
+
+              <div class="relative">
+                <div class="overflow-x-auto pb-1">
+                  <table class="w-full text-left text-xs sm:text-sm min-w-[480px]">
+                    <thead>
+                      <tr class="border-b border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-heading)] font-semibold">
+                        <th class="py-3 px-3 rounded-l-lg">Course</th>
+                        <th class="py-3 px-3">Duration</th>
+                        <th class="py-3 px-3">Annual Fees</th>
+                        <th class="py-3 px-3 rounded-r-lg">Cutoff Trend</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-[var(--aw-color-border)]">
+                      {d.courses_offered.map((c) => (
+                        <tr class="hover:bg-[var(--aw-color-bg-soft)]/50 transition">
+                          <td class="py-3 px-3 font-semibold text-[var(--aw-color-primary)]">
+                            {c.slug ? (
+                              <a
+                                href={getPermalink(`/courses/${c.slug}`)}
+                                class="hover:underline text-[var(--aw-color-link)]"
+                              >
+                                {c.name} &rarr;
+                              </a>
+                            ) : (
+                              c.name
+                            )}
+                            {c.level && <span class="block text-[11px] font-normal text-muted">{c.level}</span>}
+                          </td>
+                          <td class="py-3 px-3 text-[var(--aw-color-text-default)]">{c.duration || '—'}</td>
+                          <td class="py-3 px-3 font-medium text-[var(--aw-color-text-heading)]">
+                            {c.annual_fee || 'Contact for fee notice'}
+                          </td>
+                          <td class="py-3 px-3 text-xs text-[var(--aw-color-text-muted)]">
+                            {c.cutoff_summary || 'Merit / Counselling'}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div
+                  aria-hidden="true"
+                  class="pointer-events-none absolute top-0 right-0 bottom-1 w-6 bg-gradient-to-l from-white to-transparent md:hidden"
+                ></div>
+              </div>
+            </section>
+          )
+        }
+
+        <!-- Accepted Entrance Exams -->
+        {
+          d.accepted_exams && d.accepted_exams.length > 0 && (
+            <section
+              id="accepted-exams"
+              data-college-section="accepted-exams"
+              class="bg-white border border-[var(--aw-color-border)] rounded-3xl p-6 sm:p-8 shadow-sm scroll-mt-32"
+            >
+              <h2 class="text-xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+                Accepted Entrance Examinations
+              </h2>
+              <p class="text-xs text-[var(--aw-color-text-muted)] mb-4">
+                Admissions to {d.name} require qualifying scores in these national or institutional entrance exams:
+              </p>
+              <div class="flex flex-wrap gap-2">
+                {d.accepted_exams.map((exam) => (
+                  <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-primary)] border border-[var(--aw-color-border)]">
+                    <svg class="w-3.5 h-3.5 text-[#9A6300]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    {exam}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        <!-- Markdown Detailed Overview Body -->
+        <section
+          id="college-overview"
+          data-college-section="college-overview"
+          class="bg-white border border-[var(--aw-color-border)] rounded-3xl p-6 sm:p-8 shadow-sm prose prose-sm sm:prose max-w-none text-[var(--aw-color-text-default)] prose-headings:font-serif prose-headings:text-[var(--aw-color-text-heading)] prose-a:text-[var(--aw-color-link)] scroll-mt-32"
+        >
+          <Content />
+        </section>
+
+        <!-- Placements & Recruiters -->
+        {
+          d.top_recruiters && d.top_recruiters.length > 0 && (
+            <section
+              id="placements"
+              data-college-section="placements"
+              class="bg-white border border-[var(--aw-color-border)] rounded-3xl p-6 sm:p-8 shadow-sm scroll-mt-32"
+            >
+              <h2 class="text-xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+                Placement &amp; Corporate Recruiters
+              </h2>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+                {d.highest_package && (
+                  <div class="p-3 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] text-center">
+                    <span class="block text-[10px] uppercase text-muted">Highest Offer</span>
+                    <span class="font-bold text-sm text-[var(--aw-color-primary)]">{d.highest_package}</span>
+                  </div>
+                )}
+                {d.average_package && (
+                  <div class="p-3 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] text-center">
+                    <span class="block text-[10px] uppercase text-muted">Average Package</span>
+                    <span class="font-bold text-sm text-[#9A6300]">
+                      {d.average_package.startsWith('N/A') ? 'Not applicable' : d.average_package}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <p class="text-xs text-[var(--aw-color-text-muted)] mb-3">Key Hiring Partners:</p>
+              <div class="flex flex-wrap gap-2">
+                {d.top_recruiters.map((recruiter) => (
+                  <span class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-50 text-slate-700 border border-slate-200">
+                    {recruiter}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )
+        }
+      </div>
+
+      <!-- Sidebar (1 col) -->
+      <aside class="space-y-6">
+        <!-- Counselling Enquiry Box -->
+        <div
+          class="bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] rounded-3xl p-6 shadow-sm sticky top-24"
+        >
+          <div
+            class="w-12 h-12 rounded-full bg-white border border-[var(--aw-color-border)] flex items-center justify-center mb-4 text-[var(--aw-color-primary)]"
+          >
+            <span class="font-serif font-bold text-xl">T</span>
+          </div>
+          <h3 class="text-xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+            Interested in {d.short_name || d.name}?
+          </h3>
+          <p class="text-xs text-[var(--aw-color-text-muted)] leading-relaxed mb-6">
+            Get personalized advisory on admission criteria, management/NRI seat quotas, fee waivers, and choice
+            filling.
+          </p>
+
+          <div class="space-y-3 mb-6">
+            <div class="flex items-center gap-2 text-xs text-[var(--aw-color-text-default)]">
+              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>Verified fee notice and payment schedules</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-[var(--aw-color-text-default)]">
+              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>Past cutoff trends for your rank/score</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-[var(--aw-color-text-default)]">
+              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>Hostel allocation and campus visit assistance</span>
+            </div>
+          </div>
+
+          <Button
+            variant="primary"
+            class="w-full text-center"
+            text="Get Admission Guidance"
+            href={`${getPermalink('/contact')}?college=${encodeURIComponent(d.name)}`}
+          />
+        </div>
+
+        <!-- Campus Location Card -->
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-3xl p-6 shadow-sm">
+          <h4 class="text-sm font-bold uppercase tracking-wider text-[var(--aw-color-primary)] mb-3">
+            Campus Address &amp; Contact
+          </h4>
+          <p class="text-xs text-[var(--aw-color-text-default)] leading-relaxed mb-4">
+            {d.address}
+          </p>
+          <div class="pt-3 border-t border-[var(--aw-color-border)] flex flex-col gap-2">
+            <a
+              href={cityUrl}
+              class="text-xs font-semibold text-[var(--aw-color-link)] hover:underline flex items-center justify-between"
+            >
+              <span>More colleges in {d.city}</span>
+              <span>&rarr;</span>
+            </a>
+            <a
+              href={stateUrl}
+              class="text-xs font-semibold text-[var(--aw-color-link)] hover:underline flex items-center justify-between"
+            >
+              <span>More colleges in {d.state}</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </article>
+
+  <style>
+    .college-sec-link[aria-current='true'] {
+      background-color: var(--tt-teal-navy, #0b2a3a);
+      color: var(--tt-gold-bright, #ecc268);
+    }
+  </style>
+
+  <script>
+    const initCollegeDetail = () => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // 1. Metric count-up (once when visible)
+      const metrics = Array.from(document.querySelectorAll<HTMLElement>('[data-aw-metric-countup]'));
+      if (metrics.length && !reduced) {
+        const metricsSection = document.getElementById('overview-metrics');
+        if (metricsSection && metricsSection.dataset.countupBound !== 'true') {
+          metricsSection.dataset.countupBound = 'true';
+          const runCountUp = () => {
+            metrics.forEach((el) => {
+              const raw = (el.dataset.awMetricCountup || '').trim();
+              const match = raw.match(/^([^0-9]*)([0-9][0-9.,]*)(.*)$/);
+              if (!match) return;
+              const [, prefix, numStr, suffix] = match;
+              const decimals = (numStr.split('.')[1] || '').length;
+              const end = parseFloat(numStr.replace(/,/g, ''));
+              if (!Number.isFinite(end) || end <= 0) return;
+
+              const start = performance.now();
+              const duration = 850;
+              const tick = (now: number) => {
+                const t = Math.min(1, (now - start) / duration);
+                const eased = 1 - Math.pow(1 - t, 3);
+                el.textContent = `${prefix}${(end * eased).toFixed(decimals)}${suffix}`;
+                if (t < 1) requestAnimationFrame(tick);
+                else el.textContent = raw;
+              };
+              requestAnimationFrame(tick);
+            });
+          };
+
+          const io = new IntersectionObserver(
+            (entries) => {
+              if (entries.some((e) => e.isIntersecting)) {
+                io.disconnect();
+                runCountUp();
+              }
+            },
+            { threshold: 0.2 }
+          );
+          io.observe(metricsSection);
+        }
+      }
+
+      // 2. Sticky section menu scroll-spy
+      const nav = document.getElementById('college-section-nav');
+      if (!nav || nav.dataset.spyBound === 'true') return;
+      nav.dataset.spyBound = 'true';
+
+      const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>('[data-college-nav-link]'));
+      const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-college-section]'));
+      if (!links.length || !sections.length) return;
+
+      const setActive = (id: string) => {
+        links.forEach((link) => {
+          const match = link.dataset.collegeNavLink === id;
+          if (match) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
+      };
+
+      setActive(sections[0].dataset.collegeSection || '');
+
+      const spy = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+          if (visible.length > 0) {
+            const id = (visible[0].target as HTMLElement).dataset.collegeSection;
+            if (id) setActive(id);
+          }
+        },
+        { rootMargin: '-25% 0px -60% 0px', threshold: 0 }
+      );
+
+      sections.forEach((sec) => spy.observe(sec));
+
+      links.forEach((link) => {
+        link.addEventListener('click', (e) => {
+          const targetId = link.dataset.collegeNavLink;
+          const target = targetId ? document.getElementById(targetId) : null;
+          if (!target) return;
+          e.preventDefault();
+          target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+          setActive(targetId || '');
+        });
+      });
+    };
+
+    initCollegeDetail();
+    document.addEventListener('astro:page-load', initCollegeDetail);
+  </script>
+
+  <MobileDetailActionBar
+    enquiryHref={`${getPermalink('/contact')}?college=${encodeURIComponent(d.name)}`}
+    enquiryLabel="Get Counselling"
+    whatsappText={`Hello Tawam Travels, I would like admission details for ${d.name}.`}
+  />
+</Layout>

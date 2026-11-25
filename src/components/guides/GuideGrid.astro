@@ -1,0 +1,42 @@
+---
+import Image from '~/components/common/Image.astro';
+import { findImage } from '~/utils/images';
+
+export interface Props {
+  items: Array<{ title: string; summary: string; href: string; image?: string; imageAlt?: string }>;
+}
+
+const { items } = Astro.props;
+const resolved = await Promise.all(items.map(async (item) => ({ ...item, img: await findImage(item.image) })));
+---
+
+<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+  {
+    resolved.map((item) => (
+      <article class="transition group">
+        <a href={item.href} class="block group">
+          <div class="relative aspect-[16/9] w-full rounded-2xl shadow-sm mb-4 overflow-hidden bg-slate-100">
+            {item.img && (
+              <Image
+                src={item.img}
+                class="w-full h-full object-cover group-hover:scale-[1.04] group-focus-within:scale-[1.04] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                widths={[400, 900]}
+                width={900}
+                height={506}
+                sizes="(max-width: 900px) 400px, 900px"
+                alt={item.imageAlt || item.title}
+                format="webp"
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+          </div>
+          <h3 class="text-xl sm:text-2xl font-serif font-bold leading-tight mb-2 text-[#011B4A] group-hover:text-[#D08701] transition-colors duration-200">
+            {item.title}
+          </h3>
+          <p class="text-[#2B3A5A] text-base leading-relaxed">{item.summary}</p>
+        </a>
+      </article>
+    ))
+  }
+</div>

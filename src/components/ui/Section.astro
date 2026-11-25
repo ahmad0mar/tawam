@@ -1,0 +1,51 @@
+---
+import { twMerge } from 'tailwind-merge';
+
+export interface Props {
+  id?: string;
+  tone?: 'cream' | 'navy' | 'white' | 'image';
+  mandala?: 'left' | 'right' | 'none';
+  class?: string;
+  containerClass?: string;
+}
+
+const { id, tone = 'cream', mandala = 'none', class: className = '', containerClass = '' } = Astro.props;
+
+const toneClasses = {
+  cream: 'bg-[var(--tt-cream)] text-[var(--tt-ink)]',
+  navy: 'bg-[var(--tt-teal-navy)] text-white',
+  white: 'bg-white text-[var(--tt-ink)]',
+  image: 'bg-[var(--tt-teal-navy-deep)] text-white',
+};
+---
+
+<section
+  id={id}
+  class={twMerge('relative overflow-hidden py-12 sm:py-16 lg:py-20 not-prose', toneClasses[tone], className)}
+>
+  {
+    mandala !== 'none' && (
+      <div
+        aria-hidden="true"
+        class:list={[
+          'hidden md:block pointer-events-none select-none absolute top-1/2 -translate-y-1/2 w-80 h-80 lg:w-96 lg:h-96 opacity-[0.06]',
+          mandala === 'left' ? '-left-28' : '-right-28',
+          tone === 'navy' || tone === 'image' ? 'text-[var(--tt-gold)]' : 'text-[var(--tt-teal-navy)]',
+        ]}
+      >
+        <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1">
+          <circle cx="100" cy="100" r="92" stroke-dasharray="4 4" />
+          <circle cx="100" cy="100" r="74" />
+          <circle cx="100" cy="100" r="54" stroke-dasharray="2 3" />
+          <circle cx="100" cy="100" r="32" />
+          <path d="M100 8 L108 48 L100 100 L92 48 Z M100 192 L108 152 L100 100 L92 152 Z M8 100 L48 92 L100 100 L48 108 Z M192 100 L152 92 L100 100 L152 108 Z" />
+          <path d="M35 35 L68 58 L100 100 L58 68 Z M165 165 L132 142 L100 100 L142 132 Z M165 35 L142 68 L100 100 L132 58 Z M35 165 L58 132 L100 100 L68 142 Z" />
+        </svg>
+      </div>
+    )
+  }
+  <slot name="bg" />
+  <div class={twMerge('relative max-w-7xl mx-auto px-5 sm:px-6', containerClass)}>
+    <slot />
+  </div>
+</section>

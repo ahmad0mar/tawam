@@ -1,0 +1,53 @@
+---
+// Font families are provided by Astro's native Fonts API (see `fonts` in
+// astro.config.ts and <Font /> in Layout.astro):
+// Playfair Display for headings, Inter for body and UI.
+---
+
+<style is:inline>
+  :root {
+    --aw-font-sans: var(--font-inter);
+    --aw-font-serif: var(--font-playfair-display);
+    --aw-font-heading: var(--font-playfair-display);
+
+    /* Core brand & redesign tokens */
+    --tt-cream: #fbf3e4;
+    --tt-cream-soft: #f5e9d3;
+    --tt-teal-navy: #0b2a3a;
+    --tt-teal-navy-deep: #071d28;
+    --tt-gold: #d9a441;
+    --tt-gold-bright: #ecc268;
+    --tt-gold-dark: #9a6300;
+    --tt-ink: #0b2a3a;
+    --tt-ink-muted: #4a5a6a;
+    --tt-border-warm: #e6d8be;
+    --tt-radius-card: 1.125rem;
+    --tt-shadow-soft: 0 12px 32px rgb(11 42 58 / 10%);
+    --tt-shadow-glass: 0 16px 40px rgb(7 29 40 / 28%);
+
+    /* Mapped AstroWind tokens so inner pages & widgets stay consistent */
+    --aw-color-primary: #0b2a3a;
+    --aw-color-secondary: #133f54;
+    --aw-color-accent: #d9a441;
+    --aw-color-accent-hover: #ecc268;
+    --aw-color-accent-text: #9a6300;
+    --aw-color-link: #0a5bc4;
+
+    --aw-color-text-heading: #0b2a3a;
+    --aw-color-text-default: #223544;
+    --aw-color-text-muted: #516273;
+    --aw-color-bg-page: #fbf3e4;
+    --aw-color-bg-soft: #f5e9d3;
+    --aw-color-bg-warm: #fff6df;
+    --aw-color-border: #e6d8be;
+    --aw-color-on-primary: #ffffff;
+    --aw-color-on-accent: #0b2a3a;
+    --aw-color-success: #15803d;
+    --aw-color-error: #b42318;
+
+    ::selection {
+      background-color: #f5e9d3;
+      color: #0b2a3a;
+    }
+  }
+</style>

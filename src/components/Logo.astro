@@ -1,0 +1,16 @@
+---
+import logoImg from '~/assets/images/brand/tawam-travels-logo.png';
+import { SITE } from 'astrowind:config';
+---
+
+<span class="inline-flex items-center shrink-0" style="line-height:0">
+  <img
+    src={logoImg.src}
+    alt={SITE?.name || 'Tawam Travels'}
+    width="140"
+    height="36"
+    loading="eager"
+    decoding="async"
+    style="height:36px;width:auto;max-height:36px;max-width:140px;object-fit:contain;display:block"
+  />
+</span>

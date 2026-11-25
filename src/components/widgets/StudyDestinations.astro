@@ -1,0 +1,167 @@
+---
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import Section from '~/components/ui/Section.astro';
+import SectionHeader from '~/components/ui/SectionHeader.astro';
+import Image from '~/components/common/Image.astro';
+import statesData from '~/data/geo/states.json';
+import { getPermalink } from '~/utils/permalinks';
+
+const colleges = await getCollection('colleges');
+
+// Compute per-state counts dynamically from real content collection
+const stateCountMap = new Map<string, number>();
+for (const college of colleges) {
+  const slug = college.data.state_slug;
+  stateCountMap.set(slug, (stateCountMap.get(slug) ?? 0) + 1);
+}
+
+const allStatesWithCounts = statesData
+  .map((state) => ({
+    name: state.name,
+    slug: state.slug,
+    count: stateCountMap.get(state.slug) ?? 0,
+  }))
+  .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+
+const verifiedStates = allStatesWithCounts.filter((s) => s.count > 0);
+
+const destinations = [
+  {
+    name: 'Bengaluru',
+    tagline: 'Tech Hub',
+    href: getPermalink('/colleges-in/karnataka'),
+    image: '~/assets/images/cities/bengaluru-vidhana-soudha.jpg',
+  },
+  {
+    name: 'Hyderabad',
+    tagline: 'Innovation Hub',
+    href: getPermalink('/colleges-in/telangana'),
+    image: '~/assets/images/cities/delhi-india-gate.jpg',
+  },
+  {
+    name: 'Pune',
+    tagline: 'Education Hub',
+    href: getPermalink('/colleges-in/maharashtra'),
+    image: '~/assets/images/cities/mumbai-gateway-of-india.jpg',
+  },
+  {
+    name: 'Chennai',
+    tagline: 'Knowledge Capital',
+    href: getPermalink('/colleges-in/tamil-nadu'),
+    image: '~/assets/images/cities/chennai-high-court.jpg',
+  },
+];
+---
+
+<Section id="destinations" tone="cream" mandala="right" class="py-16 sm:py-24">
+  <!-- Top row: left copy + right 4 tall rounded destination cards -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+    <div class="lg:col-span-4 space-y-6">
+      <SectionHeader
+        eyebrow="Explore India"
+        title="Top Study Destinations"
+        subtitle="Discover India's most popular education hubs, each with its own unique academic ecosystem and career advantage."
+      />
+
+      <div>
+        <a href={getPermalink('/colleges')} class="btn-primary text-sm py-3 px-7"> Explore More &rarr; </a>
+      </div>
+    </div>
+
+    <div
+      class="lg:col-span-8 flex sm:grid sm:grid-cols-4 gap-3.5 sm:gap-4 overflow-x-auto sm:overflow-visible snap-x snap-mandatory aw-no-scrollbar pb-1 sm:pb-0"
+    >
+      {
+        destinations.map((dest) => (
+          <a
+            href={dest.href}
+            class="group relative shrink-0 w-[64vw] max-w-[230px] sm:w-auto sm:max-w-none snap-start aspect-[3/4] rounded-[20px] overflow-hidden border border-[var(--tt-border-warm)] shadow-[var(--tt-shadow-soft)] hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300"
+          >
+            <Image
+              src={dest.image}
+              alt={`${dest.name} — ${dest.tagline}`}
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              width={420}
+              height={560}
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#071D28]/90 via-[#0B2A3A]/20 to-transparent" />
+            <div class="absolute inset-x-0 bottom-0 p-4 text-center">
+              <div class="font-heading font-bold text-white text-lg leading-tight group-hover:text-[var(--tt-gold-bright)] transition-colors">
+                {dest.name}
+              </div>
+              <div class="text-[11px] font-medium text-white/80 mt-0.5">{dest.tagline}</div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Verified states chips + 36 States & UT expandable accordion -->
+  <div class="mt-12 pt-8 border-t border-[var(--tt-border-warm)] space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <h3 class="font-heading font-bold text-lg text-[var(--tt-ink)]">States with Verified Colleges</h3>
+        <p class="text-xs text-[var(--tt-ink-muted)] mt-0.5">
+          Live counts from our verified college directory ({colleges.length} catalogued institutions).
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        {
+          verifiedStates.map((st) => (
+            <a
+              href={getPermalink(`/colleges-in/${st.slug}`)}
+              class="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-full bg-white border border-[var(--tt-border-warm)] hover:border-[var(--tt-gold)] text-xs font-semibold text-[var(--tt-ink)] shadow-xs transition"
+            >
+              <span>{st.name}</span>
+              <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-[var(--tt-gold)] text-[var(--tt-teal-navy)] text-[11px] font-bold">
+                {st.count}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <details
+      data-aw-smooth-details
+      class="group rounded-2xl bg-white/80 border border-[var(--tt-border-warm)] shadow-xs overflow-hidden"
+    >
+      <summary
+        class="flex items-center justify-between gap-4 px-5 py-4 cursor-pointer select-none list-none text-sm font-semibold text-[var(--tt-ink)] hover:bg-[var(--tt-cream-soft)]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tt-gold)] focus-visible:ring-inset transition"
+      >
+        <span>Explore All {statesData.length} States &amp; Union Territories</span>
+        <Icon
+          name="tabler:chevron-down"
+          class="w-4 h-4 text-[var(--tt-ink-muted)] transition-transform duration-200 group-open:rotate-180"
+        />
+      </summary>
+      <div
+        class="px-5 pb-5 pt-2 border-t border-[var(--tt-border-warm)] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5"
+      >
+        {
+          allStatesWithCounts.map((st) => (
+            <a
+              href={getPermalink(`/colleges-in/${st.slug}`)}
+              class="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-[var(--tt-cream)]/60 hover:bg-[var(--tt-cream)] border border-[var(--tt-border-warm)] hover:border-[var(--tt-gold)] text-xs font-medium text-[var(--tt-ink)] transition"
+            >
+              <span class="truncate">{st.name}</span>
+              <span
+                class:list={[
+                  'shrink-0 inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-[10px] font-bold',
+                  st.count > 0
+                    ? 'bg-[var(--tt-gold)] text-[var(--tt-teal-navy)]'
+                    : 'bg-[var(--tt-border-warm)]/60 text-[var(--tt-ink-muted)]',
+                ]}
+              >
+                {st.count}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </details>
+  </div>
+</Section>

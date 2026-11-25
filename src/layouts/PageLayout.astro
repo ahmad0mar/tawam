@@ -1,0 +1,34 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Header from '~/components/widgets/Header.astro';
+import Footer from '~/components/widgets/Footer.astro';
+import WhatsAppFloating from '~/components/common/WhatsAppFloating.astro';
+
+import { headerData, footerData } from '~/navigation';
+
+import type { MetaData } from '~/types';
+
+export interface Props {
+  metadata?: MetaData;
+  showPreloader?: boolean;
+}
+
+const { metadata, showPreloader = false } = Astro.props;
+---
+
+<Layout metadata={metadata} showPreloader={showPreloader}>
+  <slot name="head" slot="head" />
+  {Astro.slots.has('announcement') && <slot name="announcement" />}
+  {
+    Astro.slots.has('header') ? (
+      <slot name="header" />
+    ) : (
+      <Header {...headerData} isSticky showRssFeed={false} showToggleTheme={false} position="center" />
+    )
+  }
+  <main class="flex-1">
+    <slot />
+  </main>
+  {Astro.slots.has('footer') ? <slot name="footer" /> : <Footer {...footerData} />}
+  <WhatsAppFloating />
+</Layout>

@@ -1,0 +1,365 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import PageHero from '~/components/widgets/PageHero.astro';
+import InquiryCtaBand from '~/components/widgets/InquiryCtaBand.astro';
+import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
+import Button from '~/components/ui/Button.astro';
+import { getPermalink } from '~/utils/permalinks';
+import { getCollection } from 'astro:content';
+
+export const prerender = true;
+
+const metadata = {
+  title: 'Scholarships & Financial Aid for Indian Students — Tawam Travels',
+  description:
+    'Comprehensive directory of central, state, and institutional scholarships for MBBS, B.Tech, and management degree programmes.',
+};
+
+// Fetch all scholarships from content collection
+const scholarshipEntries = await getCollection('scholarships');
+const scholarships = scholarshipEntries.map((entry) => ({
+  ...entry.data,
+  slug: entry.id.replace(/\.(md|mdx)$/, ''),
+  body: entry.body,
+}));
+---
+
+<Layout metadata={metadata}>
+  <PageHero
+    eyebrow="Financial Assistance"
+    title="Scholarships & Financial Support"
+    subtitle="Discover verified central government, state department, and institutional scholarship schemes to fund your college degree across India."
+    image="~/assets/images/random/travel-planning-desk.jpeg"
+    imageAlt="Planning desk with calculator, paperwork and study schedules representing scholarship budgeting"
+  />
+  <Breadcrumbs bar hideCurrent items={[{ text: 'Home', href: getPermalink('/') }, { text: 'Scholarships' }]} />
+
+  <section class="px-4 sm:px-6 py-6 sm:py-10 mx-auto max-w-7xl">
+    <!-- Search & Filter Controls -->
+    <div
+      class="bg-[var(--aw-color-bg-soft)] rounded-3xl p-5 sm:p-7 border border-[var(--aw-color-border)] mb-10 shadow-sm"
+    >
+      <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-4">
+        <!-- Search Input -->
+        <div class="relative w-full md:w-96">
+          <span
+            class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[var(--aw-color-text-muted)] text-sm"
+          >
+            🔍
+          </span>
+          <input
+            type="text"
+            id="scholarship-search"
+            placeholder="Search by scholarship, provider, or keyword..."
+            class="w-full min-h-[48px] pl-10 pr-4 py-3 text-base rounded-xl border border-[var(--aw-color-border)] bg-white text-[var(--aw-color-text-default)] focus:outline-none focus:border-[var(--aw-color-primary)] transition"
+          />
+        </div>
+
+        <!-- Scope / Location Filter -->
+        <div class="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 aw-no-scrollbar">
+          <span class="text-xs font-semibold text-[var(--aw-color-text-muted)] whitespace-nowrap">Scope:</span>
+          <button
+            type="button"
+            data-scope-filter="all"
+            class="scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-full text-xs font-bold bg-[var(--aw-color-primary)] text-white transition cursor-pointer"
+          >
+            All Schemes
+          </button>
+          <button
+            type="button"
+            data-scope-filter="All India"
+            class="scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-full text-xs font-semibold bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
+          >
+            National (All India)
+          </button>
+          <button
+            type="button"
+            data-scope-filter="state"
+            class="scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-full text-xs font-semibold bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
+          >
+            State Specific
+          </button>
+        </div>
+      </div>
+
+      <!-- Course Applicability Filter Pills -->
+      <div class="flex flex-wrap items-center gap-2 pt-3 border-t border-[var(--aw-color-border)] text-xs">
+        <span class="text-[var(--aw-color-text-muted)] font-semibold">Filter by Discipline:</span>
+        <button
+          type="button"
+          data-course-filter="all"
+          class="course-btn min-h-[44px] px-4 py-2 rounded-full text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] transition cursor-pointer"
+        >
+          All Courses
+        </button>
+        <button
+          type="button"
+          data-course-filter="mbbs"
+          class="course-btn min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
+        >
+          Medical (MBBS)
+        </button>
+        <button
+          type="button"
+          data-course-filter="btech-computer-science"
+          class="course-btn min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
+        >
+          Engineering (B.Tech)
+        </button>
+        <button
+          type="button"
+          data-course-filter="bba"
+          class="course-btn min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
+        >
+          Management (BBA)
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Results Summary -->
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-6 px-1">
+      <div class="text-xs sm:text-sm text-[var(--aw-color-text-muted)]">
+        Showing <strong id="results-count" class="text-[var(--aw-color-text-default)]">{scholarships.length}</strong> scholarship
+        schemes
+      </div>
+      <a
+        href={getPermalink('scholarships-for-indian-students', 'post')}
+        class="min-h-[44px] text-xs font-bold text-[var(--aw-color-link)] hover:underline inline-flex items-center gap-1"
+      >
+        <span>Read Complete Scholarship Application Guide</span>
+        <span>&rarr;</span>
+      </a>
+    </div>
+
+    <!-- Scholarship Cards Grid -->
+    <div id="scholarships-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {
+        scholarships.map((sch) => (
+          <div
+            class="scholarship-card bg-white rounded-2xl border border-[var(--aw-color-border)] p-6 shadow-sm hover:shadow-md hover:border-[var(--aw-color-accent)] transition flex flex-col justify-between"
+            data-name={sch.name.toLowerCase()}
+            data-provider={sch.provider.toLowerCase()}
+            data-scope={sch.applicable_state === 'All India' ? 'All India' : 'state'}
+            data-courses={JSON.stringify(sch.applicable_courses || [])}
+          >
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-[#9A6300] line-clamp-1">
+                  {sch.provider}
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-primary)] border border-[var(--aw-color-border)] shrink-0">
+                  {sch.applicable_state || 'All India'}
+                </span>
+              </div>
+
+              <h3 class="text-lg sm:text-xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+                {sch.name}
+              </h3>
+
+              {/* Amount Highlight Box */}
+              <div class="p-3 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] mb-4">
+                <div class="text-[11px] text-[var(--aw-color-text-muted)] font-medium">Scholarship Grant / Waiver:</div>
+                <div class="text-sm sm:text-base font-bold text-[var(--aw-color-primary)]">{sch.amount}</div>
+              </div>
+
+              {/* Eligibility */}
+              <div class="text-xs text-[var(--aw-color-text-default)] leading-relaxed mb-4">
+                <strong class="text-[var(--aw-color-text-heading)]">Eligibility: </strong>
+                {sch.eligibility}
+              </div>
+
+              {/* Applicable Courses */}
+              {sch.applicable_courses && sch.applicable_courses.length > 0 && (
+                <div class="flex flex-wrap items-center gap-1.5 mb-4">
+                  <span class="text-[11px] font-semibold text-[var(--aw-color-text-muted)] mr-1">Applies to:</span>
+                  {sch.applicable_courses.map((crs: string) => (
+                    <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]">
+                      {crs.replace(/-/g, ' ')}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Deadline */}
+              {sch.deadline && (
+                <div class="flex items-center gap-1.5 text-xs text-[var(--aw-color-text-muted)] mb-4">
+                  <span>📅 Deadline:</span>
+                  <strong class="text-[#9A6300]">{sch.deadline}</strong>
+                </div>
+              )}
+            </div>
+
+            <div class="pt-4 border-t border-[var(--aw-color-border)] flex flex-wrap items-center justify-between gap-3">
+              {sch.official_link && (
+                <a
+                  href={sch.official_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-primary py-2 px-4 rounded-xl text-xs font-bold inline-flex items-center gap-1 shadow-sm hover:opacity-95 transition"
+                >
+                  <span>Apply on Official Portal</span>
+                  <span>&UpperRightArrow;</span>
+                </a>
+              )}
+              <a
+                href={getPermalink('/contact')}
+                class="text-xs font-bold text-[var(--aw-color-link)] hover:underline inline-flex items-center gap-1"
+              >
+                <span>Counselling Assistance</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Empty State -->
+    <div
+      id="empty-state"
+      class="hidden text-center py-12 px-4 bg-[var(--aw-color-bg-soft)] rounded-2xl border border-[var(--aw-color-border)] my-8"
+    >
+      <div class="text-2xl mb-2">🎓</div>
+      <h3 class="text-base font-serif font-bold text-[var(--aw-color-text-heading)] mb-1">
+        No Matching Scholarships Found
+      </h3>
+      <p class="text-xs text-[var(--aw-color-text-muted)] mb-4">
+        Try adjusting your search keywords or resetting the course filters.
+      </p>
+      <button
+        type="button"
+        id="reset-filters"
+        class="btn-primary px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"
+      >
+        Reset Filters
+      </button>
+    </div>
+
+    <!-- Consultation Guidance CTA -->
+    <div
+      class="mt-14 p-8 rounded-3xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] text-center max-w-3xl mx-auto"
+    >
+      <h2 class="text-xl sm:text-2xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+        Need Help with Scholarship Documentation &amp; Applications?
+      </h2>
+      <p class="text-xs sm:text-sm text-[var(--aw-color-text-muted)] leading-relaxed mb-6">
+        Many state and national schemes require verified income certificates, caste affidavits, and college bonafide
+        receipts. Our counsellors guide students through the verification process to prevent application rejection.
+      </p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <Button variant="primary" text="Speak with an Advisor" href={getPermalink('/contact')} />
+        <Button
+          variant="outline"
+          text="Read Scholarship Guide"
+          href={getPermalink('scholarships-for-indian-students', 'post')}
+        />
+      </div>
+    </div>
+  </section>
+
+  <InquiryCtaBand />
+</Layout>
+
+<!-- Client Filtering Script -->
+<script is:inline>
+  (function initScholarshipFilters() {
+    const searchInput = document.getElementById('scholarship-search');
+    const scopeBtns = document.querySelectorAll('.scope-btn');
+    const courseBtns = document.querySelectorAll('.course-btn');
+    const cards = document.querySelectorAll('.scholarship-card');
+    const countEl = document.getElementById('results-count');
+    const emptyState = document.getElementById('empty-state');
+    const resetBtn = document.getElementById('reset-filters');
+
+    let currentSearch = '';
+    let currentScope = 'all';
+    let currentCourse = 'all';
+
+    function filterCards() {
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const name = card.getAttribute('data-name') || '';
+        const provider = card.getAttribute('data-provider') || '';
+        const scope = card.getAttribute('data-scope') || '';
+        const courses = JSON.parse(card.getAttribute('data-courses') || '[]');
+
+        const matchesSearch = !currentSearch || name.includes(currentSearch) || provider.includes(currentSearch);
+        const matchesScope = currentScope === 'all' || scope === currentScope;
+        const matchesCourse = currentCourse === 'all' || courses.includes(currentCourse);
+
+        if (matchesSearch && matchesScope && matchesCourse) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      if (countEl) countEl.textContent = String(visibleCount);
+
+      if (emptyState) {
+        if (visibleCount === 0) {
+          emptyState.classList.remove('hidden');
+        } else {
+          emptyState.classList.add('hidden');
+        }
+      }
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        currentSearch = e.target.value.toLowerCase().trim();
+        filterCards();
+      });
+    }
+
+    scopeBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentScope = btn.getAttribute('data-scope-filter') || 'all';
+        scopeBtns.forEach((b) => {
+          b.className =
+            b === btn
+              ? 'scope-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[var(--aw-color-primary)] text-white transition cursor-pointer'
+              : 'scope-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer';
+        });
+        filterCards();
+      });
+    });
+
+    courseBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentCourse = btn.getAttribute('data-course-filter') || 'all';
+        courseBtns.forEach((b) => {
+          b.className =
+            b === btn
+              ? 'course-btn px-3 py-1 rounded-full text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] transition cursor-pointer'
+              : 'course-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer';
+        });
+        filterCards();
+      });
+    });
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        currentSearch = '';
+        currentScope = 'all';
+        currentCourse = 'all';
+        scopeBtns.forEach((b, i) => {
+          b.className =
+            i === 0
+              ? 'scope-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[var(--aw-color-primary)] text-white transition cursor-pointer'
+              : 'scope-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer';
+        });
+        courseBtns.forEach((b, i) => {
+          b.className =
+            i === 0
+              ? 'course-btn px-3 py-1 rounded-full text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] transition cursor-pointer'
+              : 'course-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer';
+        });
+        filterCards();
+      });
+    }
+  })();
+</script>

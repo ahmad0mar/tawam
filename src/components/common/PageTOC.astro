@@ -1,0 +1,382 @@
+---
+export interface Props {
+  contentSelector?: string;
+}
+
+const { contentSelector = '.prose' } = Astro.props;
+---
+
+<aw-page-toc data-selector={contentSelector} hidden>
+  <!-- Mobile/Tablet (<1200px): fixed top reading-progress bar -->
+  <div class="toc-mobile-progress" aria-hidden="true">
+    <div class="toc-mobile-progress-fill"></div>
+  </div>
+
+  <!-- Mobile/Tablet (<1200px): compact dropdown placed before content -->
+  <div class="toc-mobile-dropdown-wrap mx-auto max-w-3xl px-4 sm:px-6 mb-6">
+    <details
+      class="toc-mobile-details rounded-2xl bg-white border border-[var(--tt-border-warm)] shadow-xs overflow-hidden"
+    >
+      <summary
+        class="flex items-center justify-between gap-3 px-4 py-3 text-xs sm:text-sm font-semibold text-[var(--tt-ink)] cursor-pointer select-none list-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tt-gold)]"
+      >
+        <span class="font-heading font-bold tracking-wide">On this page</span>
+        <span class="toc-chevron text-[var(--tt-gold-dark)] transition-transform duration-200" aria-hidden="true">
+          &#9662;
+        </span>
+      </summary>
+      <nav aria-label="On this page" class="border-t border-[var(--tt-border-warm)] px-3 py-2 max-h-64 overflow-y-auto">
+        <ul class="toc-mobile-list space-y-1"></ul>
+      </nav>
+    </details>
+  </div>
+
+  <!-- Desktop (>=1200px): minimal left-gutter tick rail that expands right on hover/focus -->
+  <nav aria-label="On this page" class="toc-desktop-rail fixed left-5 top-1/2 -translate-y-1/2 z-30 items-center group">
+    <!-- Floating bare ticks (no box, no border, no shadow) -->
+    <div
+      tabindex="0"
+      aria-label="Toggle table of contents"
+      class="toc-rail-track relative flex flex-col items-start py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tt-gold)] rounded-sm"
+    >
+      <div class="toc-ticks flex flex-col items-start gap-4"></div>
+    </div>
+
+    <!-- Expanded floating card (revealed to the right on hover or keyboard focus-within) -->
+    <div
+      class="toc-card pointer-events-none opacity-0 -translate-x-2 group-hover:pointer-events-auto group-hover:opacity-100 group-hover:translate-x-0 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-focus-within:translate-x-0 transition-all duration-200 ml-3 w-64 max-h-[60vh] overflow-y-auto rounded-2xl bg-white/95 backdrop-blur-md border border-[var(--tt-border-warm)] shadow-xl p-4"
+    >
+      <div
+        class="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--tt-gold-dark)] mb-2.5 pb-2 border-b border-[var(--tt-border-warm)]"
+      >
+        On this page
+      </div>
+      <ul class="toc-desktop-list space-y-1"></ul>
+    </div>
+  </nav>
+</aw-page-toc>
+
+<style>
+  aw-page-toc[hidden] {
+    display: none;
+  }
+
+  .toc-mobile-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 50;
+    background: rgb(11 42 58 / 8%);
+    pointer-events: none;
+  }
+
+  .toc-mobile-progress-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #d9a441 0%, #ecc268 100%);
+    transform-origin: left center;
+    transform: scaleX(0);
+  }
+
+  .toc-mobile-details[open] .toc-chevron {
+    transform: rotate(180deg);
+  }
+
+  .toc-desktop-rail {
+    display: none;
+  }
+
+  @media (width >= 1200px) {
+    .toc-desktop-rail {
+      display: flex;
+    }
+
+    .toc-mobile-dropdown-wrap {
+      display: none;
+    }
+  }
+
+  .toc-ticks.is-dense {
+    gap: 0.5rem;
+  }
+
+  :global(.toc-tick) {
+    display: block;
+    width: 14px;
+    height: 1.5px;
+    border-radius: 9999px;
+    background-color: rgb(11 42 58 / 25%);
+    transition:
+      width 180ms ease,
+      height 180ms ease,
+      background-color 180ms ease;
+  }
+
+  :global(.toc-tick.is-active) {
+    width: 22px;
+    height: 2px;
+    background-color: #d9a441;
+  }
+
+  :global(.toc-link) {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.625rem;
+    font-size: 0.875rem;
+    line-height: 1.35;
+    color: #4a5a6a;
+    transition:
+      color 150ms ease,
+      background-color 150ms ease;
+  }
+
+  @media (width >= 1200px) {
+    :global(.toc-link) {
+      min-height: 0;
+      padding: 0.35rem 0.5rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  :global(.toc-link-h2) {
+    font-family: var(--aw-font-heading, serif);
+    font-weight: 600;
+    color: #0b2a3a;
+  }
+
+  :global(.toc-link-h3) {
+    padding-left: 1rem;
+    font-size: 0.7rem;
+  }
+
+  :global(.toc-link:hover),
+  :global(.toc-link:focus-visible) {
+    background-color: #fbf3e4;
+    color: #9a6300;
+    outline: none;
+  }
+
+  :global(.toc-link[aria-current='location']) {
+    background-color: #fbf3e4;
+    color: #9a6300;
+    font-weight: 700;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toc-card,
+    .toc-chevron,
+    :global(.toc-tick),
+    :global(.toc-link) {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  class AwPageToc extends HTMLElement {
+    private observer: IntersectionObserver | null = null;
+    private onScrollBound: (() => void) | null = null;
+    private ticking = false;
+
+    connectedCallback() {
+      this.init();
+    }
+
+    disconnectedCallback() {
+      this.cleanup();
+    }
+
+    private cleanup() {
+      this.observer?.disconnect();
+      this.observer = null;
+      if (this.onScrollBound) {
+        window.removeEventListener('scroll', this.onScrollBound);
+        window.removeEventListener('resize', this.onScrollBound);
+        this.onScrollBound = null;
+      }
+    }
+
+    private slugify(text: string): string {
+      return text
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+    }
+
+    private init() {
+      this.cleanup();
+      const selector = this.dataset.selector || '.prose';
+      const content = document.querySelector<HTMLElement>(selector);
+      if (!content) {
+        this.setAttribute('hidden', '');
+        return;
+      }
+
+      const headings = Array.from(content.querySelectorAll<HTMLHeadingElement>('h2, h3')).filter(
+        (h) => (h.textContent || '').trim().length > 0
+      );
+
+      if (headings.length < 3) {
+        this.setAttribute('hidden', '');
+        return;
+      }
+
+      // Move mobile dropdown just before the content container so it sits naturally at the top of the article
+      const mobileDropdownWrap = this.querySelector<HTMLElement>('.toc-mobile-dropdown-wrap');
+      if (mobileDropdownWrap && content.parentElement) {
+        content.parentElement.insertBefore(mobileDropdownWrap, content);
+      }
+
+      this.removeAttribute('hidden');
+
+      // Assign unique slugified IDs + scroll-margin-top
+      const usedIds = new Set<string>();
+      document.querySelectorAll<HTMLElement>('[id]').forEach((el) => usedIds.add(el.id));
+
+      headings.forEach((h) => {
+        h.style.scrollMarginTop = '96px';
+        if (h.id) {
+          usedIds.add(h.id);
+          return;
+        }
+        const base = this.slugify(h.textContent || 'section') || 'section';
+        let id = base;
+        let n = 2;
+        while (usedIds.has(id)) {
+          id = `${base}-${n++}`;
+        }
+        h.id = id;
+        usedIds.add(id);
+      });
+
+      const desktopList = this.querySelector<HTMLUListElement>('.toc-desktop-list');
+      const mobileList = mobileDropdownWrap?.querySelector<HTMLUListElement>('.toc-mobile-list') ?? null;
+      const ticksWrap = this.querySelector<HTMLElement>('.toc-ticks');
+      const mobileDetails = mobileDropdownWrap?.querySelector<HTMLDetailsElement>('.toc-mobile-details') ?? null;
+
+      if (desktopList) desktopList.innerHTML = '';
+      if (mobileList) mobileList.innerHTML = '';
+      if (ticksWrap) ticksWrap.innerHTML = '';
+
+      const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const linkMap = new Map<string, HTMLAnchorElement[]>();
+      const tickMap = new Map<string, HTMLElement>();
+
+      const jumpTo = (id: string, closeMobile = false) => {
+        const target = document.getElementById(id);
+        if (!target) return;
+        target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+        if (closeMobile && mobileDetails) {
+          mobileDetails.open = false;
+        }
+      };
+
+      let h2Count = 0;
+      headings.forEach((h) => {
+        const isH3 = h.tagName === 'H3';
+        const text = (h.textContent || '').trim();
+        const id = h.id;
+        const linksForId: HTMLAnchorElement[] = [];
+
+        const makeLink = (closeMobile: boolean) => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = `#${id}`;
+          a.textContent = text;
+          a.className = `toc-link ${isH3 ? 'toc-link-h3' : 'toc-link-h2'}`;
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            jumpTo(id, closeMobile);
+          });
+          li.appendChild(a);
+          linksForId.push(a);
+          return li;
+        };
+
+        desktopList?.appendChild(makeLink(false));
+        mobileList?.appendChild(makeLink(true));
+        linkMap.set(id, linksForId);
+
+        // Collapsed rail shows ONLY one tick per H2
+        if (!isH3 && ticksWrap) {
+          h2Count++;
+          const tick = document.createElement('span');
+          tick.className = 'toc-tick';
+          tick.setAttribute('aria-hidden', 'true');
+          ticksWrap.appendChild(tick);
+          tickMap.set(id, tick);
+        }
+      });
+
+      if (ticksWrap) {
+        ticksWrap.classList.toggle('is-dense', h2Count > 12);
+      }
+
+      let activeId = headings[0].id;
+      const setActive = (id: string) => {
+        activeId = id;
+        linkMap.forEach((links, key) => {
+          const isCurrent = key === activeId;
+          links.forEach((a) => {
+            if (isCurrent) a.setAttribute('aria-current', 'location');
+            else a.removeAttribute('aria-current');
+          });
+        });
+        tickMap.forEach((tick, key) => {
+          tick.classList.toggle('is-active', key === activeId);
+        });
+      };
+
+      setActive(headings[0].id);
+
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+          if (visible.length > 0) {
+            setActive(visible[0].target.id);
+          }
+        },
+        { rootMargin: '-90px 0px -65% 0px', threshold: 0 }
+      );
+
+      headings.forEach((h) => this.observer?.observe(h));
+
+      const mobileFill = this.querySelector<HTMLElement>('.toc-mobile-progress-fill');
+      const railFill = this.querySelector<HTMLElement>('.toc-rail-progress-fill');
+
+      const updateProgress = () => {
+        this.ticking = false;
+        const rect = content.getBoundingClientRect();
+        const total = Math.max(content.offsetHeight - window.innerHeight * 0.5, 1);
+        const scrolled = Math.min(Math.max(-rect.top + window.innerHeight * 0.25, 0), total);
+        const ratio = Math.min(Math.max(scrolled / total, 0), 1);
+        if (mobileFill) mobileFill.style.transform = `scaleX(${ratio})`;
+        if (railFill) railFill.style.transform = `scaleY(${ratio})`;
+      };
+
+      this.onScrollBound = () => {
+        if (!this.ticking) {
+          this.ticking = true;
+          window.requestAnimationFrame(updateProgress);
+        }
+      };
+
+      updateProgress();
+      window.addEventListener('scroll', this.onScrollBound, { passive: true });
+      window.addEventListener('resize', this.onScrollBound, { passive: true });
+    }
+  }
+
+  if (!customElements.get('aw-page-toc')) {
+    customElements.define('aw-page-toc', AwPageToc);
+  }
+</script>

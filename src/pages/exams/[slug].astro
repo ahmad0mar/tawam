@@ -1,0 +1,61 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Layout from '~/layouts/PageLayout.astro';
+import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
+import GuideDetail from '~/components/guides/GuideDetail.astro';
+import PageTOC from '~/components/common/PageTOC.astro';
+import MobileDetailActionBar from '~/components/common/MobileDetailActionBar.astro';
+import { getPermalink } from '~/utils/permalinks';
+
+export const prerender = true;
+
+export const getStaticPaths = (async () => {
+  const entries = await getCollection('exams');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { entry } = Astro.props as Props;
+const d = entry.data;
+const { Content } = await render(entry);
+
+const metadata = {
+  title: d.name,
+  description: `${d.name}: key facts, eligibility and admission guide for Indian students.`,
+};
+---
+
+<Layout metadata={metadata}>
+  <Breadcrumbs
+    bar
+    hideCurrent
+    items={[
+      { text: 'Home', href: getPermalink('/') },
+      { text: 'Exams', href: getPermalink('/exams') },
+      { text: d.name },
+    ]}
+  />
+  <GuideDetail
+    title={d.name}
+    kicker="Exam"
+    image={d.image}
+    imageAlt={d.imageAlt}
+    updated={d.last_updated}
+    facts={[
+      { label: 'Conducting body', value: d.conducting_body },
+      { label: 'Level', value: d.level },
+      { label: 'Exam mode', value: d.exam_mode },
+      { label: 'Courses covered', value: d.courses_covered },
+    ]}
+  >
+    <Content />
+  </GuideDetail>
+  <PageTOC contentSelector=".prose" />
+  <MobileDetailActionBar
+    enquiryHref={`${getPermalink('/contact')}?course=${encodeURIComponent(d.name)}`}
+    enquiryLabel="Exam Counselling"
+    whatsappText={`Hello Tawam Travels, I need guidance for ${d.name}.`}
+  />
+</Layout>

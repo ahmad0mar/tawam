@@ -1,0 +1,68 @@
+---
+import { Icon } from 'astro-icon/components';
+import Section from '~/components/ui/Section.astro';
+import SectionHeader from '~/components/ui/SectionHeader.astro';
+import Image from '~/components/common/Image.astro';
+
+const features = [
+  { label: 'Expert Counselling', icon: 'tabler:school' },
+  { label: 'Admission Support', icon: 'tabler:heart-handshake' },
+  { label: 'Trusted Guidance', icon: 'tabler:shield-check' },
+  { label: 'Student First', icon: 'tabler:heart' },
+];
+---
+
+<Section id="about-tawam" tone="cream" mandala="left" class="py-16 sm:py-24">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+    <!-- Left: Story + 4 icon features -->
+    <div class="lg:col-span-6 space-y-6">
+      <SectionHeader
+        eyebrow="Our Story"
+        title="About Tawam Travels"
+        subtitle="Tawam Travels provides personalized, transparent, and expert education counselling for students seeking admissions in premier colleges across India. We simplify entrance exam counselling, course selection, and college applications."
+      />
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
+        {
+          features.map(({ label, icon }) => (
+            <div class="flex flex-col items-start gap-2 rounded-2xl bg-white/75 border border-[var(--tt-border-warm)] p-3.5 shadow-xs">
+              <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-[var(--tt-cream-soft)] text-[var(--tt-teal-navy)] border border-[var(--tt-border-warm)]">
+                <Icon name={icon} class="w-4 h-4" />
+              </span>
+              <span class="text-xs font-semibold text-[var(--tt-ink)] leading-snug">{label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Right: Italic serif pull-quote + soft-masked heritage image -->
+    <div class="lg:col-span-6 flex flex-col">
+      <blockquote class="font-heading italic text-lg sm:text-xl text-[var(--tt-ink)] mb-4 lg:pl-6 leading-relaxed">
+        &ldquo;Your dreams. Our guidance. A brighter academic future across India.&rdquo;
+      </blockquote>
+
+      <div class="relative rounded-3xl overflow-hidden aspect-[16/10] w-full">
+        <Image
+          src="~/assets/images/random/india-collage.jpeg"
+          alt="Historic Indian architecture representing premier higher education destinations"
+          class="w-full h-full object-cover object-center"
+          width={960}
+          height={600}
+          loading="lazy"
+        />
+        <!-- Soft cream edge fade blending into the #FBF3E4 band -->
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 bg-gradient-to-r from-[var(--tt-cream)] via-transparent to-[var(--tt-cream)]/60"
+        >
+        </div>
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--tt-cream)]/80 via-transparent to-[var(--tt-cream)]/55"
+        >
+        </div>
+      </div>
+    </div>
+  </div>
+</Section>

@@ -1,0 +1,98 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Layout from '~/layouts/PageLayout.astro';
+import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
+import GuideDetail from '~/components/guides/GuideDetail.astro';
+import { getPermalink } from '~/utils/permalinks';
+
+export const prerender = true;
+
+export const getStaticPaths = (async () => {
+  const entries = await getCollection('courses');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { entry } = Astro.props as Props;
+const d = entry.data;
+const { Content } = await render(entry);
+
+// Find colleges offering this course
+const allColleges = await getCollection('colleges');
+const offeringColleges = allColleges.filter((c) =>
+  c.data.courses_offered?.some((co) => co.slug === entry.id || co.name.toLowerCase().includes(d.name.toLowerCase()))
+);
+
+const metadata = {
+  title: d.name,
+  description: `${d.name}: duration, eligibility, accepted exams and fees guide for Indian students.`,
+};
+---
+
+<Layout metadata={metadata}>
+  <Breadcrumbs
+    bar
+    hideCurrent
+    items={[
+      { text: 'Home', href: getPermalink('/') },
+      { text: 'Courses', href: getPermalink('/courses') },
+      { text: d.name },
+    ]}
+  />
+  <GuideDetail
+    title={d.name}
+    kicker="Course"
+    image={d.image}
+    imageAlt={d.imageAlt}
+    updated={d.last_updated}
+    facts={[
+      { label: 'Level', value: d.level },
+      { label: 'Duration', value: d.duration },
+      { label: 'Eligibility', value: d.eligibility },
+      { label: 'Fees', value: d.average_fees_range },
+      { label: 'Accepted exams', value: d.accepted_exams },
+      { label: 'Specialisations', value: d.specializations },
+    ]}
+  >
+    <Content />
+
+    {
+      offeringColleges.length > 0 && (
+        <div class="mt-12 pt-8 border-t border-[var(--aw-color-border)] not-prose">
+          <h2 class="text-2xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+            Top Colleges for {d.name}
+          </h2>
+          <p class="text-xs sm:text-sm text-[var(--aw-color-text-muted)] mb-6">
+            Compare premier institutions offering this programme with verified cutoffs and counselling guidance:
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {offeringColleges.map((col) => (
+              <a
+                href={getPermalink(`/colleges/${col.data.slug || col.id}`)}
+                class="p-4 rounded-2xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition flex items-center justify-between group"
+              >
+                <div>
+                  <span class="text-[11px] font-bold text-[#9A6300] uppercase">
+                    {col.data.city}, {col.data.state}
+                  </span>
+                  <h3 class="font-serif font-bold text-sm sm:text-base text-[var(--aw-color-text-heading)] group-hover:text-[var(--aw-color-primary)] transition">
+                    {col.data.name}
+                  </h3>
+                  <div class="flex gap-2 text-xs text-[var(--aw-color-text-muted)] mt-1">
+                    <span>{col.data.type}</span>
+                    {col.data.nirf_rank && <span>• NIRF #{col.data.nirf_rank}</span>}
+                  </div>
+                </div>
+                <span class="text-xs font-semibold text-[var(--aw-color-link)] group-hover:translate-x-1 transition">
+                  &rarr;
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )
+    }
+  </GuideDetail>
+</Layout>

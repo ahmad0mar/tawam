@@ -1,0 +1,417 @@
+@import 'tailwindcss';
+
+@plugin "@tailwindcss/typography";
+
+/* shadcn/ui-compatible tokens derived from the --aw-* variables. */
+@import './shadcn.css';
+
+/* Single light theme: disable OS dark-mode media fallback on `dark:` utilities */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@custom-variant intersect (&:not([no-intersect]));
+
+/* `js:` applies only once the <html> element carries the `js` class (added by an
+   inline script in Layout.astro). Reveal-on-scroll items start hidden only under
+   this variant, so content is never left invisible if scripts fail to run. */
+@custom-variant js (&:where(.js *));
+
+@theme {
+  --color-primary: var(--aw-color-primary);
+  --color-secondary: var(--aw-color-secondary);
+  --color-accent: var(--aw-color-accent);
+  --color-accent-hover: var(--aw-color-accent-hover);
+  --color-heading: var(--aw-color-text-heading);
+  --color-default: var(--aw-color-text-default);
+  --color-muted: var(--aw-color-text-muted);
+  --color-link: var(--aw-color-link, var(--aw-color-primary));
+  --color-on-primary: var(--aw-color-on-primary);
+  --color-on-accent: var(--aw-color-on-accent);
+  --color-bg-soft: var(--aw-color-bg-soft);
+  --color-bg-warm: var(--aw-color-bg-warm);
+  --color-border-custom: var(--aw-color-border);
+  --color-success: var(--aw-color-success);
+  --color-error: var(--aw-color-error);
+
+  --font-sans:
+    var(--aw-font-sans, ui-sans-serif), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-serif: var(--aw-font-serif, ui-serif), ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-heading: var(--aw-font-heading, ui-serif), ui-serif, Georgia, Cambria, serif;
+
+  --animate-fade: fadeInUp 0.5s both;
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@utility bg-page {
+  background-color: var(--aw-color-bg-page);
+}
+
+@utility bg-soft {
+  background-color: var(--aw-color-bg-soft);
+}
+
+@utility bg-warm {
+  background-color: var(--aw-color-bg-warm);
+}
+
+@utility text-page {
+  color: var(--aw-color-text-default);
+}
+
+@utility text-muted {
+  color: var(--aw-color-text-muted);
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center rounded-full font-medium text-center text-base leading-snug transition-all py-3 px-6 md:px-8 ease-out duration-200 cursor-pointer active:scale-[0.98] focus:ring-2 focus:ring-offset-2 focus:ring-[#0572CE] outline-none;
+}
+
+@utility btn-primary {
+  @apply btn relative overflow-hidden font-semibold text-on-accent border border-[#D9A441] shadow-sm;
+  background-image: linear-gradient(135deg, #d9a441 0%, #ecc268 100%);
+}
+
+@utility btn-glass {
+  @apply btn font-semibold bg-white/12 backdrop-blur-md border border-white/35 text-white shadow-sm;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 25%, rgb(255 255 255 / 38%) 50%, transparent 75%);
+  transform: translateX(-120%);
+  transition: none;
+}
+
+@media (hover: hover) {
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgb(11 42 58 / 16%);
+  }
+
+  .btn-primary:hover::after {
+    transform: translateX(120%);
+    transition: transform 520ms var(--aw-ease-out);
+  }
+
+  .btn-glass:hover {
+    background-color: rgb(255 255 255 / 22%);
+    border-color: rgb(255 255 255 / 55%);
+  }
+}
+
+.tt-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.tt-eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 2.25rem;
+  height: 1px;
+  background-color: currentcolor;
+  opacity: 0.55;
+}
+
+.tt-gold-gradient-text {
+  background-image: linear-gradient(135deg, #f8de9a 0%, #d9a441 55%, #b97d1c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility btn-secondary {
+  @apply btn font-semibold bg-primary text-on-primary border border-primary hover:bg-secondary hover:border-secondary hover:text-on-primary;
+}
+
+@utility btn-outline {
+  @apply btn font-medium bg-transparent border border-primary text-primary hover:bg-[var(--aw-color-bg-soft)] hover:text-primary;
+}
+
+@utility btn-outline-white {
+  @apply btn font-semibold bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#011B4A] shadow-md;
+}
+
+@utility btn-tertiary {
+  @apply btn border-none shadow-none text-muted hover:text-heading hover:bg-transparent;
+}
+
+/* Seamless transparent header over dark hero; frosted cream bar on scroll */
+#header {
+  background-color: transparent;
+  color: rgb(255 255 255 / 95%);
+  transition:
+    background-color var(--aw-motion-base) var(--aw-ease-out),
+    border-color var(--aw-motion-base) var(--aw-ease-out),
+    box-shadow var(--aw-motion-base) var(--aw-ease-out),
+    color var(--aw-motion-base) var(--aw-ease-out);
+}
+
+#header .aw-header-bar {
+  background-color: transparent;
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
+  transition:
+    background-color var(--aw-motion-base) var(--aw-ease-out),
+    border-color var(--aw-motion-base) var(--aw-ease-out),
+    box-shadow var(--aw-motion-base) var(--aw-ease-out);
+}
+
+#header nav a,
+#header nav button {
+  color: rgb(255 255 255 / 92%);
+}
+
+#header nav a:hover,
+#header nav button:hover {
+  color: var(--tt-gold-bright, #ecc268);
+}
+
+#header [data-aw-toggle-menu] {
+  color: #ffffff;
+}
+
+#header.scroll .aw-header-bar {
+  background-color: color-mix(in srgb, var(--tt-cream, #fbf3e4) 94%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: var(--tt-border-warm, #e6d8be);
+  box-shadow: 0 8px 24px rgb(11 42 58 / 8%);
+}
+
+#header.scroll nav a,
+#header.scroll nav button,
+#header.scroll [data-aw-toggle-menu] {
+  color: var(--tt-ink, #0b2a3a);
+}
+
+#header.scroll nav a:hover,
+#header.scroll nav button:hover {
+  color: var(--tt-gold-dark, #9a6300);
+}
+
+#header.scroll nav .aw-link-active {
+  color: var(--tt-gold-dark, #9a6300);
+}
+
+@media (width >= 64rem) {
+  /* Sliding underline for desktop top-level nav links */
+  #header nav > ul > li > a,
+  #header nav > ul > li > button {
+    position: relative;
+  }
+
+  #header nav > ul > li > a::after,
+  #header nav > ul > li > button::after {
+    content: '';
+    position: absolute;
+    left: 0.625rem;
+    right: 0.625rem;
+    bottom: 0.25rem;
+    height: 2px;
+    border-radius: 9999px;
+    background-color: var(--tt-gold-bright, #ecc268);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--aw-motion-base) var(--aw-ease-out);
+    pointer-events: none;
+  }
+
+  #header.scroll nav > ul > li > a::after,
+  #header.scroll nav > ul > li > button::after {
+    background-color: var(--tt-gold-dark, #9a6300);
+  }
+
+  #header nav > ul > li > a:hover::after,
+  #header nav > ul > li > a:focus-visible::after,
+  #header nav > ul > li > a.aw-link-active::after,
+  #header nav > ul > li > button:hover::after,
+  #header nav > ul > li > button:focus-visible::after {
+    transform: scaleX(1);
+  }
+}
+
+#header.expanded {
+  pointer-events: auto;
+  padding: 0;
+  background-color: var(--tt-cream, #fbf3e4);
+  color: var(--tt-ink, #0b2a3a);
+}
+
+#header.expanded nav a,
+#header.expanded nav button,
+#header.expanded [data-aw-toggle-menu] {
+  color: var(--tt-ink, #0b2a3a);
+}
+
+#header.expanded .aw-header-bar {
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+  background-color: var(--tt-cream, #fbf3e4);
+}
+
+#header.expanded nav {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem 1.25rem calc(5.5rem + env(safe-area-inset-bottom));
+  background-color: var(--tt-cream, #fbf3e4);
+  overflow-y: auto;
+  z-index: 45;
+}
+
+body.aw-menu-open #aw-whatsapp-floating {
+  display: none !important;
+}
+
+@media (width < 768px) {
+  body.aw-has-sticky-bar #aw-whatsapp-floating {
+    display: none;
+  }
+}
+
+.dropdown:focus .dropdown-menu,
+.dropdown:focus-within .dropdown-menu,
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+[astro-icon].icon-light > * {
+  stroke-width: 1.2;
+}
+
+[astro-icon].icon-bold > * {
+  stroke-width: 2.4;
+}
+
+[data-aw-toggle-menu] path {
+  @apply transition;
+}
+[data-aw-toggle-menu].expanded g > path:first-child {
+  @apply -rotate-45 translate-y-[15px] translate-x-[-3px];
+}
+[data-aw-toggle-menu].expanded g > path:last-child {
+  @apply rotate-45 translate-y-[-8px] translate-x-[14px];
+}
+
+/* Current page in the header navigation (set server-side in Header.astro and
+   kept in sync on client-side navigations). Override --aw-color-link in
+   CustomStyles.astro to change the colour. */
+#header nav .aw-link-active {
+  @apply text-link;
+}
+
+.dd *:first-child {
+  margin-top: 0;
+}
+
+/* Blog prose: inline code without the typography plugin's backticks, and
+   code blocks. */
+/* Force all prose body text to the brand dark slate for readability */
+.prose :where(p, li, dd, td, blockquote):not(:where([class~='not-prose'] *)) {
+  color: var(--aw-color-text-default, #2b3a5a);
+}
+/* Force all prose headings to the brand dark navy for readability */
+.prose :where(h1, h2, h3, h4, h5, h6):not(:where([class~='not-prose'] *)) {
+  color: var(--aw-color-text-heading, #011b4a);
+}
+.prose :where(code):not(:where(pre *)) {
+  background-color: color-mix(in oklab, var(--aw-color-text-default) 8%, transparent);
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.375rem;
+  font-weight: 500;
+}
+.prose :where(code):not(:where(pre *))::before,
+.prose :where(code):not(:where(pre *))::after {
+  content: none;
+}
+.prose :where(pre.astro-code) {
+  border: 1px solid var(--aw-color-border);
+}
+
+/* Mobile-first layout & typography guards */
+html,
+body {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+body {
+  font-size: clamp(1rem, 1.1vw, 1.0625rem);
+  line-height: 1.6;
+}
+
+@media (width < 768px) {
+  input:not([type='checkbox']):not([type='radio']),
+  select,
+  textarea {
+    font-size: max(16px, 1rem) !important;
+  }
+}
+
+.prose :where(table):not(:where([class~='not-prose'] *)) {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.aw-no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.aw-no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion tokens (animation plan, section 5). Plain custom properties: */
+/* prefixed with --aw- so they cannot clash with Tailwind's own        */
+/* --ease-* / --animate-* theme namespaces.                            */
+/* ------------------------------------------------------------------ */
+:root {
+  --aw-motion-fast: 150ms; /* hover colour changes, press */
+  --aw-motion-base: 250ms; /* card lift, links, panel swap */
+  --aw-motion-slow: 600ms; /* reveals */
+  --aw-motion-hero: 900ms; /* hero headline: the one longer moment */
+  --aw-ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* everything entering */
+  --aw-ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1); /* map pop only (slight overshoot) */
+  --aw-reveal-distance: 12px;
+  --aw-stagger: 60ms; /* matches STAGGER_MS in Intersect.astro (max 4 steps) */
+}
+
+/* Reduced motion: anyone who has turned animations off gets the final state
+   straight away. Animations jump to their end frame, transitions are instant. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}

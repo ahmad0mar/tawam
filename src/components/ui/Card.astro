@@ -1,0 +1,30 @@
+---
+import { twMerge } from 'tailwind-merge';
+
+export interface Props {
+  variant?: 'light' | 'glass' | 'dark' | 'cream';
+  hover?: boolean;
+  class?: string;
+}
+
+const { variant = 'light', hover = true, class: className = '' } = Astro.props;
+
+const variantClasses = {
+  light: 'bg-white border border-[var(--tt-border-warm)] text-[var(--tt-ink)] shadow-[var(--tt-shadow-soft)]',
+  cream:
+    'bg-[var(--tt-cream)] border border-[var(--tt-border-warm)] text-[var(--tt-ink)] shadow-[var(--tt-shadow-soft)]',
+  glass: 'bg-[#071D28]/55 backdrop-blur-md border border-white/20 text-white shadow-[var(--tt-shadow-glass)]',
+  dark: 'bg-[#10384C] border border-white/12 text-white shadow-[var(--tt-shadow-glass)]',
+};
+---
+
+<div
+  class={twMerge(
+    'rounded-[18px] overflow-hidden transition-all duration-300',
+    variantClasses[variant],
+    hover ? 'hover:-translate-y-1 hover:shadow-xl' : '',
+    className
+  )}
+>
+  <slot />
+</div>

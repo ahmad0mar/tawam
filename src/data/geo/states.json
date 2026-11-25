@@ -1,0 +1,373 @@
+[
+  {
+    "name": "Andhra Pradesh",
+    "slug": "andhra-pradesh",
+    "code": "IN-AP",
+    "type": "State",
+    "cities": [
+      { "name": "Visakhapatnam", "slug": "visakhapatnam" },
+      { "name": "Vijayawada", "slug": "vijayawada" },
+      { "name": "Guntur", "slug": "guntur" },
+      { "name": "Tirupati", "slug": "tirupati" }
+    ]
+  },
+  {
+    "name": "Arunachal Pradesh",
+    "slug": "arunachal-pradesh",
+    "code": "IN-AR",
+    "type": "State",
+    "cities": [{ "name": "Itanagar", "slug": "itanagar" }]
+  },
+  {
+    "name": "Assam",
+    "slug": "assam",
+    "code": "IN-AS",
+    "type": "State",
+    "cities": [
+      { "name": "Guwahati", "slug": "guwahati" },
+      { "name": "Silchar", "slug": "silchar" },
+      { "name": "Dibrugarh", "slug": "dibrugarh" }
+    ]
+  },
+  {
+    "name": "Bihar",
+    "slug": "bihar",
+    "code": "IN-BR",
+    "type": "State",
+    "cities": [
+      { "name": "Patna", "slug": "patna" },
+      { "name": "Gaya", "slug": "gaya" },
+      { "name": "Muzaffarpur", "slug": "muzaffarpur" }
+    ]
+  },
+  {
+    "name": "Chhattisgarh",
+    "slug": "chhattisgarh",
+    "code": "IN-CG",
+    "type": "State",
+    "cities": [
+      { "name": "Raipur", "slug": "raipur" },
+      { "name": "Bhilai", "slug": "bhilai" },
+      { "name": "Bilaspur", "slug": "bilaspur" }
+    ]
+  },
+  {
+    "name": "Goa",
+    "slug": "goa",
+    "code": "IN-GA",
+    "type": "State",
+    "cities": [
+      { "name": "Panaji", "slug": "panaji" },
+      { "name": "Margao", "slug": "margao" }
+    ]
+  },
+  {
+    "name": "Gujarat",
+    "slug": "gujarat",
+    "code": "IN-GJ",
+    "type": "State",
+    "cities": [
+      { "name": "Ahmedabad", "slug": "ahmedabad" },
+      { "name": "Gandhinagar", "slug": "gandhinagar" },
+      { "name": "Vadodara", "slug": "vadodara" },
+      { "name": "Surat", "slug": "surat" }
+    ]
+  },
+  {
+    "name": "Haryana",
+    "slug": "haryana",
+    "code": "IN-HR",
+    "type": "State",
+    "cities": [
+      { "name": "Gurugram", "slug": "gurugram" },
+      { "name": "Faridabad", "slug": "faridabad" },
+      { "name": "Rohtak", "slug": "rohtak" },
+      { "name": "Sonipat", "slug": "sonipat" }
+    ]
+  },
+  {
+    "name": "Himachal Pradesh",
+    "slug": "himachal-pradesh",
+    "code": "IN-HP",
+    "type": "State",
+    "cities": [
+      { "name": "Shimla", "slug": "shimla" },
+      { "name": "Mandi", "slug": "mandi" },
+      { "name": "Dharamshala", "slug": "dharamshala" }
+    ]
+  },
+  {
+    "name": "Jharkhand",
+    "slug": "jharkhand",
+    "code": "IN-JH",
+    "type": "State",
+    "cities": [
+      { "name": "Ranchi", "slug": "ranchi" },
+      { "name": "Jamshedpur", "slug": "jamshedpur" },
+      { "name": "Dhanbad", "slug": "dhanbad" }
+    ]
+  },
+  {
+    "name": "Karnataka",
+    "slug": "karnataka",
+    "code": "IN-KA",
+    "type": "State",
+    "cities": [
+      { "name": "Bangalore", "slug": "bangalore" },
+      { "name": "Mysore", "slug": "mysore" },
+      { "name": "Mangalore", "slug": "mangalore" },
+      { "name": "Manipal", "slug": "manipal" },
+      { "name": "Hubli", "slug": "hubli" },
+      { "name": "Belgaum", "slug": "belgaum" }
+    ]
+  },
+  {
+    "name": "Kerala",
+    "slug": "kerala",
+    "code": "IN-KL",
+    "type": "State",
+    "cities": [
+      { "name": "Thiruvananthapuram", "slug": "thiruvananthapuram" },
+      { "name": "Kochi", "slug": "kochi" },
+      { "name": "Kozhikode", "slug": "kozhikode" },
+      { "name": "Thrissur", "slug": "thrissur" },
+      { "name": "Kottayam", "slug": "kottayam" }
+    ]
+  },
+  {
+    "name": "Madhya Pradesh",
+    "slug": "madhya-pradesh",
+    "code": "IN-MP",
+    "type": "State",
+    "cities": [
+      { "name": "Bhopal", "slug": "bhopal" },
+      { "name": "Indore", "slug": "indore" },
+      { "name": "Jabalpur", "slug": "jabalpur" },
+      { "name": "Gwalior", "slug": "gwalior" }
+    ]
+  },
+  {
+    "name": "Maharashtra",
+    "slug": "maharashtra",
+    "code": "IN-MH",
+    "type": "State",
+    "cities": [
+      { "name": "Mumbai", "slug": "mumbai" },
+      { "name": "Pune", "slug": "pune" },
+      { "name": "Nagpur", "slug": "nagpur" },
+      { "name": "Nashik", "slug": "nashik" },
+      { "name": "Aurangabad", "slug": "aurangabad" }
+    ]
+  },
+  {
+    "name": "Manipur",
+    "slug": "manipur",
+    "code": "IN-MN",
+    "type": "State",
+    "cities": [{ "name": "Imphal", "slug": "imphal" }]
+  },
+  {
+    "name": "Meghalaya",
+    "slug": "meghalaya",
+    "code": "IN-ML",
+    "type": "State",
+    "cities": [{ "name": "Shillong", "slug": "shillong" }]
+  },
+  {
+    "name": "Mizoram",
+    "slug": "mizoram",
+    "code": "IN-MZ",
+    "type": "State",
+    "cities": [{ "name": "Aizawl", "slug": "aizawl" }]
+  },
+  {
+    "name": "Nagaland",
+    "slug": "nagaland",
+    "code": "IN-NL",
+    "type": "State",
+    "cities": [
+      { "name": "Kohima", "slug": "kohima" },
+      { "name": "Dimapur", "slug": "dimapur" }
+    ]
+  },
+  {
+    "name": "Odisha",
+    "slug": "odisha",
+    "code": "IN-OD",
+    "type": "State",
+    "cities": [
+      { "name": "Bhubaneswar", "slug": "bhubaneswar" },
+      { "name": "Cuttack", "slug": "cuttack" },
+      { "name": "Rourkela", "slug": "rourkela" }
+    ]
+  },
+  {
+    "name": "Punjab",
+    "slug": "punjab",
+    "code": "IN-PB",
+    "type": "State",
+    "cities": [
+      { "name": "Chandigarh", "slug": "chandigarh" },
+      { "name": "Ludhiana", "slug": "ludhiana" },
+      { "name": "Amritsar", "slug": "amritsar" },
+      { "name": "Jalandhar", "slug": "jalandhar" },
+      { "name": "Patiala", "slug": "patiala" }
+    ]
+  },
+  {
+    "name": "Rajasthan",
+    "slug": "rajasthan",
+    "code": "IN-RJ",
+    "type": "State",
+    "cities": [
+      { "name": "Jaipur", "slug": "jaipur" },
+      { "name": "Jodhpur", "slug": "jodhpur" },
+      { "name": "Kota", "slug": "kota" },
+      { "name": "Udaipur", "slug": "udaipur" }
+    ]
+  },
+  {
+    "name": "Sikkim",
+    "slug": "sikkim",
+    "code": "IN-SK",
+    "type": "State",
+    "cities": [{ "name": "Gangtok", "slug": "gangtok" }]
+  },
+  {
+    "name": "Tamil Nadu",
+    "slug": "tamil-nadu",
+    "code": "IN-TN",
+    "type": "State",
+    "cities": [
+      { "name": "Vellore", "slug": "vellore" },
+      { "name": "Chennai", "slug": "chennai" },
+      { "name": "Coimbatore", "slug": "coimbatore" },
+      { "name": "Madurai", "slug": "madurai" },
+      { "name": "Tiruchirappalli", "slug": "tiruchirappalli" },
+      { "name": "Salem", "slug": "salem" }
+    ]
+  },
+  {
+    "name": "Telangana",
+    "slug": "telangana",
+    "code": "IN-TG",
+    "type": "State",
+    "cities": [
+      { "name": "Hyderabad", "slug": "hyderabad" },
+      { "name": "Warangal", "slug": "warangal" }
+    ]
+  },
+  {
+    "name": "Tripura",
+    "slug": "tripura",
+    "code": "IN-TR",
+    "type": "State",
+    "cities": [{ "name": "Agartala", "slug": "agartala" }]
+  },
+  {
+    "name": "Uttar Pradesh",
+    "slug": "uttar-pradesh",
+    "code": "IN-UP",
+    "type": "State",
+    "cities": [
+      { "name": "Lucknow", "slug": "lucknow" },
+      { "name": "Kanpur", "slug": "kanpur" },
+      { "name": "Noida", "slug": "noida" },
+      { "name": "Greater Noida", "slug": "greater-noida" },
+      { "name": "Varanasi", "slug": "varanasi" },
+      { "name": "Prayagraj", "slug": "prayagraj" }
+    ]
+  },
+  {
+    "name": "Uttarakhand",
+    "slug": "uttarakhand",
+    "code": "IN-UK",
+    "type": "State",
+    "cities": [
+      { "name": "Dehradun", "slug": "dehradun" },
+      { "name": "Roorkee", "slug": "roorkee" },
+      { "name": "Haridwar", "slug": "haridwar" },
+      { "name": "Nainital", "slug": "nainital" }
+    ]
+  },
+  {
+    "name": "West Bengal",
+    "slug": "west-bengal",
+    "code": "IN-WB",
+    "type": "State",
+    "cities": [
+      { "name": "Kolkata", "slug": "kolkata" },
+      { "name": "Durgapur", "slug": "durgapur" },
+      { "name": "Siliguri", "slug": "siliguri" },
+      { "name": "Kharagpur", "slug": "kharagpur" }
+    ]
+  },
+  {
+    "name": "Andaman and Nicobar Islands",
+    "slug": "andaman-and-nicobar-islands",
+    "code": "IN-AN",
+    "type": "Union Territory",
+    "cities": [{ "name": "Port Blair", "slug": "port-blair" }]
+  },
+  {
+    "name": "Chandigarh",
+    "slug": "chandigarh",
+    "code": "IN-CH",
+    "type": "Union Territory",
+    "cities": [{ "name": "Chandigarh", "slug": "chandigarh" }]
+  },
+  {
+    "name": "Dadra and Nagar Haveli and Daman and Diu",
+    "slug": "dadra-and-nagar-haveli-and-daman-and-diu",
+    "code": "IN-DH",
+    "type": "Union Territory",
+    "cities": [
+      { "name": "Daman", "slug": "daman" },
+      { "name": "Silvassa", "slug": "silvassa" }
+    ]
+  },
+  {
+    "name": "Delhi",
+    "slug": "delhi",
+    "code": "IN-DL",
+    "type": "Union Territory",
+    "cities": [
+      { "name": "New Delhi", "slug": "new-delhi" },
+      { "name": "Delhi", "slug": "delhi" }
+    ]
+  },
+  {
+    "name": "Jammu and Kashmir",
+    "slug": "jammu-and-kashmir",
+    "code": "IN-JK",
+    "type": "Union Territory",
+    "cities": [
+      { "name": "Srinagar", "slug": "srinagar" },
+      { "name": "Jammu", "slug": "jammu" }
+    ]
+  },
+  {
+    "name": "Ladakh",
+    "slug": "ladakh",
+    "code": "IN-LA",
+    "type": "Union Territory",
+    "cities": [
+      { "name": "Leh", "slug": "leh" },
+      { "name": "Kargil", "slug": "kargil" }
+    ]
+  },
+  {
+    "name": "Lakshadweep",
+    "slug": "lakshadweep",
+    "code": "IN-LD",
+    "type": "Union Territory",
+    "cities": [{ "name": "Kavaratti", "slug": "kavaratti" }]
+  },
+  {
+    "name": "Puducherry",
+    "slug": "puducherry",
+    "code": "IN-PY",
+    "type": "Union Territory",
+    "cities": [{ "name": "Puducherry", "slug": "puducherry" }]
+  }
+]

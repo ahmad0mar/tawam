@@ -1,0 +1,144 @@
+---
+import Section from '~/components/ui/Section.astro';
+import SectionHeader from '~/components/ui/SectionHeader.astro';
+
+export interface StepItem {
+  title: string;
+  description: string;
+}
+
+export interface Props {
+  id?: string;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  items?: Array<StepItem>;
+}
+
+const {
+  id = 'how-it-works',
+  eyebrow = 'How It Works',
+  title = 'How Tawam Counselling Works',
+  subtitle = 'A structured, transparent pathway from initial consultation to campus enrollment.',
+  items = [],
+} = Astro.props;
+---
+
+<Section id={id} tone="navy" mandala="right" class="py-16 sm:py-24 pb-24 sm:pb-24">
+  <SectionHeader
+    tone="dark"
+    align="center"
+    eyebrow={eyebrow}
+    title={title}
+    subtitle={subtitle}
+    class="mb-12 sm:mb-16"
+  />
+
+  <div id="tt-steps-track" class="relative grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+    <!-- Desktop horizontal connecting track + scroll-linked gold fill -->
+    <div
+      aria-hidden="true"
+      class="hidden md:block absolute top-7 left-[16%] right-[16%] h-[2px] bg-white/15 overflow-hidden rounded-full"
+    >
+      <div
+        id="tt-steps-progress-line"
+        class="h-full w-full bg-gradient-to-r from-[var(--tt-gold)] via-[var(--tt-gold-bright)] to-[var(--tt-gold)] origin-left scale-x-0"
+      >
+      </div>
+    </div>
+
+    {
+      items.map((step, index) => (
+        <div
+          data-step-card
+          data-step-index={index}
+          class="tt-step-card relative flex flex-col items-start md:items-center md:text-center rounded-[20px] bg-white/[0.06] border border-white/12 p-6 sm:p-7 transition-[border-color,background-color] duration-300"
+        >
+          <div class="tt-step-badge relative z-10 inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-[#D9A441] to-[#ECC268] text-[var(--tt-teal-navy)] font-heading font-bold text-xl shadow-lg ring-8 ring-[var(--tt-teal-navy)] mb-5 transition-transform duration-300">
+            {index + 1}
+          </div>
+          <h3 class="font-heading font-bold text-xl text-white leading-snug mb-2.5">{step.title}</h3>
+          <p class="text-sm text-white/78 leading-relaxed">{step.description}</p>
+        </div>
+      ))
+    }
+  </div>
+</Section>
+
+<style>
+  .tt-step-card.is-step-active {
+    border-color: rgb(217 164 65 / 0.55);
+    background-color: rgb(255 255 255 / 0.09);
+  }
+
+  .tt-step-card.is-step-active .tt-step-badge {
+    transform: scale(1.06);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #tt-steps-progress-line {
+      transform: scaleX(1) !important;
+    }
+    .tt-step-card.is-step-active .tt-step-badge {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const initCounsellingStepsScroll = () => {
+    const track = document.getElementById('tt-steps-track');
+    const line = document.getElementById('tt-steps-progress-line');
+    if (!track || !line || track.dataset.scrollBound === 'true') return;
+    track.dataset.scrollBound = 'true';
+
+    const cards = Array.from(track.querySelectorAll<HTMLElement>('[data-step-card]'));
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduced) {
+      line.style.transform = 'scaleX(1)';
+      cards.forEach((c) => c.classList.add('is-step-active'));
+      return;
+    }
+
+    let rafId = 0;
+    const update = () => {
+      rafId = 0;
+      const rect = track.getBoundingClientRect();
+      const vh = window.innerHeight || 800;
+      const start = vh * 0.85;
+      const end = vh * 0.3;
+      const raw = (start - rect.top) / Math.max(1, start - end);
+      const progress = Math.max(0, Math.min(1, raw));
+
+      line.style.transform = `scaleX(${progress.toFixed(3)})`;
+
+      const lastIdx = Math.max(1, cards.length - 1);
+      cards.forEach((card, idx) => {
+        const threshold = (idx / lastIdx) * 0.85;
+        card.classList.toggle('is-step-active', progress >= threshold && progress > 0.02);
+      });
+    };
+
+    const onScroll = () => {
+      if (!rafId) rafId = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+        if (rafId) cancelAnimationFrame(rafId);
+      },
+      { once: true }
+    );
+  };
+
+  initCounsellingStepsScroll();
+  document.addEventListener('astro:page-load', initCounsellingStepsScroll);
+</script>

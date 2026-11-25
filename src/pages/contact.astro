@@ -1,0 +1,155 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import PageHero from '~/components/widgets/PageHero.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import { SITE_INFO } from '~/data/site';
+
+const metadata = {
+  title: 'Contact & Education Counselling',
+  description:
+    'Get in touch with Tawam Travels for personalized education counselling, admission guidance, and college selection assistance.',
+};
+---
+
+<Layout metadata={metadata}>
+  <PageHero
+    eyebrow="Get in Touch"
+    title="Education Counselling & Enquiries"
+    subtitle="Speak directly with an academic counsellor for college shortlisting, entrance cutoffs, and admission support."
+  />
+
+  <ContactUs
+    id="form"
+    title="Schedule Your Counselling Session"
+    subtitle="Submit your details below and one of our academic counsellors will contact you to guide your college and course selection."
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: 'Student Name',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Email Address',
+      },
+      {
+        type: 'tel',
+        name: 'phone',
+        label: 'Phone / WhatsApp Number',
+      },
+      {
+        type: 'text',
+        name: 'course',
+        label: 'Course of Interest (e.g. MBBS, B.Tech, MBA)',
+      },
+    ]}
+    textarea={{
+      label: 'Your Query / Preferred State or Colleges',
+    }}
+    disclaimer={{
+      label:
+        'By submitting this form, you authorize Tawam Travels to contact you via phone, WhatsApp, or email for education guidance.',
+    }}
+    description="Our counselling team responds promptly during office hours."
+  />
+
+  <Features2
+    title="Contact Information"
+    items={[
+      {
+        title: 'Phone Consultation',
+        description: SITE_INFO.contact.phone,
+        icon: 'tabler:phone',
+      },
+      {
+        title: 'WhatsApp Assistance',
+        description: SITE_INFO.contact.whatsapp,
+        icon: 'tabler:brand-whatsapp',
+      },
+      {
+        title: 'Email Enquiries',
+        description: SITE_INFO.contact.email,
+        icon: 'tabler:mail',
+      },
+      {
+        title: 'Office Location',
+        description: SITE_INFO.contact.address,
+        icon: 'tabler:map-pin',
+      },
+    ]}
+  />
+
+  <script is:inline>
+    document.addEventListener('astro:page-load', () => {
+      const params = new URLSearchParams(window.location.search);
+      const college = params.get('college');
+      const course = params.get('course');
+
+      if (course) {
+        const courseInput = document.querySelector('input[name="course"]');
+        if (courseInput && !courseInput.value) {
+          courseInput.value = course;
+        }
+      }
+
+      if (college) {
+        const textarea = document.querySelector('textarea[name="message"]') || document.querySelector('textarea');
+        if (textarea && !textarea.value) {
+          textarea.value = `I am interested in admission counselling for ${college}. Please guide me on eligibility, seat availability, cutoff ranks, and fee structures.`;
+        }
+      }
+
+      const form = document.querySelector('#form form');
+      if (form && !form.dataset.counsellingBound) {
+        form.dataset.counsellingBound = 'true';
+        const statusEl = document.createElement('div');
+        statusEl.setAttribute('role', 'status');
+        statusEl.setAttribute('aria-live', 'polite');
+        statusEl.className = 'hidden mt-4 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200';
+        form.appendChild(statusEl);
+
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const nameInput = form.querySelector('input[name="name"]');
+          const studentName = nameInput ? nameInput.value.trim() : '';
+
+          statusEl.classList.remove(
+            'hidden',
+            'opacity-0',
+            'translate-y-1.5',
+            'bg-red-50',
+            'text-red-800',
+            'border',
+            'border-red-200',
+            'bg-emerald-50',
+            'text-emerald-900',
+            'border-emerald-200'
+          );
+
+          if (studentName.length < 2) {
+            statusEl.textContent = 'Please enter your name (at least 2 characters) so our counsellor can reach you.';
+            statusEl.classList.add('bg-red-50', 'text-red-800', 'border', 'border-red-200');
+            if (nameInput) nameInput.focus();
+            return;
+          }
+
+          statusEl.textContent = `Thank you, ${studentName}! Your counselling enquiry has been received. Our team will contact you promptly.`;
+          statusEl.classList.add(
+            'bg-emerald-50',
+            'text-emerald-900',
+            'border',
+            'border-emerald-200',
+            'opacity-0',
+            'translate-y-1.5'
+          );
+          requestAnimationFrame(() => {
+            statusEl.classList.remove('opacity-0', 'translate-y-1.5');
+          });
+          form.reset();
+        });
+      }
+    });
+  </script>
+</Layout>

@@ -1,0 +1,801 @@
+---
+import { INDIA_STATE_PATHS, INDIA_MAP_VIEWBOX } from '~/data/geo/indiaMapPaths';
+import { getCollection } from 'astro:content';
+import statesData from '~/data/geo/states.json';
+import { getPermalink } from '~/utils/permalinks';
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  tagline?: string;
+}
+
+const {
+  title = 'Explore Colleges Across India by State',
+  subtitle = 'Interactive map of India. Hover or tap any state to see top colleges, major educational hubs, and admission cutoffs.',
+  tagline = 'Interactive State Map',
+} = Astro.props;
+
+// Fetch real college data to compute state densities
+const colleges = await getCollection('colleges');
+
+// Build state college statistics
+interface StateStats {
+  count: number;
+  colleges: Array<{ name: string; shortName?: string; slug: string; type: string; city: string }>;
+  cities: Array<{ name: string; slug: string }>;
+}
+
+const stateStatsMap: Record<string, StateStats> = {};
+
+// Initialize with all states from states.json
+for (const state of statesData) {
+  stateStatsMap[state.slug] = {
+    count: 0,
+    colleges: [],
+    cities: state.cities || [],
+  };
+}
+
+// Populate with real colleges
+for (const college of colleges) {
+  const stateSlug = college.data.state_slug;
+  if (!stateStatsMap[stateSlug]) {
+    stateStatsMap[stateSlug] = {
+      count: 0,
+      colleges: [],
+      cities: [],
+    };
+  }
+  stateStatsMap[stateSlug].count += 1;
+  stateStatsMap[stateSlug].colleges.push({
+    name: college.data.name,
+    shortName: college.data.short_name,
+    slug: college.id.replace(/\.(md|mdx)$/, ''),
+    type: college.data.type,
+    city: college.data.city,
+  });
+}
+
+// Color scale per TAWAM_PROJECT_PLAN.md:
+// No colleges yet: #E6ECF5 (with #9DB6DE border)
+// Few (1-2): #BEDFF8
+// Some (3-5): #79ADD9
+// Many (6-10): #0572CE
+// Most (11+): #063F8A
+function getStateFill(count: number): string {
+  if (count === 0) return '#E6ECF5';
+  if (count <= 2) return '#BEDFF8';
+  if (count <= 5) return '#79ADD9';
+  if (count <= 10) return '#0572CE';
+  return '#063F8A';
+}
+
+function getStateStroke(count: number): string {
+  return count === 0 ? '#9DB6DE' : '#FFFFFF';
+}
+
+// Prepare path data enriched with stats
+const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
+  const stats = stateStatsMap[item.slug] || { count: 0, colleges: [], cities: [] };
+  const fill = getStateFill(stats.count);
+  const stroke = getStateStroke(stats.count);
+  return {
+    ...item,
+    count: stats.count,
+    colleges: stats.colleges,
+    cities: stats.cities,
+    fill,
+    stroke,
+    url: getPermalink(`/colleges-in/${item.slug}`),
+  };
+});
+---
+
+<section id="interactive-map" class="py-12 sm:py-16 bg-white border-y border-[var(--aw-color-border)]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <!-- Header -->
+    <div class="text-center max-w-3xl mx-auto mb-10">
+      {tagline && <span class="text-xs font-bold uppercase tracking-wider text-[#9A6300]">{tagline}</span>}
+      <h2 class="text-2xl sm:text-4xl font-serif font-bold text-[var(--aw-color-text-heading)] mt-1.5 mb-3">
+        {title}
+      </h2>
+      <p class="text-sm sm:text-base text-[var(--aw-color-text-muted)] leading-relaxed">
+        {subtitle}
+      </p>
+    </div>
+
+    <!-- Map & Interactive Detail Card Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- SVG Map Container (8 cols) -->
+      <div
+        class="lg:col-span-7 xl:col-span-8 bg-[var(--aw-color-bg-soft)] rounded-3xl p-4 sm:p-6 border border-[var(--aw-color-border)] relative flex flex-col items-center shadow-inner"
+      >
+        <div class="w-full max-w-[650px] relative">
+          <!-- Floating Tooltip for Desktop Cursor Tracking -->
+          <div
+            id="map-floating-tooltip"
+            class="map-tooltip pointer-events-none absolute z-20 px-3 py-1.5 rounded-lg bg-[var(--aw-color-primary)] text-white text-xs font-semibold shadow-lg border border-[var(--aw-color-accent)]"
+          >
+            <span id="tooltip-text">State Name</span>
+          </div>
+
+          <svg
+            id="india-map-svg"
+            viewBox={INDIA_MAP_VIEWBOX}
+            class="w-full h-auto max-h-[580px] select-none overflow-visible"
+            role="region"
+            aria-label="Interactive map of Indian states"
+          >
+            <g id="india-states-group">
+              {
+                enrichedPaths.map((state) => (
+                  <path
+                    id={`state-path-${state.slug}`}
+                    d={state.d}
+                    data-code={state.code}
+                    data-name={state.name}
+                    data-slug={state.slug}
+                    data-count={state.count}
+                    data-url={state.url}
+                    data-colleges={JSON.stringify(state.colleges)}
+                    data-cities={JSON.stringify(state.cities.slice(0, 5))}
+                    fill={state.fill}
+                    stroke="var(--state-stroke)"
+                    stroke-width="var(--state-stroke-w)"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    style={`--state-stroke: ${state.stroke}; --state-stroke-w: 1.2;`}
+                    class="state-path cursor-pointer outline-none"
+                    tabindex="0"
+                    role="button"
+                    aria-label={`${state.name}: ${state.count} ${state.count === 1 ? 'college' : 'colleges'} listed. Press Enter to view.`}
+                  />
+                ))
+              }
+            </g>
+
+            <!-- Top highlight layer: clones lift & cast shadow without moving hit areas -->
+            <g id="map-highlight-layer" class="pointer-events-none" aria-hidden="true">
+              <use id="map-selected-clone" class="map-clone map-clone-selected" href=""></use>
+              <use id="map-hover-clone" class="map-clone map-clone-hover" href=""></use>
+              <circle id="map-click-ripple" class="map-click-ripple" cx="0" cy="0" r="0"></circle>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Density Legend Under Map -->
+        <div
+          class="w-full mt-6 pt-4 border-t border-[var(--aw-color-border)] flex flex-wrap items-center justify-between gap-3 text-xs"
+        >
+          <span class="font-bold text-[var(--aw-color-text-default)]">College Availability:</span>
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="flex items-center gap-1.5">
+              <span class="w-3.5 h-3.5 rounded bg-[#063F8A] border border-white inline-block"></span>
+              <span class="text-[var(--aw-color-text-muted)]">11+ Colleges</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3.5 h-3.5 rounded bg-[#0572CE] border border-white inline-block"></span>
+              <span class="text-[var(--aw-color-text-muted)]">6–10</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3.5 h-3.5 rounded bg-[#79ADD9] border border-white inline-block"></span>
+              <span class="text-[var(--aw-color-text-muted)]">3–5</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3.5 h-3.5 rounded bg-[#BEDFF8] border border-white inline-block"></span>
+              <span class="text-[var(--aw-color-text-muted)]">1–2</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3.5 h-3.5 rounded bg-[#E6ECF5] border border-[#9DB6DE] inline-block"></span>
+              <span class="text-[var(--aw-color-text-muted)]">Admissions Open</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3.5 h-3.5 rounded bg-[#79ADD9] border-2 border-[#D9A441] inline-block"></span>
+              <span class="text-[var(--aw-color-text-muted)]">Selected</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live State Detail Inspector Card (4 cols) -->
+      <div
+        id="state-detail-panel"
+        class="lg:col-span-5 xl:col-span-4 bg-white rounded-3xl p-6 sm:p-7 border border-[var(--aw-color-border)] shadow-md flex flex-col justify-between min-h-[460px] sticky top-24"
+      >
+        <div>
+          <!-- State Category Badge & Code -->
+          <div class="flex items-center justify-between mb-3">
+            <span
+              id="panel-badge"
+              class="px-2.5 py-1 rounded-full text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)]"
+            >
+              Featured State
+            </span>
+            <span id="panel-code" class="text-xs font-mono font-bold text-[var(--aw-color-text-muted)]">IN-TN</span>
+          </div>
+
+          <!-- State Name -->
+          <h3
+            id="panel-title"
+            class="text-2xl sm:text-3xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-1"
+          >
+            Tamil Nadu
+          </h3>
+          <p id="panel-count-text" class="text-xs font-semibold text-[#9A6300] mb-4">
+            3 premier institutions catalogued
+          </p>
+
+          <p id="panel-desc" class="text-sm text-[var(--aw-color-text-muted)] leading-relaxed mb-6">
+            Leading hub for engineering, medical, and technical research with world-class deemed and government
+            universities.
+          </p>
+
+          <!-- Featured Colleges List in Selected State -->
+          <div class="mb-5">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-[var(--aw-color-text-muted)] mb-2.5">
+              Colleges in this State:
+            </h4>
+            <div id="panel-colleges-list" class="space-y-2">
+              <a
+                href={getPermalink('/colleges/national-institute-of-technology-tiruchirappalli')}
+                class="block p-2.5 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition"
+              >
+                <div class="text-xs font-bold text-[var(--aw-color-text-heading)]">NIT Tiruchirappalli</div>
+                <div class="text-[11px] text-[var(--aw-color-text-muted)]">NIRF #9 Engineering · Tiruchirappalli</div>
+              </a>
+              <a
+                href={getPermalink('/colleges/vellore-institute-of-technology-vellore')}
+                class="block p-2.5 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition"
+              >
+                <div class="text-xs font-bold text-[var(--aw-color-text-heading)]">VIT Vellore</div>
+                <div class="text-[11px] text-[var(--aw-color-text-muted)]">NIRF #11 · Vellore, Tamil Nadu</div>
+              </a>
+              <a
+                href={getPermalink('/colleges/christian-medical-college-vellore')}
+                class="block p-2.5 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition"
+              >
+                <div class="text-xs font-bold text-[var(--aw-color-text-heading)]">CMC Vellore</div>
+                <div class="text-[11px] text-[var(--aw-color-text-muted)]">NIRF #3 Medical · Vellore, Tamil Nadu</div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Cities / Hubs in Selected State -->
+          <div class="mb-6">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-[var(--aw-color-text-muted)] mb-2">
+              Major Education Cities:
+            </h4>
+            <div id="panel-cities-list" class="flex flex-wrap gap-1.5">
+              <span
+                class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]"
+                >Vellore</span
+              >
+              <span
+                class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]"
+                >Tiruchirappalli</span
+              >
+              <span
+                class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]"
+                >Chennai</span
+              >
+              <span
+                class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]"
+                >Coimbatore</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Action CTA Button -->
+        <div class="pt-4 pb-1 border-t border-[var(--aw-color-border)]">
+          <a
+            id="panel-action-btn"
+            href={getPermalink('/colleges-in/tamil-nadu')}
+            class="btn-primary w-full py-3 px-5 rounded-full font-bold text-sm flex items-center justify-center gap-2 shadow-sm hover:opacity-95 transition"
+          >
+            <span>Explore Tamil Nadu Colleges</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Client Script for Interactive Map Hover, Click, Mobile Tap and Keyboard Access -->
+<script is:inline>
+  (function () {
+    function initInteractiveIndiaMap() {
+      const mapSection = document.getElementById('interactive-map');
+      if (!mapSection || mapSection.dataset.mapBound === 'true') return;
+      mapSection.dataset.mapBound = 'true';
+
+      const svgEl = document.getElementById('india-map-svg');
+      const statesGroup = document.getElementById('india-states-group');
+      const states = mapSection.querySelectorAll('.state-path');
+      const selectedClone = document.getElementById('map-selected-clone');
+      const hoverClone = document.getElementById('map-hover-clone');
+      const clickRipple = document.getElementById('map-click-ripple');
+      const panelEl = document.getElementById('state-detail-panel');
+      const panelTitle = document.getElementById('panel-title');
+      const panelCode = document.getElementById('panel-code');
+      const panelCountText = document.getElementById('panel-count-text');
+      const panelBadge = document.getElementById('panel-badge');
+      const panelDesc = document.getElementById('panel-desc');
+      const panelCollegesList = document.getElementById('panel-colleges-list');
+      const panelCitiesList = document.getElementById('panel-cities-list');
+      const panelActionBtn = document.getElementById('panel-action-btn');
+      const tooltip = document.getElementById('map-floating-tooltip');
+      const tooltipText = document.getElementById('tooltip-text');
+
+      if (!states.length || !panelTitle) return;
+
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let selectedState = null;
+      let hoveredState = null;
+      let navTimer = null;
+      let panelSwapTimer = null;
+
+      // Navigate through the site's router (ClientRouter) instead of a full page
+      // reload, so page transitions can play. The router intercepts clicks on real
+      // links, so we click a temporary one. Without the router this is a normal
+      // navigation, so nothing breaks.
+      function goTo(url) {
+        if (!url) return;
+        const link = document.createElement('a');
+        link.href = url;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
+
+      function applyCloneState(cloneEl, sourceEl) {
+        if (!cloneEl) return;
+        if (!sourceEl) {
+          cloneEl.removeAttribute('href');
+          cloneEl.classList.remove('is-active', 'is-zero', 'is-pressing');
+          return;
+        }
+        const id = sourceEl.getAttribute('id');
+        const count = parseInt(sourceEl.getAttribute('data-count') || '0', 10);
+        if (id) cloneEl.setAttribute('href', '#' + id);
+        cloneEl.classList.toggle('is-zero', count === 0);
+        cloneEl.classList.add('is-active');
+      }
+
+      function updateNeighborDimming() {
+        if (!statesGroup) return;
+        statesGroup.classList.toggle('has-active-state', Boolean(hoveredState || selectedState));
+      }
+
+      function toSvgPoint(clientX, clientY) {
+        if (!svgEl) return null;
+        const rect = svgEl.getBoundingClientRect();
+        if (!rect.width || !rect.height) return null;
+        const vb = svgEl.viewBox.baseVal;
+        const x = vb.x + ((clientX - rect.left) / rect.width) * vb.width;
+        const y = vb.y + ((clientY - rect.top) / rect.height) * vb.height;
+        return { x, y };
+      }
+
+      function fireClickRipple(el, clientX, clientY) {
+        if (!clickRipple || reducedMotion) return;
+        let pt = typeof clientX === 'number' && typeof clientY === 'number' ? toSvgPoint(clientX, clientY) : null;
+        if (!pt && typeof el.getBBox === 'function') {
+          try {
+            const bbox = el.getBBox();
+            pt = { x: bbox.x + bbox.width / 2, y: bbox.y + bbox.height / 2 };
+          } catch {
+            pt = null;
+          }
+        }
+        if (!pt) return;
+        clickRipple.setAttribute('cx', pt.x.toFixed(1));
+        clickRipple.setAttribute('cy', pt.y.toFixed(1));
+        clickRipple.classList.remove('is-rippling');
+        void clickRipple.getBoundingClientRect();
+        clickRipple.classList.add('is-rippling');
+      }
+
+      function updatePanelContent(el) {
+        const code = el.getAttribute('data-code');
+        const name = el.getAttribute('data-name');
+        const count = parseInt(el.getAttribute('data-count') || '0', 10);
+        const url = el.getAttribute('data-url');
+        let colleges;
+        let cities;
+
+        try {
+          colleges = JSON.parse(el.getAttribute('data-colleges') || '[]');
+        } catch {
+          colleges = [];
+        }
+
+        try {
+          cities = JSON.parse(el.getAttribute('data-cities') || '[]');
+        } catch {
+          cities = [];
+        }
+
+        panelTitle.textContent = name;
+        panelCode.textContent = code;
+
+        if (count > 0) {
+          panelCountText.textContent = `${count} ${count === 1 ? 'premier institution' : 'premier institutions'} catalogued`;
+          panelBadge.textContent = 'Active Admissions';
+          panelBadge.className =
+            'px-2.5 py-1 rounded-full text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)]';
+          panelDesc.textContent = `Browse verified NIRF-ranked institutions, course options, annual fees, and admission procedures in ${name}.`;
+        } else {
+          panelCountText.textContent = 'Admissions counselling available';
+          panelBadge.textContent = 'State Profile';
+          panelBadge.className =
+            'px-2.5 py-1 rounded-full text-xs font-semibold bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]';
+          panelDesc.textContent = `We provide admission assistance for central, state, and private universities located across ${name}.`;
+        }
+
+        if (colleges.length > 0) {
+          panelCollegesList.innerHTML = colleges
+            .map(
+              (c) => `
+          <a href="/colleges/${c.slug}" class="block p-2.5 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition">
+            <div class="text-xs font-bold text-[var(--aw-color-text-heading)]">${c.shortName || c.name}</div>
+            <div class="text-[11px] text-[var(--aw-color-text-muted)]">${c.type} · ${c.city}</div>
+          </a>
+        `
+            )
+            .join('');
+        } else {
+          panelCollegesList.innerHTML = `
+          <div class="p-3 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] text-xs text-[var(--aw-color-text-muted)]">
+            Explore colleges in this state or speak with our counsellors for available direct and entrance quota seats.
+          </div>
+        `;
+        }
+
+        if (cities.length > 0) {
+          panelCitiesList.innerHTML = cities
+            .map(
+              (ct) =>
+                `<span class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]">${ct.name}</span>`
+            )
+            .join('');
+        } else {
+          panelCitiesList.innerHTML = `<span class="text-xs text-[var(--aw-color-text-muted)]">State-wide counselling available</span>`;
+        }
+
+        panelActionBtn.href = url;
+        panelActionBtn.innerHTML = `<span>Explore ${name} Colleges</span> <span>&rarr;</span>`;
+      }
+
+      function swapPanelContent(el, animateSwap) {
+        if (!panelEl || !animateSwap || reducedMotion) {
+          updatePanelContent(el);
+          return;
+        }
+        clearTimeout(panelSwapTimer);
+        panelEl.classList.remove('is-swapping-in');
+        panelEl.classList.add('is-swapping-out');
+        panelSwapTimer = setTimeout(() => {
+          updatePanelContent(el);
+          panelEl.classList.remove('is-swapping-out');
+          panelEl.classList.add('is-swapping-in');
+          panelSwapTimer = setTimeout(() => {
+            panelEl.classList.remove('is-swapping-in');
+          }, 220);
+        }, 120);
+      }
+
+      function selectState(el, animateSwap = false) {
+        if (!el) return;
+        const changed = selectedState !== el;
+        selectedState = el;
+        states.forEach((s) => s.classList.toggle('is-selected', s === el));
+        applyCloneState(selectedClone, el);
+        updateNeighborDimming();
+        if (changed || !animateSwap) {
+          swapPanelContent(el, animateSwap);
+        }
+      }
+
+      function triggerClickSequence(el, clientX, clientY, shouldNavigate) {
+        selectState(el, true);
+        const activeClone = hoverClone && hoverClone.classList.contains('is-active') ? hoverClone : selectedClone;
+        if (activeClone && !reducedMotion) {
+          activeClone.classList.add('is-pressing');
+          setTimeout(() => {
+            activeClone.classList.remove('is-pressing');
+          }, 90);
+        }
+        fireClickRipple(el, clientX, clientY);
+        if (shouldNavigate) {
+          const url = el.getAttribute('data-url');
+          clearTimeout(navTimer);
+          navTimer = setTimeout(() => goTo(url), reducedMotion ? 0 : 350);
+        }
+      }
+
+      // Attach listeners to every state path
+      states.forEach((state) => {
+        // Hover desktop
+        state.addEventListener('mouseenter', () => {
+          const name = state.getAttribute('data-name');
+          const count = state.getAttribute('data-count');
+          hoveredState = state;
+          applyCloneState(hoverClone, state);
+          updateNeighborDimming();
+
+          // Tooltip
+          if (tooltip && tooltipText) {
+            tooltipText.textContent = `${name} (${count} ${count === '1' ? 'college' : 'colleges'})`;
+            tooltip.classList.remove('hidden');
+            requestAnimationFrame(() => tooltip.classList.add('is-visible'));
+          }
+
+          selectState(state, false);
+        });
+
+        state.addEventListener('mousemove', (e) => {
+          if (!tooltip || !svgEl) return;
+          const rect = svgEl.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          tooltip.style.left = `${x}px`;
+          tooltip.style.top = `${y}px`;
+        });
+
+        state.addEventListener('mouseleave', () => {
+          if (tooltip) {
+            tooltip.classList.remove('is-visible');
+            tooltip.classList.add('hidden');
+          }
+          if (hoveredState === state) {
+            hoveredState = null;
+            applyCloneState(hoverClone, null);
+            updateNeighborDimming();
+          }
+        });
+
+        // Click / Tap (do not intercept modifier or non-primary clicks)
+        state.addEventListener('click', (e) => {
+          if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || e.button !== 0) return;
+          const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+          if (isTouch) {
+            // On mobile, first tap selects with pop + ripple + panel swap, second tap navigates
+            if (selectedState === state) {
+              triggerClickSequence(state, e.clientX, e.clientY, true);
+            } else {
+              triggerClickSequence(state, e.clientX, e.clientY, false);
+            }
+          } else {
+            // On desktop, press dip + gold ripple + staggered swap, then navigate
+            triggerClickSequence(state, e.clientX, e.clientY, true);
+          }
+        });
+
+        // Keyboard support
+        state.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            triggerClickSequence(state, null, null, true);
+          }
+        });
+
+        state.addEventListener('focus', () => {
+          hoveredState = state;
+          applyCloneState(hoverClone, state);
+          updateNeighborDimming();
+          selectState(state, false);
+        });
+
+        state.addEventListener('blur', () => {
+          if (hoveredState === state) {
+            hoveredState = null;
+            applyCloneState(hoverClone, null);
+            updateNeighborDimming();
+          }
+        });
+      });
+
+      // Default selection: Tamil Nadu (if present)
+      const defaultState = document.getElementById('state-path-tamil-nadu');
+      if (defaultState) {
+        selectState(defaultState, false);
+      }
+
+      // South-to-north entrance wave (opacity only, once)
+      if (statesGroup && !reducedMotion && 'IntersectionObserver' in window) {
+        const boxes = Array.from(states).map((s) => {
+          let y;
+          try {
+            y = s.getBBox().y;
+          } catch {
+            y = 0;
+          }
+          return { el: s, y };
+        });
+        const ys = boxes.map((b) => b.y);
+        const minY = Math.min(...ys);
+        const maxY = Math.max(...ys);
+        const range = Math.max(1, maxY - minY);
+
+        statesGroup.classList.add('is-wave-pending');
+        const io = new IntersectionObserver(
+          (entries) => {
+            if (!entries.some((entry) => entry.isIntersecting)) return;
+            io.disconnect();
+            boxes.forEach(({ el, y }) => {
+              const southFirst = (maxY - y) / range;
+              el.style.transitionDelay = `${Math.round(southFirst * 450)}ms`;
+            });
+            requestAnimationFrame(() => {
+              statesGroup.classList.remove('is-wave-pending');
+              statesGroup.classList.add('is-wave-visible');
+              setTimeout(() => {
+                boxes.forEach(({ el }) => {
+                  el.style.transitionDelay = '';
+                });
+                statesGroup.classList.remove('is-wave-visible');
+              }, 850);
+            });
+          },
+          { threshold: 0.15 }
+        );
+        io.observe(mapSection);
+      }
+    }
+
+    initInteractiveIndiaMap();
+    if (!window.__awIndiaMapBound) {
+      window.__awIndiaMapBound = true;
+      document.addEventListener('astro:page-load', initInteractiveIndiaMap);
+    }
+  })();
+</script>
+
+<style>
+  .state-path {
+    transition: opacity 180ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  .state-path.is-selected {
+    --state-stroke: #d9a441 !important;
+    --state-stroke-w: 2.2 !important;
+  }
+
+  #india-states-group.has-active-state .state-path:not(.is-selected) {
+    opacity: 0.85;
+  }
+
+  #india-states-group.is-wave-pending .state-path {
+    opacity: 0;
+  }
+
+  #india-states-group.is-wave-visible .state-path {
+    opacity: 1;
+    transition: opacity 320ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  .map-clone {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    transition:
+      transform 150ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+      opacity 150ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+      filter 150ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  .map-clone.is-active {
+    opacity: 1;
+    transform: translateY(-6px) scale(1.035);
+    transition:
+      transform 220ms var(--aw-ease-pop, cubic-bezier(0.22, 1.25, 0.36, 1)),
+      opacity 160ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+      filter 200ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  .map-clone.is-active.is-zero {
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .map-clone.is-active.is-pressing {
+    transform: translateY(-2px) scale(0.99);
+    transition-duration: 90ms;
+  }
+
+  .map-clone-selected.is-active {
+    filter: drop-shadow(0 8px 14px rgba(1, 27, 74, 0.24));
+  }
+
+  .map-clone-hover.is-active {
+    filter: brightness(1.07) drop-shadow(0 10px 18px rgba(1, 27, 74, 0.28));
+  }
+
+  .map-click-ripple {
+    fill: none;
+    stroke: #d9a441;
+    stroke-width: 2.5;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .map-click-ripple.is-rippling {
+    animation: aw-map-ripple 500ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1)) forwards;
+  }
+
+  @keyframes aw-map-ripple {
+    0% {
+      r: 0;
+      opacity: 0.55;
+    }
+    100% {
+      r: 60;
+      opacity: 0;
+    }
+  }
+
+  .map-tooltip {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% - 10px)) scale(0.95);
+    transition:
+      opacity 120ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+      transform 120ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  .map-tooltip.is-visible {
+    opacity: 1;
+    transform: translate(-50%, calc(-100% - 12px)) scale(1);
+  }
+
+  #state-detail-panel {
+    transition:
+      opacity 160ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+      transform 180ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  #state-detail-panel.is-swapping-out {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  #state-detail-panel.is-swapping-in {
+    animation: aw-panel-in 200ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1)) forwards;
+  }
+
+  @keyframes aw-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .state-path,
+    .map-clone,
+    .map-tooltip,
+    #state-detail-panel {
+      transition: none !important;
+      animation: none !important;
+    }
+    .map-clone.is-active,
+    .map-clone.is-active.is-zero,
+    .map-clone.is-active.is-pressing {
+      transform: none;
+    }
+    .map-tooltip.is-visible {
+      transform: translate(-50%, calc(-100% - 12px)) scale(1);
+    }
+    .map-click-ripple.is-rippling {
+      animation: none;
+      opacity: 0;
+    }
+  }
+</style>

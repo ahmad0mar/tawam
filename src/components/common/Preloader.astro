@@ -1,0 +1,180 @@
+---
+import logoImg from '~/assets/images/brand/tawam-travels-logo.png';
+---
+
+<div id="aw-preloader" class="aw-preloader" aria-hidden="true">
+  <div class="aw-preloader-inner">
+    <div class="aw-preloader-logo-wrap">
+      <img src={logoImg.src} alt="" width="180" height="46" loading="eager" decoding="sync" class="aw-preloader-logo" />
+    </div>
+    <div class="aw-preloader-line" aria-hidden="true"></div>
+  </div>
+</div>
+
+<style>
+  /* Hidden immediately on repeat visits in the same session or when reduced motion is enabled */
+  :global(html.aw-preloader-skip) .aw-preloader {
+    display: none !important;
+  }
+
+  .aw-preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--aw-color-primary, #011b4a);
+    transform: translateY(0);
+    will-change: transform;
+    /* CSS-only fail-safe: even if JavaScript fails or is disabled, lift away by 2.5s */
+    animation: awPreloaderFailsafe 450ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1)) 2.5s forwards;
+  }
+
+  .aw-preloader.is-leaving {
+    animation: none;
+    pointer-events: none;
+    transform: translateY(-100%);
+    transition: transform 450ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  .aw-preloader.is-done {
+    display: none;
+  }
+
+  .aw-preloader-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0 1.5rem;
+  }
+
+  .aw-preloader-logo-wrap {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    padding: 0.875rem 1.5rem;
+    box-shadow: 0 12px 36px rgb(0 0 0 / 28%);
+    opacity: 0;
+    transform: scale(0.96);
+    animation: awPreloaderLogoIn 480ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1)) 80ms forwards;
+  }
+
+  .aw-preloader-logo {
+    display: block;
+    width: auto;
+    height: 46px;
+    max-width: 180px;
+    object-fit: contain;
+  }
+
+  .aw-preloader-line {
+    width: 140px;
+    height: 3px;
+    border-radius: 9999px;
+    background-color: var(--aw-color-accent, #d08701);
+    transform: scaleX(0);
+    transform-origin: left center;
+    animation: awPreloaderLineDraw 550ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1)) 260ms forwards;
+  }
+
+  @keyframes awPreloaderLogoIn {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes awPreloaderLineDraw {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes awPreloaderFailsafe {
+    0% {
+      transform: translateY(0);
+      visibility: visible;
+    }
+    99% {
+      transform: translateY(-100%);
+      visibility: visible;
+      pointer-events: none;
+    }
+    100% {
+      transform: translateY(-100%);
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aw-preloader {
+      display: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const el = document.getElementById('aw-preloader');
+    if (!el) return;
+
+    const root = document.documentElement;
+    if (root.classList.contains('aw-preloader-skip')) {
+      el.classList.add('is-done');
+      return;
+    }
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.classList.add('is-done');
+      return;
+    }
+
+    try {
+      sessionStorage.setItem('aw_visited', '1');
+    } catch {
+      // Storage may be blocked in private browsing; preloader still runs normally.
+    }
+
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      el.classList.add('is-leaving');
+      document.dispatchEvent(new CustomEvent('aw:preloader-done'));
+
+      let cleaned = false;
+      const cleanup = () => {
+        if (cleaned) return;
+        cleaned = true;
+        el.classList.add('is-done');
+        root.classList.add('aw-preloader-skip');
+      };
+
+      el.addEventListener('transitionend', cleanup, { once: true });
+      window.setTimeout(cleanup, 520);
+    };
+
+    const minDisplay = new Promise((resolve) => window.setTimeout(resolve, 1050));
+
+    const pageReady = new Promise((resolve) => {
+      const checkReady = () => {
+        const fontsReady =
+          document.fonts && document.fonts.ready ? document.fonts.ready.catch(() => {}) : Promise.resolve();
+        fontsReady.then(() => resolve());
+      };
+
+      if (document.readyState === 'complete') {
+        checkReady();
+      } else {
+        window.addEventListener('load', checkReady, { once: true });
+      }
+    });
+
+    // Hard cap at 2.5s so slow networks never trap the visitor
+    const hardCap = new Promise((resolve) => window.setTimeout(resolve, 2500));
+
+    Promise.race([Promise.all([minDisplay, pageReady]), hardCap]).then(finish);
+  })();
+</script>

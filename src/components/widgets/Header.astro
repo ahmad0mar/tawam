@@ -1,0 +1,369 @@
+---
+import { Icon } from 'astro-icon/components';
+import Logo from '~/components/Logo.astro';
+import ToggleMenu from '~/components/common/ToggleMenu.astro';
+import Button from '~/components/ui/Button.astro';
+
+import { getHomePermalink } from '~/utils/permalinks';
+import { trimSlash, getAsset } from '~/utils/permalinks';
+import type { CallToAction } from '~/types';
+
+interface Link {
+  text?: string;
+  href?: string;
+  ariaLabel?: string;
+  icon?: string;
+}
+
+interface MenuLink extends Link {
+  links?: Array<MenuLink>;
+}
+
+export interface Props {
+  id?: string;
+  links?: Array<MenuLink>;
+  actions?: Array<CallToAction>;
+  isSticky?: boolean;
+  isDark?: boolean;
+  isFullWidth?: boolean;
+  showToggleTheme?: boolean;
+  showRssFeed?: boolean;
+  position?: string;
+}
+
+const {
+  id = 'header',
+  links = [],
+  actions = [],
+  isSticky = false,
+  isDark = false,
+  isFullWidth = false,
+  showToggleTheme = false,
+  showRssFeed = false,
+  position = 'center',
+} = Astro.props;
+
+const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
+
+// Compare paths without trailing slashes so the active link is detected
+// regardless of the `trailingSlash` setting (`getPermalink()` emits `/contact/`
+// when it is enabled, while `currentPath` above never has one, see #557).
+const isActive = (href?: string) => typeof href === 'string' && `/${trimSlash(href)}` === currentPath;
+
+// The header is kept across view transitions (transition:persist) so its state
+// survives client-side navigations. Astro matches persisted elements by name,
+// so the name must change whenever the header content does: otherwise a page
+// with its own menu (the demo homes, the landing pages) would keep showing the
+// header of the page the visitor came from. Hash the props that shape the markup.
+const persistKey = `header-${Array.from(
+  JSON.stringify({ links, actions, isSticky, isDark, isFullWidth, showToggleTheme, showRssFeed, position })
+)
+  .reduce((hash, char) => (hash * 31 + char.charCodeAt(0)) >>> 0, 7)
+  .toString(36)}`;
+---
+
+<aw-header transition:persist={persistKey}>
+  <header
+    class:list={[{ sticky: isSticky, relative: !isSticky }, 'top-0 z-40 flex-none mx-auto w-full']}
+    {...isSticky ? { 'data-aw-sticky-header': true } : {}}
+    {...id ? { id } : {}}
+  >
+    <div class="aw-header-bar w-full">
+      <div
+        class:list={[
+          'relative py-1.5 lg:py-2 px-4 lg:px-6 mx-auto w-full min-h-[58px] flex items-center justify-between lg:block',
+          {
+            'lg:flex lg:justify-between lg:items-center': position !== 'center',
+          },
+          {
+            'lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-4': position === 'center',
+          },
+          {
+            'max-w-7xl': !isFullWidth,
+          },
+        ]}
+      >
+        <div
+          class:list={[
+            { 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' },
+            'flex justify-between items-center shrink-0 w-full lg:w-auto',
+          ]}
+        >
+          <a
+            class="flex items-center shrink-0 overflow-hidden bg-white/95 rounded-xl px-2.5 py-1 shadow-xs"
+            style="max-height:42px"
+            href={getHomePermalink()}
+          >
+            <Logo />
+          </a>
+          <div class="flex items-center lg:hidden">
+            <ToggleMenu />
+          </div>
+        </div>
+        <nav
+          class="items-center w-full lg:w-auto hidden lg:flex lg:justify-center lg:mx-2 text-default overflow-y-auto overflow-x-hidden lg:overflow-visible"
+          aria-label="Main navigation"
+        >
+          <div class="flex items-center justify-between pb-3 mb-3 border-b border-[var(--tt-border-warm)] lg:hidden">
+            <span class="font-heading font-bold text-lg text-[var(--tt-ink)]">Menu</span>
+            <button
+              type="button"
+              data-aw-close-menu
+              aria-label="Close navigation menu"
+              class="inline-flex items-center justify-center w-11 h-11 rounded-xl text-[var(--tt-ink)] hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tt-gold)]"
+            >
+              <Icon name="tabler:x" class="w-6 h-6" />
+            </button>
+          </div>
+          <ul
+            class="flex flex-col lg:flex-row lg:self-center w-full lg:w-auto text-base lg:text-xs xl:text-[0.875rem] tracking-normal font-medium lg:items-center gap-1 lg:gap-0.5 xl:gap-1"
+          >
+            {
+              links.map(({ text, href, links }) => (
+                <li class={links?.length ? 'dropdown' : ''}>
+                  {links?.length ? (
+                    <>
+                      <details class="lg:hidden group/mob">
+                        <summary class="flex items-center justify-between min-h-[48px] px-3 py-2.5 rounded-xl cursor-pointer list-none font-semibold text-[var(--tt-ink)] hover:bg-black/5">
+                          <span>{text}</span>
+                          <Icon
+                            name="tabler:chevron-down"
+                            class="w-4 h-4 transition-transform duration-200 group-open/mob:rotate-180"
+                          />
+                        </summary>
+                        <ul class="pl-4 pb-2 space-y-1">
+                          {links.map(({ text: text2, href: href2 }) => (
+                            <li>
+                              <a
+                                class:list={[
+                                  'flex items-center min-h-[44px] px-3 py-2 rounded-lg text-[var(--tt-ink-muted)] hover:text-[var(--tt-ink)]',
+                                  { 'aw-link-active font-semibold': isActive(href2) },
+                                ]}
+                                href={href2}
+                              >
+                                {text2}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </details>
+                      <button
+                        type="button"
+                        class="hidden lg:flex hover:text-link px-2.5 xl:px-3 py-2 items-center whitespace-nowrap"
+                      >
+                        {text}{' '}
+                        <Icon
+                          name="tabler:chevron-down"
+                          class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden lg:inline"
+                        />
+                      </button>
+                      <ul class="dropdown-menu hidden lg:backdrop-blur-md border border-[var(--aw-color-border)] rounded-xl lg:absolute pl-4 lg:pl-0 lg:hidden font-medium bg-white lg:min-w-[200px] drop-shadow-xl">
+                        {links.map(({ text: text2, href: href2 }) => (
+                          <li>
+                            <a
+                              class:list={[
+                                'first:rounded-t-xl last:rounded-b-xl hover:bg-[var(--aw-color-bg-soft)] hover:text-link py-2 px-5 block whitespace-nowrap',
+                                { 'aw-link-active': isActive(href2) },
+                              ]}
+                              href={href2}
+                            >
+                              {text2}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <a
+                      class:list={[
+                        'hover:text-link px-3 lg:px-2.5 xl:px-3 py-3 lg:py-2 min-h-[48px] lg:min-h-0 flex items-center whitespace-nowrap rounded-xl lg:rounded-none',
+                        { 'aw-link-active': isActive(href) },
+                      ]}
+                      href={href}
+                    >
+                      {text}
+                    </a>
+                  )}
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <div
+          class:list={[
+            { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
+            'hidden lg:self-center lg:flex items-center lg:mb-0 fixed w-full lg:w-auto lg:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] lg:p-0 lg:justify-self-end z-50 bg-[var(--tt-cream)]/95 lg:bg-transparent border-t border-[var(--tt-border-warm)] lg:border-0',
+          ]}
+        >
+          <div class="items-center flex justify-between w-full lg:w-auto">
+            <div class="flex">
+              {
+                showRssFeed && (
+                  <a
+                    class="text-muted hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary rounded-lg text-sm p-2.5 inline-flex items-center"
+                    aria-label="RSS Feed"
+                    href={getAsset('/rss.xml')}
+                  >
+                    <Icon name="tabler:rss" class="w-5 h-5" />
+                  </a>
+                )
+              }
+            </div>
+            {
+              actions?.length ? (
+                <span class="w-full lg:w-auto lg:ml-4 rtl:lg:ml-0 rtl:lg:mr-4 flex">
+                  {actions.map((btnProps) => (
+                    <Button
+                      {...btnProps}
+                      class="w-full lg:w-auto lg:ml-2 py-3 lg:py-2.5 px-5.5 lg:px-6 font-semibold shadow-none text-sm min-h-[48px] lg:min-h-0"
+                    />
+                  ))}
+                </span>
+              ) : (
+                ''
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+</aw-header>
+
+<style>
+  aw-header {
+    display: contents;
+  }
+</style>
+
+<script>
+  class AwHeader extends HTMLElement {
+    private onScroll?: () => void;
+    private mql?: MediaQueryList;
+    private onMqlChange?: () => void;
+    private onPageLoad = () => {
+      this.updateActiveLinks();
+      this.closeOpenDropdown();
+    };
+
+    connectedCallback() {
+      const header = this.querySelector<HTMLElement>('#header');
+      const toggle = this.querySelector<HTMLElement>('[data-aw-toggle-menu]');
+      const nav = this.querySelector<HTMLElement>('#header nav');
+      const lastChild = this.querySelector<HTMLElement>('#header > div > div:last-child');
+
+      // The header persists across view transitions (transition:persist), so
+      // the server-rendered `aw-link-active` class would go stale. Re-compute it
+      // on every navigation (astro:page-load fires on load and after each swap).
+      this.updateActiveLinks();
+      document.addEventListener('astro:page-load', this.onPageLoad);
+
+      const closeMenu = () => {
+        toggle?.classList.remove('expanded');
+        toggle?.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('overflow-hidden', 'aw-menu-open');
+        header?.classList.remove('h-screen', 'expanded', 'bg-page');
+        nav?.classList.add('hidden');
+        lastChild?.classList.add('hidden');
+      };
+
+      // Mobile menu toggle.
+      toggle?.addEventListener('click', () => {
+        const expanded = toggle.classList.toggle('expanded');
+        toggle.setAttribute('aria-expanded', String(expanded));
+        document.body.classList.toggle('overflow-hidden', expanded);
+        document.body.classList.toggle('aw-menu-open', expanded);
+        header?.classList.toggle('h-screen', expanded);
+        header?.classList.toggle('expanded', expanded);
+        header?.classList.toggle('bg-page', expanded);
+        nav?.classList.toggle('hidden', !expanded);
+        lastChild?.classList.toggle('hidden', !expanded);
+      });
+
+      this.querySelector<HTMLElement>('[data-aw-close-menu]')?.addEventListener('click', closeMenu);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && toggle?.classList.contains('expanded')) {
+          closeMenu();
+          toggle.focus();
+        }
+      });
+
+      // Close the mobile menu when a nav link or CTA button is clicked.
+      nav?.addEventListener('click', (e) => {
+        const anchor = (e.target as HTMLElement)?.closest('a');
+        if (anchor) closeMenu();
+      });
+      lastChild?.addEventListener('click', (e) => {
+        const anchor = (e.target as HTMLElement)?.closest('a');
+        if (anchor) closeMenu();
+      });
+
+      // Desktop dropdowns open on hover/`:focus-within`. When a dropdown link is
+      // clicked it keeps focus, and because the header uses `transition:persist`
+      // the dropdown would stay open after the client-side navigation. Blur the
+      // link on click so it closes right away (the `astro:page-load` handler is
+      // the safety net if focus is restored during the swap).
+      nav?.addEventListener('click', (e) => {
+        const link = (e.target as HTMLElement)?.closest<HTMLElement>('.dropdown-menu a');
+        if (link) link.blur();
+      });
+
+      // Close it when leaving the mobile/tablet breakpoint (desktop nav starts at `lg`).
+      this.mql = window.matchMedia('(max-width: 1023px)');
+      this.onMqlChange = () => closeMenu();
+      this.mql.addEventListener('change', this.onMqlChange);
+
+      // Sticky header: toggle the `scroll` class past a small threshold.
+      if (header?.hasAttribute('data-aw-sticky-header')) {
+        let ticking = false;
+        const applyStyles = () => {
+          if (window.scrollY > 60) header.classList.add('scroll');
+          else header.classList.remove('scroll');
+          ticking = false;
+        };
+        this.onScroll = () => {
+          if (!ticking) {
+            window.requestAnimationFrame(applyStyles);
+            ticking = true;
+          }
+        };
+        applyStyles();
+        document.addEventListener('scroll', this.onScroll, { passive: true });
+      }
+
+      document.documentElement.classList.add('motion-safe:scroll-smooth');
+    }
+
+    disconnectedCallback() {
+      if (this.onScroll) document.removeEventListener('scroll', this.onScroll);
+      if (this.mql && this.onMqlChange) this.mql.removeEventListener('change', this.onMqlChange);
+      document.removeEventListener('astro:page-load', this.onPageLoad);
+    }
+
+    // With `transition:persist` the header (and its focus) survives client-side
+    // navigations, so a clicked dropdown link keeps `:focus-within` and its menu
+    // would stay open on the next page. Drop the focus so the CSS closes it.
+    private closeOpenDropdown() {
+      const active = document.activeElement as HTMLElement | null;
+      if (active && this.contains(active) && active.closest('.dropdown')) active.blur();
+    }
+
+    private updateActiveLinks() {
+      const norm = (p: string) => '/' + p.replace(/^\/+|\/+$/g, '');
+      const current = norm(window.location.pathname);
+      this.querySelectorAll<HTMLAnchorElement>('nav a[href]').forEach((a) => {
+        const url = new URL(a.href, window.location.href);
+        // Anchor-only links (`#`, `/#features`) resolve to the current page and
+        // would light up everywhere; only path links can be "the current page".
+        const isPathLink =
+          url.origin === window.location.origin && !url.hash && !a.getAttribute('href')?.startsWith('#');
+        a.classList.toggle('aw-link-active', isPathLink && norm(url.pathname) === current);
+      });
+    }
+  }
+
+  if (!customElements.get('aw-header')) {
+    customElements.define('aw-header', AwHeader);
+  }
+</script>

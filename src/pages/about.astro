@@ -1,0 +1,117 @@
+---
+import Hero from '~/components/widgets/Hero.astro';
+import Steps2 from '~/components/widgets/Steps2.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import Image from '~/components/common/Image.astro';
+import { getPermalink } from '~/utils/permalinks';
+
+const metadata = {
+  title: 'About Tawam Travels',
+  description:
+    'Dedicated education counselling and student guidance service helping students find accredited colleges and navigate admissions with confidence.',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="<span class='text-amber-400 font-bold'>About Tawam Travels</span>"
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Get Counselling',
+        href: getPermalink('/contact'),
+      },
+    ]}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 overflow-hidden">
+        <Image
+          src="~/assets/images/random/taj-mahal-travel.jpeg"
+          alt="Student traveller viewing the Taj Mahal at sunset representing educational journeys across India"
+          class="w-full h-full object-cover object-center"
+          width={1920}
+          height={600}
+          loading="eager"
+          decoding="async"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-[#071D28]/95 via-[#0B2A3A]/88 to-[#123E54]/80"></div>
+      </div>
+    </Fragment>
+
+    <Fragment slot="title">
+      <span class="text-white">Guiding Students Toward Their Academic Future</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      <span class="text-blue-100">
+        Tawam Travels provides personalized, transparent, and expert education counselling for students seeking
+        admissions in premier colleges across India. We simplify entrance exam counselling, course selection, and
+        college applications.
+      </span>
+    </Fragment>
+  </Hero>
+
+  <Features3
+    title="Our Counselling Services"
+    subtitle="Comprehensive admission support tailored to your career goals and merit."
+    columns={3}
+    items={[
+      {
+        title: 'Medical Admissions',
+        description:
+          'Expert guidance on NEET UG counselling, AIQ, state quotas, deemed universities, and medical college cutoffs.',
+        icon: 'tabler:stethoscope',
+      },
+      {
+        title: 'Engineering & Technology',
+        description:
+          'Navigating JEE Main, state CETs, NIRF rankings, and finding premier institutions matching your specialization.',
+        icon: 'tabler:cpu',
+      },
+      {
+        title: 'Management & Professional',
+        description: 'Admissions guidance for MBA, BBA, Law, and allied health sciences with transparent fee insights.',
+        icon: 'tabler:briefcase',
+      },
+    ]}
+  />
+
+  <Steps2
+    title="How We Work With You"
+    subtitle="Our structured three-step counselling framework ensures clarity and confidence."
+    items={[
+      {
+        title: '1. Profile Evaluation & Aspirations',
+        description:
+          'We evaluate your academic record, entrance exam scores, preferred courses, and financial considerations.',
+        icon: 'tabler:clipboard-check',
+      },
+      {
+        title: '2. Shortlisting & Strategy',
+        description:
+          'We provide a curated shortlist of accredited colleges with historical cutoffs, verified fees, and placement tracks.',
+        icon: 'tabler:list-check',
+      },
+      {
+        title: '3. Application & Counselling Assistance',
+        description:
+          'We assist with document preparation, option entry, choice filling, and seat acceptance guidance throughout all rounds.',
+        icon: 'tabler:school',
+      },
+    ]}
+  />
+
+  <CallToAction
+    title="Ready to Start Your Academic Journey?"
+    subtitle="Speak directly with our counsellors and discover the right colleges for your profile."
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Contact Our Team',
+        href: getPermalink('/contact'),
+      },
+    ]}
+  />
+</Layout>

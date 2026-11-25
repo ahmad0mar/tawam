@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '~/layouts/PageLayout.astro';
+import PageHero from '~/components/widgets/PageHero.astro';
+import GuideGrid from '~/components/guides/GuideGrid.astro';
+import { getPermalink } from '~/utils/permalinks';
+
+export const prerender = true;
+
+const entries = (await getCollection('courses')).sort((a, b) => a.data.name.localeCompare(b.data.name));
+const items = entries.map(({ id, data: d }) => ({
+  title: d.name,
+  summary: `${d.level} · ${d.duration}`,
+  href: getPermalink('/courses/' + id),
+  image: d.image,
+  imageAlt: d.imageAlt,
+}));
+
+const metadata = {
+  title: 'Courses',
+  description: 'Course guides covering duration, eligibility, accepted entrance exams and specialisations.',
+};
+---
+
+<Layout metadata={metadata}>
+  <PageHero
+    eyebrow="Academic Programmes"
+    title="Courses"
+    subtitle="Course guides covering duration, eligibility, accepted entrance exams and specialisations."
+  />
+  <section class="px-6 sm:px-6 py-12 sm:py-16 mx-auto max-w-6xl">
+    <GuideGrid items={items} />
+  </section>
+</Layout>

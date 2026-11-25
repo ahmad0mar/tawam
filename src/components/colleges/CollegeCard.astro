@@ -1,0 +1,214 @@
+---
+import Image from '~/components/common/Image.astro';
+import { findImage } from '~/utils/images';
+import { getPermalink } from '~/utils/permalinks';
+
+export interface Props {
+  college: {
+    name: string;
+    short_name?: string;
+    slug?: string;
+    id: string;
+    state: string;
+    state_slug: string;
+    city: string;
+    city_slug: string;
+    type: 'Government' | 'Private' | 'Deemed';
+    established?: number;
+    nirf_rank?: string | number;
+    naac_grade?: string;
+    streams?: string[];
+    courses_offered?: Array<{ name: string; annual_fee?: string }>;
+    accepted_exams?: string[];
+    average_package?: string;
+    cover_image?: string;
+    imageAlt?: string;
+    description?: string;
+  };
+}
+
+const { college } = Astro.props;
+const collegeSlug = college.slug || college.id;
+const collegeUrl = getPermalink(`/colleges/${collegeSlug}`);
+const cityUrl = getPermalink(`/colleges-in/${college.city_slug}`);
+const stateUrl = getPermalink(`/colleges-in/${college.state_slug}`);
+const cover = await findImage(college.cover_image);
+
+const typeBadgeStyles = {
+  Government: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+  Private: 'bg-blue-50 text-blue-900 border-blue-200',
+  Deemed: 'bg-amber-50 text-amber-900 border-amber-200',
+};
+---
+
+<article
+  class="flex flex-col bg-white border border-[var(--aw-color-border)] rounded-2xl overflow-hidden shadow-sm hover:shadow-lg focus-within:shadow-lg hover:-translate-y-1 focus-within:-translate-y-1 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group"
+  data-college-card
+  data-state={college.state_slug}
+  data-city={college.city_slug}
+  data-type={college.type}
+  data-name={college.name.toLowerCase()}
+>
+  <!-- Card Image & Overlay Badges -->
+  <div class="relative aspect-[16/10] bg-[var(--aw-color-bg-soft)] overflow-hidden">
+    <a href={collegeUrl} class="block w-full h-full">
+      {
+        cover ? (
+          <Image
+            src={cover}
+            class="w-full h-full object-cover group-hover:scale-[1.04] group-focus-within:scale-[1.04] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            widths={[400, 768]}
+            width={768}
+            height={480}
+            sizes="(max-width: 768px) 100vw, 33vw"
+            alt={college.imageAlt || college.name}
+            format="webp"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
+            <span class="font-serif text-2xl font-bold">{college.short_name || college.name.slice(0, 3)}</span>
+          </div>
+        )
+      }
+    </a>
+
+    <!-- Top Badges -->
+    <div class="absolute top-3 left-3 right-3 flex flex-wrap gap-2 items-center justify-between pointer-events-none">
+      <span
+        class={`px-2.5 py-1 text-xs font-semibold rounded-full border shadow-sm pointer-events-auto ${typeBadgeStyles[college.type] || 'bg-slate-50 text-slate-700 border-slate-200'}`}
+      >
+        {college.type}
+      </span>
+      {
+        college.naac_grade && (
+          <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-[var(--aw-color-primary)] text-white shadow-sm pointer-events-auto">
+            NAAC {college.naac_grade}
+          </span>
+        )
+      }
+    </div>
+
+    {
+      college.nirf_rank && (
+        <div class="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-md border border-[var(--aw-color-border)] text-[11px] font-semibold text-[var(--aw-color-primary)] shadow-sm">
+          NIRF #{college.nirf_rank}
+        </div>
+      )
+    }
+  </div>
+
+  <!-- Card Body -->
+  <div class="p-5 flex-1 flex flex-col justify-between">
+    <div>
+      <!-- Location Tag (Clickable City & State) -->
+      <div class="flex items-center gap-1.5 text-xs text-[var(--aw-color-text-muted)] mb-2">
+        <svg class="w-4 h-4 text-[#9A6300] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+          ></path>
+        </svg>
+        <span>
+          <a
+            href={cityUrl}
+            class="font-semibold text-[var(--aw-color-link)] hover:underline hover:text-[var(--aw-color-primary)]"
+            title={`View all colleges in ${college.city}`}
+          >
+            {college.city}
+          </a>,
+          <a
+            href={stateUrl}
+            class="text-[var(--aw-color-text-muted)] hover:underline hover:text-[var(--aw-color-primary)]"
+            title={`View all colleges in ${college.state}`}
+          >
+            {college.state}
+          </a>
+        </span>
+        {college.established && <span class="text-slate-300 mx-1">•</span>}
+        {college.established && <span>Est. {college.established}</span>}
+      </div>
+
+      <!-- College Title -->
+      <h3
+        class="text-lg font-serif font-bold text-[var(--aw-color-text-heading)] mb-2 line-clamp-2 leading-snug group-hover:text-[var(--aw-color-secondary)] transition"
+      >
+        <a href={collegeUrl}>{college.name}</a>
+      </h3>
+
+      <!-- Stream Pills -->
+      {
+        college.streams && college.streams.length > 0 && (
+          <div class="flex flex-wrap gap-1 mb-3">
+            {college.streams.slice(0, 3).map((stream) => (
+              <span class="text-[11px] px-2 py-0.5 rounded bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]">
+                {stream}
+              </span>
+            ))}
+          </div>
+        )
+      }
+
+      <!-- Key Details Snippet -->
+      <div
+        class="grid grid-cols-2 gap-2 text-xs py-2.5 my-2 border-y border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)]/50 rounded-lg px-3"
+      >
+        {
+          college.average_package && (
+            <div>
+              <span class="block text-[10px] uppercase tracking-wider text-[var(--aw-color-text-muted)]">
+                Avg Package
+              </span>
+              <span class="font-bold text-[var(--aw-color-primary)]">
+                {college.average_package.startsWith('N/A') ? 'Not applicable' : college.average_package}
+              </span>
+            </div>
+          )
+        }
+        {
+          college.courses_offered && college.courses_offered[0]?.annual_fee && (
+            <div>
+              <span class="block text-[10px] uppercase tracking-wider text-[var(--aw-color-text-muted)]">
+                Annual Fees
+              </span>
+              <span class="font-medium text-[var(--aw-color-text-default)] line-clamp-1">
+                {college.courses_offered[0].annual_fee}
+              </span>
+            </div>
+          )
+        }
+        {
+          college.accepted_exams && college.accepted_exams.length > 0 && (
+            <div class="col-span-2 mt-1">
+              <span class="text-[10px] uppercase tracking-wider text-[var(--aw-color-text-muted)]">Exams: </span>
+              <span class="font-medium text-[var(--aw-color-text-default)]">{college.accepted_exams.join(', ')}</span>
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="pt-3 flex items-center gap-2">
+      <a
+        href={collegeUrl}
+        class="group/detail flex-1 inline-flex items-center justify-center gap-1 min-h-[44px] text-center py-2.5 px-3 text-xs sm:text-sm font-semibold rounded-full border border-[var(--aw-color-primary)] text-[var(--aw-color-primary)] hover:bg-[var(--aw-color-bg-soft)] active:scale-[0.98] transition"
+      >
+        <span>View Details</span>
+        <span aria-hidden="true" class="transition-transform duration-200 group-hover/detail:translate-x-0.5"
+          >&rarr;</span
+        >
+      </a>
+      <a
+        href={getPermalink('/contact')}
+        class="flex-1 inline-flex items-center justify-center min-h-[44px] text-center py-2.5 px-3 text-xs sm:text-sm font-semibold rounded-full bg-[var(--aw-color-accent)] hover:bg-[var(--aw-color-accent-hover)] text-[var(--aw-color-on-accent)] active:scale-[0.98] transition shadow-sm"
+      >
+        Enquire Now
+      </a>
+    </div>
+  </div>
+</article>

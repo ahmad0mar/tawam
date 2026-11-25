@@ -1,0 +1,87 @@
+---
+import { APP_BLOG } from 'astrowind:config';
+import type { Post } from '~/types';
+
+import Image from '~/components/common/Image.astro';
+
+import { findImage } from '~/utils/images';
+import { getPermalink } from '~/utils/permalinks';
+
+export interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const image = await findImage(post.image);
+
+const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : '';
+---
+
+<article
+  class="mb-6 group flex flex-col rounded-[20px] bg-white border border-[var(--tt-border-warm)] p-4 shadow-[var(--tt-shadow-soft)]"
+>
+  <div class="relative aspect-[16/10] w-full rounded-[20px] mb-4 overflow-hidden bg-[var(--tt-cream-soft)]">
+    {
+      image &&
+        (link ? (
+          <a href={link} class="block w-full h-full">
+            <Image
+              src={image}
+              class="w-full h-full object-cover group-hover:scale-[1.04] group-focus-within:scale-[1.04] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              widths={[400, 900]}
+              width={800}
+              height={500}
+              sizes="(max-width: 900px) 400px, 800px"
+              alt={post.title}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+        ) : (
+          <Image
+            src={image}
+            class="w-full h-full object-cover"
+            widths={[400, 900]}
+            width={800}
+            height={500}
+            sizes="(max-width: 900px) 400px, 800px"
+            alt={post.title}
+            format="webp"
+            loading="lazy"
+            decoding="async"
+          />
+        ))
+    }
+  </div>
+
+  <h3 class="text-xl font-heading font-bold leading-snug mb-2 text-[var(--tt-ink)]">
+    {
+      link ? (
+        <a class="inline-block hover:text-[var(--tt-gold-dark)] transition-colors duration-200" href={link}>
+          {post.title}
+        </a>
+      ) : (
+        post.title
+      )
+    }
+  </h3>
+
+  <p class="text-[var(--tt-ink-muted)] text-sm leading-relaxed line-clamp-3 mb-4 flex-1">{post.excerpt}</p>
+
+  {
+    link && (
+      <div class="pt-3 border-t border-[var(--tt-border-warm)]">
+        <a
+          href={link}
+          class="inline-flex items-center gap-1.5 min-h-[44px] py-1 text-sm font-semibold text-[var(--tt-gold-dark)] hover:text-[var(--tt-ink)] transition-colors"
+        >
+          <span>Read more</span>
+          <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-0.5">
+            &rarr;
+          </span>
+        </a>
+      </div>
+    )
+  }
+</article>

@@ -1,0 +1,76 @@
+---
+import { Icon } from 'astro-icon/components';
+import { SITE_INFO } from '~/data/site';
+import { getPermalink } from '~/utils/permalinks';
+
+export interface Props {
+  enquiryHref?: string;
+  enquiryLabel?: string;
+  whatsappText?: string;
+}
+
+const {
+  enquiryHref = getPermalink('/contact'),
+  enquiryLabel = 'Get Counselling',
+  whatsappText = 'Hello Tawam Travels, I would like admission guidance.',
+} = Astro.props;
+
+const rawPhone = String(SITE_INFO.contact.phone || '');
+const phoneDigits = rawPhone && rawPhone !== 'TODO' ? rawPhone.replace(/[^0-9+]/g, '') : '';
+
+const rawWhatsapp = String(SITE_INFO.contact.whatsapp || '');
+const whatsappDigits = rawWhatsapp && rawWhatsapp !== 'TODO' ? rawWhatsapp.replace(/[^0-9]/g, '') : '';
+const whatsappHref = whatsappDigits
+  ? `https://wa.me/${whatsappDigits}?text=${encodeURIComponent(whatsappText)}`
+  : `https://wa.me/?text=${encodeURIComponent(whatsappText)}`;
+---
+
+<aside
+  id="aw-mobile-detail-bar"
+  aria-label="Quick counselling actions"
+  class="md:hidden fixed inset-x-0 bottom-0 z-35 bg-[var(--tt-cream)]/95 backdrop-blur-md border-t border-[var(--tt-border-warm)] px-4 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgb(11_42_58/0.1)]"
+>
+  <div class="flex items-center gap-2 max-w-xl mx-auto">
+    {
+      phoneDigits && (
+        <a
+          href={`tel:${phoneDigits}`}
+          class="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-3.5 rounded-full border border-[var(--tt-border-warm)] bg-white text-[var(--tt-ink)] text-xs font-semibold active:scale-[0.98] transition"
+        >
+          <Icon name="tabler:phone" class="w-4 h-4 shrink-0" />
+          <span>Call</span>
+        </a>
+      )
+    }
+    <a
+      href={whatsappHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 rounded-full bg-[#25D366] text-white text-xs font-semibold shadow-xs active:scale-[0.98] transition"
+    >
+      <Icon name="tabler:brand-whatsapp" class="w-4 h-4 shrink-0" />
+      <span>WhatsApp</span>
+    </a>
+    <a href={enquiryHref} class="btn-primary flex-1 min-h-[44px] py-2.5 px-4 text-xs font-semibold">
+      <span>{enquiryLabel}</span>
+      <span aria-hidden="true" class="ml-1">&rarr;</span>
+    </a>
+  </div>
+</aside>
+
+<script is:inline>
+  (function () {
+    const syncStickyBarFlag = () => {
+      const hasBar = Boolean(document.getElementById('aw-mobile-detail-bar'));
+      document.body.classList.toggle('aw-has-sticky-bar', hasBar);
+    };
+    syncStickyBarFlag();
+    if (!window.__awStickyBarBound) {
+      window.__awStickyBarBound = true;
+      document.addEventListener('astro:page-load', syncStickyBarFlag);
+      document.addEventListener('astro:before-swap', () => {
+        document.body.classList.remove('aw-has-sticky-bar');
+      });
+    }
+  })();
+</script>

@@ -1,0 +1,545 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import AboutBand from '~/components/widgets/AboutBand.astro';
+import IndiaMap from '~/components/widgets/IndiaMap.astro';
+import DisciplinesJourney from '~/components/widgets/DisciplinesJourney.astro';
+import StudyDestinations from '~/components/widgets/StudyDestinations.astro';
+import CounsellingSteps from '~/components/widgets/CounsellingSteps.astro';
+import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
+import InquiryCtaBand from '~/components/widgets/InquiryCtaBand.astro';
+import StructuredData from '~/components/common/StructuredData.astro';
+import Image from '~/components/common/Image.astro';
+import { SITE, I18N } from 'astrowind:config';
+import favIconSvg from '~/assets/favicons/favicon.svg';
+import { getPermalink } from '~/utils/permalinks';
+import { getCollection } from 'astro:content';
+
+const metadata = {
+  title: 'Tawam Travels — Education Counselling & College Admissions in India',
+  ignoreTitleTemplate: true,
+};
+
+const organizationId = `${SITE?.site}/#organization`;
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE?.site}/#website`,
+    name: SITE?.name,
+    url: SITE?.site,
+    inLanguage: I18N?.language,
+    publisher: { '@id': organizationId },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': organizationId,
+    name: SITE?.name,
+    url: SITE?.site,
+    logo: new URL(favIconSvg.src, SITE?.site).toString(),
+  },
+];
+
+// Fetch popular courses
+const courses = await getCollection('courses');
+const popularCourses = courses.slice(0, 3).map((c) => ({
+  ...c.data,
+  slug: c.id.replace(/\.(md|mdx)$/, ''),
+  url: getPermalink(`/courses/${c.id.replace(/\.(md|mdx)$/, '')}`),
+}));
+
+// Fetch entrance exams
+const exams = await getCollection('exams');
+const popularExams = exams.slice(0, 3).map((e) => ({
+  ...e.data,
+  slug: e.id.replace(/\.(md|mdx)$/, ''),
+  url: getPermalink(`/exams/${e.id.replace(/\.(md|mdx)$/, '')}`),
+}));
+const heroCities = [
+  {
+    name: 'Delhi',
+    tagline: 'History & Heritage',
+    href: getPermalink('/colleges-in/delhi'),
+    image: '~/assets/images/cities/delhi-india-gate.jpg',
+  },
+  {
+    name: 'Bengaluru',
+    tagline: 'Tech & Innovation',
+    href: getPermalink('/colleges-in/karnataka'),
+    image: '~/assets/images/cities/bengaluru-vidhana-soudha.jpg',
+  },
+  {
+    name: 'Mumbai',
+    tagline: 'Dream City',
+    href: getPermalink('/colleges-in/maharashtra'),
+    image: '~/assets/images/cities/mumbai-gateway-of-india.jpg',
+  },
+  {
+    name: 'Chennai',
+    tagline: 'Culture & Knowledge',
+    href: getPermalink('/colleges-in/tamil-nadu'),
+    image: '~/assets/images/cities/chennai-high-court.jpg',
+  },
+  {
+    name: 'Kolkata',
+    tagline: 'Arts & Education',
+    href: getPermalink('/colleges-in/west-bengal'),
+    image: '~/assets/images/cities/kolkata-dakshineswar.jpg',
+  },
+];
+---
+
+<Layout metadata={metadata} showPreloader>
+  <StructuredData slot="head" schema={structuredData} />
+
+  <!-- 1. Hero Section ******************* -->
+  <Hero
+    animateHero
+    variant="showcase"
+    tagline="Education Counselling & Admissions"
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Get Counselling &rarr;',
+        href: getPermalink('/contact'),
+      },
+      {
+        variant: 'glass',
+        text: 'Browse Colleges',
+        href: getPermalink('/colleges'),
+      },
+    ]}
+  >
+    <Fragment slot="bg">
+      <div id="aw-hero-bg-layers" class="absolute inset-0 overflow-hidden bg-[var(--tt-teal-navy-deep)]">
+        <div data-hero-bg="default" class="absolute inset-0 transition-opacity duration-500 ease-out opacity-100">
+          <Image
+            src="~/assets/images/random/taj-mahal-travel.jpeg"
+            alt="Student overlooking Indian heritage architecture at sunset representing higher education journeys"
+            class="aw-hero-bg-img w-full h-full object-cover object-center"
+            widths={[640, 1024, 1600]}
+            sizes="100vw"
+            width={1600}
+            height={960}
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+        {
+          heroCities.map((city) => (
+            <div data-hero-bg={city.name} class="absolute inset-0 transition-opacity duration-500 ease-out opacity-0">
+              <Image
+                src={city.image}
+                alt={`${city.name} — ${city.tagline}`}
+                class="w-full h-full object-cover object-center"
+                widths={[640, 1024, 1600]}
+                sizes="100vw"
+                width={1600}
+                height={960}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          ))
+        }
+        <div class="absolute inset-0 bg-gradient-to-r from-[#071D28]/90 via-[#0B2A3A]/60 to-[#0B2A3A]/25"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#071D28]/95 via-transparent to-[#071D28]/45"></div>
+      </div>
+    </Fragment>
+
+    <Fragment slot="title">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-7">
+        <span class="text-white drop-shadow-md uppercase tracking-wide">
+          <span class="aw-hero-line-mask">
+            <span class="aw-hero-line text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[0.06em]" data-line="1">
+              STUDY IN
+            </span>
+          </span>
+          <span class="aw-hero-line-mask">
+            <span
+              class="aw-hero-line tt-gold-gradient-text text-6xl sm:text-7xl lg:text-[5.5rem] leading-[0.95] tracking-tight font-bold"
+              data-line="2"
+            >
+              INDIA
+            </span>
+          </span>
+        </span>
+        <span
+          class="hidden sm:flex flex-col justify-center border-l border-white/30 pl-5 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/85 leading-6"
+        >
+          <span>LEARN</span>
+          <span>GROW</span>
+          <span>ACHIEVE</span>
+          <span>IN INDIA</span>
+        </span>
+      </div>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      <span class="text-white/90 drop-shadow">
+        Personalized guidance for medical, engineering, management, and professional courses. We help students and
+        parents make informed decisions on colleges, entrance cutoffs, and admissions.
+      </span>
+    </Fragment>
+
+    <Fragment slot="bottom">
+      <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-5 pt-4 border-t border-white/15">
+        <div
+          id="aw-hero-city-strip"
+          class="flex lg:grid lg:grid-cols-5 gap-3 sm:gap-4 overflow-x-auto pb-2 lg:pb-0 snap-x snap-mandatory flex-1 aw-no-scrollbar"
+        >
+          {
+            heroCities.map((city, idx) => (
+              <a
+                href={city.href}
+                data-hero-city={city.name}
+                class="group snap-start shrink-0 w-[68vw] max-w-[240px] sm:w-48 lg:w-auto lg:max-w-none rounded-2xl overflow-hidden bg-[#071D28]/55 backdrop-blur-md border border-white/20 hover:border-[var(--tt-gold)] shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col"
+              >
+                <div class="relative aspect-[16/10] w-full overflow-hidden">
+                  <Image
+                    src={city.image}
+                    alt={`${city.name} — ${city.tagline}`}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    width={320}
+                    height={200}
+                    loading={idx < 2 ? 'eager' : 'lazy'}
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-[#071D28]/85 via-transparent to-transparent" />
+                </div>
+                <div class="px-3.5 py-2.5">
+                  <div class="font-heading font-bold text-white text-sm sm:text-base leading-tight group-hover:text-[var(--tt-gold-bright)] transition-colors">
+                    {city.name}
+                  </div>
+                  <div class="text-[11px] text-white/75 mt-0.5">{city.tagline}</div>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+
+        <div
+          class="flex flex-col sm:flex-row xl:flex-col items-start sm:items-center xl:items-end justify-between gap-2.5 shrink-0 xl:pl-4"
+        >
+          <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/80 xl:text-right">
+            Your study journey begins here
+          </p>
+          <a href={getPermalink('/contact')} class="btn-primary text-xs sm:text-sm py-2.5 px-5 whitespace-nowrap">
+            Plan Your Study Journey &rarr;
+          </a>
+        </div>
+      </div>
+    </Fragment>
+  </Hero>
+
+  <!-- Interactive India Map ************* -->
+  <IndiaMap
+    tagline="Interactive Campus Discovery"
+    title="Explore Colleges Across India by State"
+    subtitle="Hover or tap any state to inspect top NIRF-ranked institutions, active counselling hubs, and verified seat matrices."
+  />
+
+  <!-- 2. About Tawam Travels (Cream Band) ******* -->
+  <AboutBand />
+
+  <!-- 3. Top Study Destinations (Cream Band) ************* -->
+  <StudyDestinations />
+
+  <!-- 3. Quick College Search & Filter Bar ***************** -->
+  <section class="py-8 bg-[var(--aw-color-bg-soft)] border-b border-[var(--aw-color-border)]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-[var(--aw-color-border)] shadow-sm">
+        <form action={getPermalink('/colleges')} method="GET" class="flex flex-col sm:flex-row gap-3 items-center">
+          <div class="relative w-full flex-1">
+            <span
+              class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[var(--aw-color-text-muted)]"
+            >
+              🔍
+            </span>
+            <input
+              type="text"
+              name="search"
+              placeholder="Search by college name, city (e.g. Vellore, Trichy), or course..."
+              class="w-full min-h-[48px] pl-10 pr-4 py-3 text-base rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:border-[var(--aw-color-primary)] transition"
+            />
+          </div>
+
+          <div class="w-full sm:w-auto flex items-center gap-2">
+            <select
+              name="state"
+              class="w-full sm:w-auto min-h-[48px] px-3 py-3 text-base rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:border-[var(--aw-color-primary)] transition cursor-pointer"
+            >
+              <option value="">All States</option>
+              <option value="tamil-nadu">Tamil Nadu</option>
+              <option value="karnataka">Karnataka</option>
+              <option value="delhi">Delhi</option>
+              <option value="maharashtra">Maharashtra</option>
+            </select>
+
+            <button
+              type="submit"
+              class="btn-primary px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap shadow-sm hover:opacity-95 transition"
+            >
+              Search Colleges
+            </button>
+          </div>
+        </form>
+
+        <div class="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-[var(--aw-color-border)] text-xs">
+          <span class="text-[var(--aw-color-text-muted)] font-semibold">Popular Searches:</span>
+          <a
+            href={getPermalink('/colleges?search=VIT')}
+            class="inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-1.5 sm:px-2.5 sm:py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] border border-[var(--aw-color-border)] transition"
+          >
+            VIT Vellore
+          </a>
+          <a
+            href={getPermalink('/colleges?search=NIT')}
+            class="inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-1.5 sm:px-2.5 sm:py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] border border-[var(--aw-color-border)] transition"
+          >
+            NIT Trichy
+          </a>
+          <a
+            href={getPermalink('/colleges?search=CMC')}
+            class="inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-1.5 sm:px-2.5 sm:py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] border border-[var(--aw-color-border)] transition"
+          >
+            CMC Vellore (MBBS)
+          </a>
+          <a
+            href={getPermalink('/colleges?search=RVCE')}
+            class="inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-1.5 sm:px-2.5 sm:py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] border border-[var(--aw-color-border)] transition"
+          >
+            RVCE Bengaluru
+          </a>
+          <a
+            href={getPermalink('/colleges?search=AIIMS')}
+            class="inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-1.5 sm:px-2.5 sm:py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] border border-[var(--aw-color-border)] transition"
+          >
+            AIIMS New Delhi
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Popular Disciplines & Courses (Dark Teal-Navy Band) ******************** -->
+  <DisciplinesJourney />
+
+  <!-- Popular Courses Grid -->
+  <section class="py-8 max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="bg-[var(--aw-color-bg-soft)] rounded-3xl p-6 sm:p-8 border border-[var(--aw-color-border)]">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-[var(--aw-color-accent)]">Programmes</span>
+          <h3 class="text-xl sm:text-2xl font-serif font-bold text-[var(--aw-color-text-heading)] mt-0.5">
+            Explore Flagship Degrees
+          </h3>
+        </div>
+        <a href={getPermalink('/courses')} class="text-xs font-bold text-[var(--aw-color-link)] hover:underline">
+          View All Courses &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {
+          popularCourses.map((crs) => (
+            <a
+              href={crs.url}
+              class="p-5 rounded-2xl bg-white border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:shadow-md transition flex flex-col justify-between"
+            >
+              <div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[#9A6300] border border-[var(--aw-color-border)] uppercase">
+                  {crs.level} · {crs.duration}
+                </span>
+                <h4 class="text-base font-serif font-bold text-[var(--aw-color-text-heading)] mt-2 mb-1">{crs.name}</h4>
+                <p class="text-xs text-[var(--aw-color-text-muted)] line-clamp-2 mb-3">
+                  Eligibility: {crs.eligibility}
+                </p>
+              </div>
+              <div class="pt-3 border-t border-[var(--aw-color-border)] flex items-center justify-between text-xs font-semibold text-[var(--aw-color-link)]">
+                <span>View Syllabus &amp; Top Colleges</span>
+                <span>&rarr;</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. National Entrance Exams ****************** -->
+  <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-2xl mx-auto mb-8">
+      <span class="text-xs font-bold uppercase tracking-wider text-[#9A6300]">Exam Gateway</span>
+      <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[var(--aw-color-text-heading)] mt-1 mb-2">
+        Key Entrance Exams We Cover
+      </h2>
+      <p class="text-xs sm:text-sm text-[var(--aw-color-text-muted)]">
+        Get comprehensive exam patterns, syllabus breakdowns, historical cutoff percentiles, and counselling timelines.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {
+        popularExams.map((ex) => (
+          <div class="p-6 rounded-2xl bg-white border border-[var(--aw-color-border)] shadow-sm hover:shadow-md hover:border-[var(--aw-color-primary)] transition flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-[#9A6300] uppercase">{ex.level}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-muted)]">
+                  {ex.conducting_body}
+                </span>
+              </div>
+              <h3 class="text-lg font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+                <a href={ex.url} class="hover:text-[var(--aw-color-primary)] transition">
+                  {ex.name}
+                </a>
+              </h3>
+              <p class="text-xs text-[var(--aw-color-text-muted)] mb-4">
+                Qualifying exam for premier medical and engineering institutions across India.
+              </p>
+            </div>
+            <a
+              href={ex.url}
+              class="pt-3 border-t border-[var(--aw-color-border)] text-xs font-bold text-[var(--aw-color-link)] hover:underline flex items-center justify-between"
+            >
+              <span>Pattern &amp; Cutoffs</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 7. How Counselling Works (3 Steps) ************** -->
+  <CounsellingSteps
+    title="How Tawam Counselling Works"
+    subtitle="A structured, transparent pathway from initial consultation to campus enrollment."
+    items={[
+      {
+        title: 'Consultation & Assessment',
+        description:
+          'We evaluate your academic profile, entrance exam percentiles, preferred state/city, and budget constraints.',
+      },
+      {
+        title: 'College Shortlisting & Cutoff Analysis',
+        description:
+          'Receive an objective, data-backed comparison of institutions covering NAAC accreditation, NIRF ranking, and placement trends.',
+      },
+      {
+        title: 'Application & Counselling Round Support',
+        description:
+          'Our advisors assist with choice filling during centralized counselling (MCC / JoSAA / State CETs) and document verification.',
+      },
+    ]}
+  />
+
+  <!-- 8. Student Stories & Testimonials *************** -->
+  <section class="py-12 bg-[var(--aw-color-bg-soft)] border-y border-[var(--aw-color-border)]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <span class="text-xs font-bold uppercase tracking-wider text-[#9A6300]">Student Success</span>
+        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[var(--aw-color-text-heading)] mt-1 mb-2">
+          Trusted by Students &amp; Families
+        </h2>
+        <p class="text-xs sm:text-sm text-[var(--aw-color-text-muted)]">
+          Real feedback from students who achieved admission into top Indian institutions with Tawam guidance.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          class="p-6 rounded-2xl bg-white border border-[var(--aw-color-border)] shadow-sm flex flex-col justify-between"
+        >
+          <p class="text-xs sm:text-sm text-[var(--aw-color-text-default)] leading-relaxed italic mb-4">
+            &ldquo;Tawam's counselling during NEET UG choice-filling made all the difference. They helped us understand
+            state quota versus deemed university seat allocation clearly.&rdquo;
+          </p>
+          <div class="pt-3 border-t border-[var(--aw-color-border)]">
+            <div class="text-xs font-bold text-[var(--aw-color-text-heading)]">Pooja R.</div>
+            <div class="text-[11px] text-[#9A6300]">Admitted: MBBS, CMC Vellore</div>
+          </div>
+        </div>
+
+        <div
+          class="p-6 rounded-2xl bg-white border border-[var(--aw-color-border)] shadow-sm flex flex-col justify-between"
+        >
+          <p class="text-xs sm:text-sm text-[var(--aw-color-text-default)] leading-relaxed italic mb-4">
+            &ldquo;Comparing B.Tech CSE across VIT Vellore and Karnataka COMEDK colleges was confusing until we
+            consulted Tawam. Transparent fee breakdown and zero false promises.&rdquo;
+          </p>
+          <div class="pt-3 border-t border-[var(--aw-color-border)]">
+            <div class="text-xs font-bold text-[var(--aw-color-text-heading)]">Aditya S.</div>
+            <div class="text-[11px] text-[#9A6300]">Admitted: B.Tech CSE, VIT Vellore</div>
+          </div>
+        </div>
+
+        <div
+          class="p-6 rounded-2xl bg-white border border-[var(--aw-color-border)] shadow-sm flex flex-col justify-between"
+        >
+          <p class="text-xs sm:text-sm text-[var(--aw-color-text-default)] leading-relaxed italic mb-4">
+            &ldquo;Their team gave us exact cutoff predictions for NIT Trichy and guided us through JoSAA document
+            verification without any stress.&rdquo;
+          </p>
+          <div class="pt-3 border-t border-[var(--aw-color-border)]">
+            <div class="text-xs font-bold text-[var(--aw-color-text-heading)]">Karthik M.</div>
+            <div class="text-[11px] text-[#9A6300]">Admitted: B.Tech, NIT Trichy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog / Guides ****************** -->
+  <BlogLatestPosts
+    title="Latest Admission Guides & Insights"
+    information="Read our in-depth guides on NEET counselling, scholarships, and college comparisons to prepare for your admission journey."
+    linkText="View All Articles"
+    linkUrl={getPermalink('/blog')}
+    count={3}
+  />
+
+  <!-- 9. Counselling CTA Inquiry Band ********************** -->
+  <InquiryCtaBand />
+
+  <script>
+    const initHeroCityPreview = () => {
+      const strip = document.getElementById('aw-hero-city-strip');
+      const bgContainer = document.getElementById('aw-hero-bg-layers');
+      if (!strip || !bgContainer || strip.dataset.previewBound === 'true') return;
+      strip.dataset.previewBound = 'true';
+
+      const layers = Array.from(bgContainer.querySelectorAll<HTMLElement>('[data-hero-bg]'));
+      const cards = Array.from(strip.querySelectorAll<HTMLElement>('[data-hero-city]'));
+      if (!layers.length || !cards.length) return;
+
+      const showLayer = (targetKey: string) => {
+        layers.forEach((layer) => {
+          const isMatch = layer.dataset.heroBg === targetKey;
+          layer.classList.toggle('opacity-100', isMatch);
+          layer.classList.toggle('opacity-0', !isMatch);
+        });
+      };
+
+      cards.forEach((card) => {
+        const city = card.dataset.heroCity;
+        if (!city) return;
+        card.addEventListener('mouseenter', () => showLayer(city));
+        card.addEventListener('focus', () => showLayer(city));
+      });
+
+      strip.addEventListener('mouseleave', () => showLayer('default'));
+      strip.addEventListener('focusout', (e) => {
+        const next = e.relatedTarget as Node | null;
+        if (!next || !strip.contains(next)) {
+          showLayer('default');
+        }
+      });
+    };
+
+    initHeroCityPreview();
+    document.addEventListener('astro:page-load', initHeroCityPreview);
+  </script>
+</Layout>

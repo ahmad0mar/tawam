@@ -1,0 +1,424 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '~/layouts/PageLayout.astro';
+import PageHero from '~/components/widgets/PageHero.astro';
+import InquiryCtaBand from '~/components/widgets/InquiryCtaBand.astro';
+import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
+import Button from '~/components/ui/Button.astro';
+import CollegeCard from '~/components/colleges/CollegeCard.astro';
+import { getPermalink } from '~/utils/permalinks';
+
+export const prerender = true;
+
+const colleges = await getCollection('colleges');
+
+// Extract unique states and cities present in the dataset
+const activeStates = [...new Set(colleges.map((c) => ({ slug: c.data.state_slug, name: c.data.state })))].filter(
+  (v, i, a) => a.findIndex((t) => t.slug === v.slug) === i
+);
+
+const activeCities = [
+  ...new Set(
+    colleges.map((c) => ({
+      slug: c.data.city_slug,
+      name: c.data.city,
+      stateSlug: c.data.state_slug,
+      stateName: c.data.state,
+    }))
+  ),
+].filter((v, i, a) => a.findIndex((t) => t.slug === v.slug) === i);
+
+const metadata = {
+  title: 'Top Colleges & Universities in India | Tawam Travels',
+  description:
+    'Explore accredited engineering, medical, management, and degree colleges across India. Search by state, city (including Vellore, Bangalore, Delhi), cutoffs, and fees.',
+};
+---
+
+<Layout metadata={metadata}>
+  <PageHero
+    eyebrow="Institution Directory"
+    title="Colleges & Universities in India"
+    subtitle="Discover premier accredited universities and colleges across India. Filter by state, city, streams, or admission cutoffs."
+    image="~/assets/images/random/india-collage.jpeg"
+  />
+  <Breadcrumbs bar hideCurrent items={[{ text: 'Home', href: getPermalink('/') }, { text: 'Colleges' }]} />
+
+  <section class="px-4 sm:px-6 py-10 sm:py-14 mx-auto max-w-7xl">
+    <!-- Quick State Selection Chips -->
+    <div class="mb-10 p-5 rounded-2xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)]">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+        <span
+          class="text-xs font-bold uppercase tracking-wider text-[var(--aw-color-primary)] flex items-center gap-1.5"
+        >
+          <svg class="w-4 h-4 text-[#9A6300]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            ></path>
+          </svg>
+          Browse Colleges by State
+        </span>
+        <span class="text-xs text-[var(--aw-color-text-muted)]">Select a state to view all colleges within it</span>
+      </div>
+
+      <div class="flex flex-wrap gap-2 items-center">
+        <!-- Tamil Nadu State Chip -->
+        <a
+          href={getPermalink('/colleges-in/tamil-nadu')}
+          class="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] shadow-sm hover:bg-[var(--aw-color-accent-hover)] transition"
+          title="Colleges in Tamil Nadu (NIT Trichy, VIT, CMC)"
+        >
+          📍 Tamil Nadu
+          <span class="px-1.5 py-0.2 bg-white/30 rounded-full text-[10px]">
+            {colleges.filter((c) => c.data.state_slug === 'tamil-nadu').length}
+          </span>
+        </a>
+
+        <!-- Karnataka State Chip -->
+        <a
+          href={getPermalink('/colleges-in/karnataka')}
+          class="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
+        >
+          📍 Karnataka
+          <span class="text-[10px] text-[var(--aw-color-text-muted)]">
+            {colleges.filter((c) => c.data.state_slug === 'karnataka').length}
+          </span>
+        </a>
+
+        <!-- Delhi State Chip -->
+        <a
+          href={getPermalink('/colleges-in/delhi')}
+          class="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
+        >
+          📍 Delhi
+          <span class="text-[10px] text-[var(--aw-color-text-muted)]">
+            {colleges.filter((c) => c.data.state_slug === 'delhi').length}
+          </span>
+        </a>
+
+        <!-- Maharashtra State Chip -->
+        <a
+          href={getPermalink('/colleges-in/maharashtra')}
+          class="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
+        >
+          📍 Maharashtra
+          <span class="text-[10px] text-[var(--aw-color-text-muted)]">
+            {colleges.filter((c) => c.data.state_slug === 'maharashtra').length}
+          </span>
+        </a>
+
+        <a
+          href={getPermalink('/colleges-in/kerala')}
+          class="inline-flex items-center min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
+        >
+          Kerala
+        </a>
+      </div>
+    </div>
+
+    <!-- Live Filter Bar -->
+    <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 sm:p-6 mb-8 shadow-sm">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Search Input -->
+        <div>
+          <label for="college-search" class="block text-xs font-semibold text-[var(--aw-color-text-heading)] mb-1.5">
+            Search College / Keyword
+          </label>
+          <div class="relative">
+            <input
+              type="text"
+              id="college-search"
+              placeholder="e.g. VIT, CMC, Medical, CSE..."
+              class="w-full min-h-[48px] text-base py-3 pl-9 pr-3 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:ring-2 focus:ring-[#0572CE] focus:bg-white transition"
+            />
+            <svg
+              class="w-4 h-4 text-slate-400 absolute left-3 top-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- State Dropdown -->
+        <div>
+          <label for="state-filter" class="block text-xs font-semibold text-[var(--aw-color-text-heading)] mb-1.5">
+            Filter by State
+          </label>
+          <select
+            id="state-filter"
+            class="w-full min-h-[48px] text-base py-3 px-3 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:ring-2 focus:ring-[#0572CE] focus:bg-white transition cursor-pointer"
+          >
+            <option value="all">All States ({activeStates.length})</option>
+            {activeStates.map((s) => <option value={s.slug}>{s.name}</option>)}
+          </select>
+        </div>
+
+        <!-- City Dropdown -->
+        <div>
+          <label for="city-filter" class="block text-xs font-semibold text-[var(--aw-color-text-heading)] mb-1.5">
+            Filter by City
+          </label>
+          <select
+            id="city-filter"
+            class="w-full min-h-[48px] text-base py-3 px-3 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:ring-2 focus:ring-[#0572CE] focus:bg-white transition cursor-pointer"
+          >
+            <option value="all">All Cities</option>
+            {
+              activeCities.map((c) => (
+                <option value={c.slug} data-state={c.stateSlug}>
+                  {c.name} ({c.stateName})
+                </option>
+              ))
+            }
+          </select>
+        </div>
+
+        <!-- Type Dropdown -->
+        <div>
+          <label for="type-filter" class="block text-xs font-semibold text-[var(--aw-color-text-heading)] mb-1.5">
+            Institution Type
+          </label>
+          <select
+            id="type-filter"
+            class="w-full min-h-[48px] text-base py-3 px-3 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:ring-2 focus:ring-[#0572CE] focus:bg-white transition cursor-pointer"
+          >
+            <option value="all">All Types</option>
+            <option value="Government">Government</option>
+            <option value="Private">Private</option>
+            <option value="Deemed">Deemed</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Active Filter Status -->
+      <div
+        class="mt-4 pt-3 border-t border-[var(--aw-color-border)] flex items-center justify-between text-xs text-[var(--aw-color-text-muted)]"
+      >
+        <div>
+          Showing <span id="visible-count" class="font-bold text-[var(--aw-color-primary)]">{colleges.length}</span> of {
+            colleges.length
+          } colleges
+        </div>
+        <button
+          id="reset-filters"
+          class="min-h-[44px] px-2 inline-flex items-center text-[var(--aw-color-link)] hover:underline font-medium cursor-pointer"
+        >
+          Reset Filters
+        </button>
+      </div>
+    </div>
+
+    <!-- Colleges Grid -->
+    <div id="colleges-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {colleges.map((college) => <CollegeCard college={{ ...college.data, id: college.id }} />)}
+    </div>
+
+    <!-- Empty State -->
+    <div
+      id="empty-state"
+      class="hidden bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] rounded-2xl p-12 text-center max-w-lg mx-auto my-12"
+    >
+      <div
+        class="w-12 h-12 rounded-full bg-white border border-[var(--aw-color-border)] flex items-center justify-center mx-auto mb-3 text-muted"
+      >
+        <svg class="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <h3 class="text-lg font-serif font-bold text-[var(--aw-color-text-heading)] mb-1">
+        No colleges match your filter
+      </h3>
+      <p class="text-xs text-[var(--aw-color-text-muted)] mb-4">
+        Try resetting your search query or selecting a different state/city.
+      </p>
+      <button
+        onclick="document.getElementById('reset-filters').click()"
+        class="py-2 px-4 rounded-full text-xs font-semibold bg-[var(--aw-color-primary)] text-white hover:bg-[var(--aw-color-secondary)] transition cursor-pointer"
+      >
+        Clear Filters
+      </button>
+    </div>
+
+    <!-- Counselling Banner -->
+    <div
+      class="mt-16 bg-gradient-to-r from-[var(--aw-color-primary)] to-[var(--aw-color-secondary)] rounded-2xl p-8 sm:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-md"
+    >
+      <div class="max-w-2xl text-center md:text-left">
+        <h2 class="text-2xl sm:text-3xl font-serif font-bold mb-2">Need Guidance Choosing the Right College?</h2>
+        <p class="text-blue-100 text-sm leading-relaxed">
+          Our senior educational counsellors analyze your entrance exam score, domicile eligibility, and career
+          aspirations to shortlist verified institutions with transparent fees.
+        </p>
+      </div>
+      <div class="shrink-0">
+        <Button variant="primary" text="Schedule Free Counselling" href={getPermalink('/contact')} />
+      </div>
+    </div>
+  </section>
+
+  <!-- Client-side Interactive Filter Script -->
+  <script is:inline>
+    function setupCollegeFilters() {
+      const searchInput = document.getElementById('college-search');
+      const stateSelect = document.getElementById('state-filter');
+      const citySelect = document.getElementById('city-filter');
+      const typeSelect = document.getElementById('type-filter');
+      const resetBtn = document.getElementById('reset-filters');
+      const cards = document.querySelectorAll('[data-college-card]');
+      const visibleCount = document.getElementById('visible-count');
+      const emptyState = document.getElementById('empty-state');
+
+      if (!cards.length) return;
+
+      function updateUrlParams() {
+        const params = new URLSearchParams();
+        const query = searchInput ? searchInput.value.trim() : '';
+        const selectedState = stateSelect ? stateSelect.value : 'all';
+        const selectedCity = citySelect ? citySelect.value : 'all';
+        const selectedType = typeSelect ? typeSelect.value : 'all';
+
+        if (query) params.set('search', query);
+        if (selectedState !== 'all') params.set('state', selectedState);
+        if (selectedCity !== 'all') params.set('city', selectedCity);
+        if (selectedType !== 'all') params.set('type', selectedType);
+
+        const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+        window.history.replaceState({}, '', newUrl);
+      }
+
+      function filter(shouldUpdateUrl = true) {
+        const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        const selectedState = stateSelect ? stateSelect.value : 'all';
+        const selectedCity = citySelect ? citySelect.value : 'all';
+        const selectedType = typeSelect ? typeSelect.value : 'all';
+
+        let count = 0;
+
+        cards.forEach((card) => {
+          const cardState = card.getAttribute('data-state');
+          const cardCity = card.getAttribute('data-city');
+          const cardType = card.getAttribute('data-type');
+          const cardText = (card.textContent || '').toLowerCase();
+
+          const matchesQuery = !query || cardText.includes(query);
+          const matchesState = selectedState === 'all' || cardState === selectedState;
+          const matchesCity = selectedCity === 'all' || cardCity === selectedCity;
+          const matchesType = selectedType === 'all' || cardType === selectedType;
+
+          if (matchesQuery && matchesState && matchesCity && matchesType) {
+            card.classList.remove('hidden');
+            count++;
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+
+        if (visibleCount) visibleCount.textContent = count.toString();
+        if (emptyState) {
+          if (count === 0) {
+            emptyState.classList.remove('hidden');
+          } else {
+            emptyState.classList.add('hidden');
+          }
+        }
+
+        if (shouldUpdateUrl) {
+          updateUrlParams();
+        }
+      }
+
+      // Sync city dropdown when state changes
+      if (stateSelect && citySelect) {
+        stateSelect.addEventListener('change', () => {
+          const stateVal = stateSelect.value;
+          const cityOptions = citySelect.querySelectorAll('option');
+
+          cityOptions.forEach((opt) => {
+            if (opt.value === 'all') return;
+            const optState = opt.getAttribute('data-state');
+            if (stateVal === 'all' || optState === stateVal) {
+              opt.style.display = '';
+            } else {
+              opt.style.display = 'none';
+            }
+          });
+
+          // Reset city if hidden
+          if (citySelect.selectedOptions[0] && citySelect.selectedOptions[0].style.display === 'none') {
+            citySelect.value = 'all';
+          }
+          filter();
+        });
+      }
+
+      if (searchInput) searchInput.addEventListener('input', () => filter());
+      if (citySelect) citySelect.addEventListener('change', () => filter());
+      if (typeSelect) typeSelect.addEventListener('change', () => filter());
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          if (searchInput) searchInput.value = '';
+          if (stateSelect) stateSelect.value = 'all';
+          if (citySelect) {
+            citySelect.value = 'all';
+            citySelect.querySelectorAll('option').forEach((opt) => (opt.style.display = ''));
+          }
+          if (typeSelect) typeSelect.value = 'all';
+          filter();
+        });
+      }
+
+      // Initialize from URL search parameters if present
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const paramQuery = urlParams.get('search');
+        const paramState = urlParams.get('state');
+        const paramCity = urlParams.get('city');
+        const paramType = urlParams.get('type');
+
+        if (paramQuery && searchInput) searchInput.value = paramQuery;
+        if (paramState && stateSelect) {
+          stateSelect.value = paramState;
+          // Trigger change to update city options
+          const cityOptions = citySelect ? citySelect.querySelectorAll('option') : [];
+          cityOptions.forEach((opt) => {
+            if (opt.value === 'all') return;
+            const optState = opt.getAttribute('data-state');
+            if (optState === paramState) {
+              opt.style.display = '';
+            } else {
+              opt.style.display = 'none';
+            }
+          });
+        }
+        if (paramCity && citySelect) citySelect.value = paramCity;
+        if (paramType && typeSelect) typeSelect.value = paramType;
+
+        filter(false);
+      } catch {
+        // Fallback standard filter
+        filter(false);
+      }
+    }
+
+    document.addEventListener('astro:page-load', setupCollegeFilters);
+    setupCollegeFilters();
+  </script>
+
+  <InquiryCtaBand />
+</Layout>

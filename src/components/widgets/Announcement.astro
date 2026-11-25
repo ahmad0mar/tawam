@@ -1,0 +1,36 @@
+---
+// Thin announcement bar above the header.
+export interface Props {
+  badge?: string;
+  text?: string;
+  href?: string;
+}
+
+const {
+  badge = 'ADMISSIONS 2026-27',
+  text = 'Expert Guidance for Medical, Engineering &amp; Professional Admissions &raquo;',
+  href = '/contact',
+} = Astro.props;
+---
+
+<div
+  class="text-sm bg-primary text-white hidden lg:flex gap-2 overflow-hidden px-4 py-2 relative text-ellipsis whitespace-nowrap justify-center items-center"
+>
+  {
+    badge && (
+      <span class="bg-accent text-on-accent font-semibold px-2 py-0.5 text-xs rounded-full inline-block">{badge}</span>
+    )
+  }
+  {
+    text &&
+      (href ? (
+        <a
+          href={href}
+          class="text-white hover:text-[var(--aw-color-accent-hover)] font-medium transition-colors"
+          set:html={text}
+        />
+      ) : (
+        <span class="text-white font-medium" set:html={text} />
+      ))
+  }
+</div>

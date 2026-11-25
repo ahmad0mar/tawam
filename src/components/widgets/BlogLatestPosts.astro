@@ -1,0 +1,54 @@
+---
+import { APP_BLOG } from 'astrowind:config';
+
+import Grid from '~/components/blog/Grid.astro';
+import Section from '~/components/ui/Section.astro';
+import SectionHeader from '~/components/ui/SectionHeader.astro';
+
+import { getBlogPermalink } from '~/utils/permalinks';
+import { findLatestPosts } from '~/utils/blog';
+import type { Widget } from '~/types';
+
+export interface Props extends Widget {
+  title?: string;
+  eyebrow?: string;
+  linkText?: string;
+  linkUrl?: string | URL;
+  information?: string;
+  count?: number;
+}
+
+const {
+  title = await Astro.slots.render('title'),
+  eyebrow = 'Insights',
+  linkText = 'View All Articles',
+  linkUrl = getBlogPermalink(),
+  information = await Astro.slots.render('information'),
+  count = 4,
+
+  id,
+} = Astro.props;
+
+const posts = APP_BLOG.isEnabled ? await findLatestPosts({ count }) : [];
+---
+
+{
+  APP_BLOG.isEnabled ? (
+    <Section id={id} tone="cream" mandala="left" class="py-16 sm:py-24">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+        <SectionHeader eyebrow={eyebrow} title={title} subtitle={information} />
+        {APP_BLOG.list.isEnabled && linkText && linkUrl && (
+          <div class="shrink-0">
+            <a href={linkUrl} class="btn-primary text-sm py-2.5 px-6 whitespace-nowrap">
+              {linkText} &rarr;
+            </a>
+          </div>
+        )}
+      </div>
+
+      <Grid posts={posts} />
+    </Section>
+  ) : (
+    <Fragment />
+  )
+}

@@ -1,0 +1,51 @@
+---
+import { twMerge } from 'tailwind-merge';
+
+export interface Props {
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  tone?: 'light' | 'dark';
+  align?: 'left' | 'center';
+  class?: string;
+}
+
+const { eyebrow, title, subtitle, tone = 'light', align = 'left', class: className = '' } = Astro.props;
+
+const isDark = tone === 'dark';
+---
+
+<div class={twMerge(align === 'center' ? 'text-center mx-auto max-w-2xl' : 'max-w-2xl', className)}>
+  {
+    eyebrow && (
+      <div
+        class:list={[
+          'tt-eyebrow mb-3',
+          align === 'center' ? 'justify-center' : 'justify-start',
+          isDark ? 'text-[var(--tt-gold-bright)]' : 'text-[var(--tt-gold-dark)]',
+        ]}
+      >
+        <span>{eyebrow}</span>
+      </div>
+    )
+  }
+  {
+    title && (
+      <h2
+        class:list={[
+          'text-[clamp(1.625rem,3vw,2.25rem)] font-heading font-bold tracking-tight leading-tight',
+          isDark ? 'text-white' : 'text-[var(--tt-ink)]',
+        ]}
+        set:html={title}
+      />
+    )
+  }
+  {
+    subtitle && (
+      <p
+        class:list={['mt-3 text-base leading-[1.6]', isDark ? 'text-white/80' : 'text-[var(--tt-ink-muted)]']}
+        set:html={subtitle}
+      />
+    )
+  }
+</div>
