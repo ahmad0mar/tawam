@@ -11,8 +11,7 @@ export const prerender = true;
 
 const metadata = {
   title: 'Scholarships & Financial Aid for Indian Students — Tawam Travels',
-  description:
-    'Comprehensive directory of central, state, and institutional scholarships for MBBS, B.Tech, and management degree programmes.',
+  description: 'Directory of central, state, and college scholarships for MBBS, B.Tech, and management degrees.',
 };
 
 // Fetch all scholarships from content collection
@@ -37,7 +36,7 @@ const scholarships = scholarshipEntries.map((entry) => ({
   <section class="px-4 sm:px-6 py-6 sm:py-10 mx-auto max-w-7xl">
     <!-- Search & Filter Controls -->
     <div
-      class="bg-[var(--aw-color-bg-soft)] rounded-3xl p-5 sm:p-7 border border-[var(--aw-color-border)] mb-10 shadow-sm"
+      class="bg-[var(--aw-color-bg-soft)] rounded-none p-5 sm:p-7 border border-[var(--aw-color-border)] mb-10 shadow-sm"
     >
       <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-4">
         <!-- Search Input -->
@@ -51,7 +50,7 @@ const scholarships = scholarshipEntries.map((entry) => ({
             type="text"
             id="scholarship-search"
             placeholder="Search by scholarship, provider, or keyword..."
-            class="w-full min-h-[48px] pl-10 pr-4 py-3 text-base rounded-xl border border-[var(--aw-color-border)] bg-white text-[var(--aw-color-text-default)] focus:outline-none focus:border-[var(--aw-color-primary)] transition"
+            class="w-full min-h-[48px] pl-10 pr-4 py-3 text-base rounded-none border border-[var(--aw-color-border)] bg-white text-[var(--aw-color-text-default)] focus:outline-none focus:border-[var(--aw-color-primary)] transition"
           />
         </div>
 
@@ -61,21 +60,21 @@ const scholarships = scholarshipEntries.map((entry) => ({
           <button
             type="button"
             data-scope-filter="all"
-            class="scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-full text-xs font-bold bg-[var(--aw-color-primary)] text-white transition cursor-pointer"
+            class="scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-none border border-[var(--aw-color-primary)] text-xs font-bold bg-[var(--aw-color-primary)] text-white transition cursor-pointer"
           >
             All Schemes
           </button>
           <button
             type="button"
             data-scope-filter="All India"
-            class="scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-full text-xs font-semibold bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
+            class="scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-none text-xs font-semibold bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
           >
             National (All India)
           </button>
           <button
             type="button"
             data-scope-filter="state"
-            class="scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-full text-xs font-semibold bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
+            class="scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-none text-xs font-semibold bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
           >
             State Specific
           </button>
@@ -88,28 +87,28 @@ const scholarships = scholarshipEntries.map((entry) => ({
         <button
           type="button"
           data-course-filter="all"
-          class="course-btn min-h-[44px] px-4 py-2 rounded-full text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] transition cursor-pointer"
+          class="course-btn min-h-[44px] px-4 py-2 rounded-none border border-[var(--aw-color-accent)] text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] transition cursor-pointer"
         >
           All Courses
         </button>
         <button
           type="button"
           data-course-filter="mbbs"
-          class="course-btn min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
+          class="course-btn min-h-[44px] px-4 py-2 rounded-none text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
         >
           Medical (MBBS)
         </button>
         <button
           type="button"
           data-course-filter="btech-computer-science"
-          class="course-btn min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
+          class="course-btn min-h-[44px] px-4 py-2 rounded-none text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
         >
           Engineering (B.Tech)
         </button>
         <button
           type="button"
           data-course-filter="bba"
-          class="course-btn min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
+          class="course-btn min-h-[44px] px-4 py-2 rounded-none text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer"
         >
           Management (BBA)
         </button>
@@ -136,7 +135,7 @@ const scholarships = scholarshipEntries.map((entry) => ({
       {
         scholarships.map((sch) => (
           <div
-            class="scholarship-card bg-white rounded-2xl border border-[var(--aw-color-border)] p-6 shadow-sm hover:shadow-md hover:border-[var(--aw-color-accent)] transition flex flex-col justify-between"
+            class="scholarship-card bg-white rounded-none border border-[var(--aw-color-border)] p-6 shadow-sm hover:shadow-md hover:border-[var(--aw-color-accent)] transition flex flex-col justify-between"
             data-name={sch.name.toLowerCase()}
             data-provider={sch.provider.toLowerCase()}
             data-scope={sch.applicable_state === 'All India' ? 'All India' : 'state'}
@@ -144,20 +143,20 @@ const scholarships = scholarshipEntries.map((entry) => ({
           >
             <div>
               <div class="flex items-center justify-between gap-2 mb-3">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-[#9A6300] line-clamp-1">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-[#C93D25] line-clamp-1">
                   {sch.provider}
                 </span>
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-primary)] border border-[var(--aw-color-border)] shrink-0">
+                <span class="px-2.5 py-0.5 rounded-none text-[10px] font-bold bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-primary)] border border-[var(--aw-color-border)] shrink-0">
                   {sch.applicable_state || 'All India'}
                 </span>
               </div>
 
-              <h3 class="text-lg sm:text-xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+              <h3 class="text-lg sm:text-xl font-heading font-bold text-[var(--aw-color-text-heading)] mb-2">
                 {sch.name}
               </h3>
 
               {/* Amount Highlight Box */}
-              <div class="p-3 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] mb-4">
+              <div class="p-3 rounded-none bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] mb-4">
                 <div class="text-[11px] text-[var(--aw-color-text-muted)] font-medium">Scholarship Grant / Waiver:</div>
                 <div class="text-sm sm:text-base font-bold text-[var(--aw-color-primary)]">{sch.amount}</div>
               </div>
@@ -173,7 +172,7 @@ const scholarships = scholarshipEntries.map((entry) => ({
                 <div class="flex flex-wrap items-center gap-1.5 mb-4">
                   <span class="text-[11px] font-semibold text-[var(--aw-color-text-muted)] mr-1">Applies to:</span>
                   {sch.applicable_courses.map((crs: string) => (
-                    <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]">
+                    <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-none bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]">
                       {crs.replace(/-/g, ' ')}
                     </span>
                   ))}
@@ -183,8 +182,8 @@ const scholarships = scholarshipEntries.map((entry) => ({
               {/* Deadline */}
               {sch.deadline && (
                 <div class="flex items-center gap-1.5 text-xs text-[var(--aw-color-text-muted)] mb-4">
-                  <span>📅 Deadline:</span>
-                  <strong class="text-[#9A6300]">{sch.deadline}</strong>
+                  <span>Deadline:</span>
+                  <strong class="text-[#C93D25]">{sch.deadline}</strong>
                 </div>
               )}
             </div>
@@ -195,7 +194,7 @@ const scholarships = scholarshipEntries.map((entry) => ({
                   href={sch.official_link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="btn-primary py-2 px-4 rounded-xl text-xs font-bold inline-flex items-center gap-1 shadow-sm hover:opacity-95 transition"
+                  class="btn-primary py-2 px-4 rounded-none text-xs font-bold inline-flex items-center gap-1 shadow-sm hover:opacity-95 transition"
                 >
                   <span>Apply on Official Portal</span>
                   <span>&UpperRightArrow;</span>
@@ -217,10 +216,10 @@ const scholarships = scholarshipEntries.map((entry) => ({
     <!-- Empty State -->
     <div
       id="empty-state"
-      class="hidden text-center py-12 px-4 bg-[var(--aw-color-bg-soft)] rounded-2xl border border-[var(--aw-color-border)] my-8"
+      class="hidden text-center py-12 px-4 bg-[var(--aw-color-bg-soft)] rounded-none border border-[var(--aw-color-border)] my-8"
     >
       <div class="text-2xl mb-2">🎓</div>
-      <h3 class="text-base font-serif font-bold text-[var(--aw-color-text-heading)] mb-1">
+      <h3 class="text-base font-heading font-bold text-[var(--aw-color-text-heading)] mb-1">
         No Matching Scholarships Found
       </h3>
       <p class="text-xs text-[var(--aw-color-text-muted)] mb-4">
@@ -229,7 +228,7 @@ const scholarships = scholarshipEntries.map((entry) => ({
       <button
         type="button"
         id="reset-filters"
-        class="btn-primary px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"
+        class="btn-primary px-4 py-2 rounded-none text-xs font-bold cursor-pointer"
       >
         Reset Filters
       </button>
@@ -237,14 +236,13 @@ const scholarships = scholarshipEntries.map((entry) => ({
 
     <!-- Consultation Guidance CTA -->
     <div
-      class="mt-14 p-8 rounded-3xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] text-center max-w-3xl mx-auto"
+      class="mt-14 p-8 rounded-none bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] text-center max-w-3xl mx-auto"
     >
-      <h2 class="text-xl sm:text-2xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
-        Need Help with Scholarship Documentation &amp; Applications?
+      <h2 class="text-xl sm:text-2xl font-heading font-bold text-[var(--aw-color-text-heading)] mb-2">
+        Need Help with Scholarship Documentation?
       </h2>
       <p class="text-xs sm:text-sm text-[var(--aw-color-text-muted)] leading-relaxed mb-6">
-        Many state and national schemes require verified income certificates, caste affidavits, and college bonafide
-        receipts. Our counsellors guide students through the verification process to prevent application rejection.
+        Our counsellors guide students through income, caste, and bonafide verification steps cleanly.
       </p>
       <div class="flex flex-wrap gap-3 justify-center">
         <Button variant="primary" text="Speak with an Advisor" href={getPermalink('/contact')} />
@@ -320,8 +318,8 @@ const scholarships = scholarshipEntries.map((entry) => ({
         scopeBtns.forEach((b) => {
           b.className =
             b === btn
-              ? 'scope-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[var(--aw-color-primary)] text-white transition cursor-pointer'
-              : 'scope-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer';
+              ? 'scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-none border border-[var(--aw-color-primary)] text-xs font-bold bg-[var(--aw-color-primary)] text-white transition cursor-pointer'
+              : 'scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-none text-xs font-semibold bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer';
         });
         filterCards();
       });
@@ -333,8 +331,8 @@ const scholarships = scholarshipEntries.map((entry) => ({
         courseBtns.forEach((b) => {
           b.className =
             b === btn
-              ? 'course-btn px-3 py-1 rounded-full text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] transition cursor-pointer'
-              : 'course-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer';
+              ? 'course-btn min-h-[44px] px-4 py-2 rounded-none border border-[var(--aw-color-accent)] text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] transition cursor-pointer'
+              : 'course-btn min-h-[44px] px-4 py-2 rounded-none text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer';
         });
         filterCards();
       });
@@ -349,14 +347,14 @@ const scholarships = scholarshipEntries.map((entry) => ({
         scopeBtns.forEach((b, i) => {
           b.className =
             i === 0
-              ? 'scope-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[var(--aw-color-primary)] text-white transition cursor-pointer'
-              : 'scope-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer';
+              ? 'scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-none border border-[var(--aw-color-primary)] text-xs font-bold bg-[var(--aw-color-primary)] text-white transition cursor-pointer'
+              : 'scope-btn shrink-0 min-h-[44px] px-4 py-2 rounded-none text-xs font-semibold bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer';
         });
         courseBtns.forEach((b, i) => {
           b.className =
             i === 0
-              ? 'course-btn px-3 py-1 rounded-full text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] transition cursor-pointer'
-              : 'course-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer';
+              ? 'course-btn min-h-[44px] px-4 py-2 rounded-none border border-[var(--aw-color-accent)] text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] transition cursor-pointer'
+              : 'course-btn min-h-[44px] px-4 py-2 rounded-none text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition cursor-pointer';
         });
         filterCards();
       });

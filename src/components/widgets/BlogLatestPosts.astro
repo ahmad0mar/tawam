@@ -35,10 +35,10 @@ const posts = APP_BLOG.isEnabled ? await findLatestPosts({ count }) : [];
 {
   APP_BLOG.isEnabled ? (
     <Section id={id} tone="cream" mandala="left" class="py-16 sm:py-24">
-      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
-        <SectionHeader eyebrow={eyebrow} title={title} subtitle={information} />
+      <div class="text-center max-w-2xl mx-auto mb-10 space-y-4">
+        <SectionHeader align="center" eyebrow={eyebrow} title={title} subtitle={information} />
         {APP_BLOG.list.isEnabled && linkText && linkUrl && (
-          <div class="shrink-0">
+          <div>
             <a href={linkUrl} class="btn-primary text-sm py-2.5 px-6 whitespace-nowrap">
               {linkText} &rarr;
             </a>

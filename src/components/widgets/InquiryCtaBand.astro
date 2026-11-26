@@ -17,30 +17,31 @@ const contactUrl = getPermalink('/contact');
       <Image
         src="~/assets/images/cities/mumbai-gateway-of-india.jpg"
         alt="Indian waterfront heritage monument at dusk"
+        layout="cover"
         class="w-full h-full object-cover object-center opacity-55"
         width={1600}
         height={900}
         loading="lazy"
       />
-      <div class="absolute inset-0 bg-gradient-to-r from-[#071D28]/95 via-[#0B2A3A]/80 to-[#071D28]/90"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-[#112542]/95 via-[#1B365D]/85 to-[#112542]/92"></div>
     </div>
   </Fragment>
 
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
     <!-- Left copy -->
-    <div class="lg:col-span-6">
+    <div class="lg:col-span-6 text-center lg:text-left">
       <SectionHeader
         tone="dark"
         eyebrow="Let's Plan Your Study Journey"
-        title="Ready to Start Your Admission Journey?"
-        subtitle="Speak directly with an education counsellor today. We evaluate your profile, cutoffs, and guide you through every round of admission."
+        title="Ready to Start Your Admission?"
+        subtitle="Speak directly with a counsellor for cutoffs, shortlists, and application help."
       />
     </div>
 
-    <!-- Right glass inquiry card -->
+    <!-- Right square bordered inquiry card -->
     <div class="lg:col-span-6">
       <div
-        class="rounded-[20px] bg-[#071D28]/70 backdrop-blur-md border border-white/20 p-6 sm:p-8 shadow-[var(--tt-shadow-glass)] intersect-once js:motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+        class="rounded-none bg-[#112542]/85 backdrop-blur-md border border-white/25 p-6 sm:p-8 shadow-[var(--tt-shadow-glass)] intersect-once js:motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
       >
         <!-- TODO: Replace client-side handler with Formspree, Netlify Forms (data-netlify="true"), or an Astro API endpoint when backend is ready -->
         <form
@@ -63,7 +64,7 @@ const contactUrl = getPermalink('/contact');
                 required
                 autocomplete="name"
                 placeholder="Your Name"
-                class="w-full min-h-[48px] rounded-xl bg-white/[0.08] border border-white/20 pl-10 pr-4 py-3 text-base text-white placeholder:text-white/60 focus:outline-none focus:border-[var(--tt-gold)] focus:ring-2 focus:ring-[var(--tt-gold)]/40 transition"
+                class="w-full min-h-[48px] rounded-none bg-white/[0.08] border border-white/25 pl-10 pr-4 py-3 text-base text-white placeholder:text-white/60 focus:outline-none focus:border-[var(--tt-gold)] focus:ring-2 focus:ring-[var(--tt-gold)]/40 transition"
               />
             </div>
           </div>
@@ -82,7 +83,7 @@ const contactUrl = getPermalink('/contact');
                 required
                 autocomplete="tel"
                 placeholder="Phone Number (e.g. +91 98765 43210)"
-                class="w-full min-h-[48px] rounded-xl bg-white/[0.08] border border-white/20 pl-10 pr-4 py-3 text-base text-white placeholder:text-white/60 focus:outline-none focus:border-[var(--tt-gold)] focus:ring-2 focus:ring-[var(--tt-gold)]/40 transition"
+                class="w-full min-h-[48px] rounded-none bg-white/[0.08] border border-white/25 pl-10 pr-4 py-3 text-base text-white placeholder:text-white/60 focus:outline-none focus:border-[var(--tt-gold)] focus:ring-2 focus:ring-[var(--tt-gold)]/40 transition"
               />
             </div>
           </div>
@@ -98,8 +99,8 @@ const contactUrl = getPermalink('/contact');
                 name="interests"
                 rows="3"
                 required
-                placeholder="Tell us about your interests / course (e.g. MBBS, B.Tech, MBA)..."
-                class="w-full rounded-xl bg-white/[0.08] border border-white/20 pl-10 pr-4 py-3 text-base text-white placeholder:text-white/60 focus:outline-none focus:border-[var(--tt-gold)] focus:ring-2 focus:ring-[var(--tt-gold)]/40 transition resize-none"
+                placeholder="Interests / course (e.g. MBBS, B.Tech, MBA)..."
+                class="w-full rounded-none bg-white/[0.08] border border-white/25 pl-10 pr-4 py-3 text-base text-white placeholder:text-white/60 focus:outline-none focus:border-[var(--tt-gold)] focus:ring-2 focus:ring-[var(--tt-gold)]/40 transition resize-none"
               ></textarea>
             </div>
           </div>
@@ -112,7 +113,7 @@ const contactUrl = getPermalink('/contact');
             id="tt-inquiry-status"
             role="status"
             aria-live="polite"
-            class="hidden text-xs sm:text-sm rounded-xl px-3.5 py-2.5"
+            class="hidden text-xs sm:text-sm rounded-none px-3.5 py-2.5"
           >
           </p>
         </form>

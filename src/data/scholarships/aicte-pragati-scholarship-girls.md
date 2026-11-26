@@ -14,10 +14,10 @@ last_updated: '2026-11-24'
 
 ## Overview
 
-The AICTE Pragati Scholarship is aimed at providing financial assistance to meritorious girl students pursuing technical degree education across AICTE-approved colleges in India.
+AICTE runs the Pragati scheme to support girl students entering first-year degree or diploma courses in AICTE-approved technical colleges.
 
 ### Key Benefits
 
-- Up to 10,000 scholarships awarded annually across India.
-- ₹50,000 lump sum per year of study to cover tuition fees, laptop/equipment purchases, and books.
-- Valid for the entire 4-year duration of B.Tech programmes.
+- Up to 10,000 scholarships sanctioned each year across India.
+- ₹50,000 a year to put toward tuition, books, software, or a laptop.
+- Renews across all four years of an eligible B.Tech degree if academic conditions are met.

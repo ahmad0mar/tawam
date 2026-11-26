@@ -16,10 +16,10 @@ last_updated: '2026-11-24'
 
 ## Overview
 
-The Prime Minister's Scholarship Scheme (PMSS) under the Ministry of Home Affairs encourages higher technical and professional education for the dependent wards and widows of Central Armed Police Forces (CAPFs) & Assam Rifles personnel.
+Run by the Ministry of Home Affairs, the Prime Minister's Scholarship Scheme (PMSS) helps pay degree fees for dependent wards and widows of CAPF and Assam Rifles personnel.
 
 ### Key Benefits
 
-- ₹3,000 per month for female students (credited annually as ₹36,000).
-- ₹2,500 per month for male students (credited annually as ₹30,000).
-- Applicable across all approved medical (MBBS), engineering (B.Tech), and management courses throughout India.
+- ₹3,000 a month for female students (paid out as ₹36,000 a year).
+- ₹2,500 a month for male students (paid out as ₹30,000 a year).
+- Covers recognised MBBS, B.Tech, and management degrees anywhere in India.

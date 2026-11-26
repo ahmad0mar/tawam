@@ -61,7 +61,7 @@ const destinations = [
       <SectionHeader
         eyebrow="Explore India"
         title="Top Study Destinations"
-        subtitle="Discover India's most popular education hubs, each with its own unique academic ecosystem and career advantage."
+        subtitle="India's top education hubs and campus ecosystems."
       />
 
       <div>
@@ -69,29 +69,28 @@ const destinations = [
       </div>
     </div>
 
-    <div
-      class="lg:col-span-8 flex sm:grid sm:grid-cols-4 gap-3.5 sm:gap-4 overflow-x-auto sm:overflow-visible snap-x snap-mandatory aw-no-scrollbar pb-1 sm:pb-0"
-    >
+    <div class="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
       {
         destinations.map((dest) => (
           <a
             href={dest.href}
-            class="group relative shrink-0 w-[64vw] max-w-[230px] sm:w-auto sm:max-w-none snap-start aspect-[3/4] rounded-[20px] overflow-hidden border border-[var(--tt-border-warm)] shadow-[var(--tt-shadow-soft)] hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300"
+            class="group relative w-full aspect-[3/4] rounded-none overflow-hidden border border-[var(--tt-border-warm)] hover:border-[var(--tt-gold)] shadow-[var(--tt-shadow-soft)] hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300"
           >
             <Image
               src={dest.image}
               alt={`${dest.name} — ${dest.tagline}`}
+              layout="cover"
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               width={420}
               height={560}
               loading="lazy"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#071D28]/90 via-[#0B2A3A]/20 to-transparent" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#112542]/90 via-[#1B365D]/20 to-transparent" />
             <div class="absolute inset-x-0 bottom-0 p-4 text-center">
               <div class="font-heading font-bold text-white text-lg leading-tight group-hover:text-[var(--tt-gold-bright)] transition-colors">
                 {dest.name}
               </div>
-              <div class="text-[11px] font-medium text-white/80 mt-0.5">{dest.tagline}</div>
+              <div class="text-[11px] font-medium text-white/85 mt-0.5">{dest.tagline}</div>
             </div>
           </a>
         ))
@@ -105,7 +104,7 @@ const destinations = [
       <div>
         <h3 class="font-heading font-bold text-lg text-[var(--tt-ink)]">States with Verified Colleges</h3>
         <p class="text-xs text-[var(--tt-ink-muted)] mt-0.5">
-          Live counts from our verified college directory ({colleges.length} catalogued institutions).
+          {colleges.length} catalogued institutions.
         </p>
       </div>
       <div class="flex flex-wrap gap-2">
@@ -113,10 +112,10 @@ const destinations = [
           verifiedStates.map((st) => (
             <a
               href={getPermalink(`/colleges-in/${st.slug}`)}
-              class="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-full bg-white border border-[var(--tt-border-warm)] hover:border-[var(--tt-gold)] text-xs font-semibold text-[var(--tt-ink)] shadow-xs transition"
+              class="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-none bg-white border border-[var(--tt-border-warm)] hover:border-[var(--tt-gold)] text-xs font-semibold text-[var(--tt-ink)] shadow-xs transition"
             >
               <span>{st.name}</span>
-              <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-[var(--tt-gold)] text-[var(--tt-teal-navy)] text-[11px] font-bold">
+              <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-none bg-[var(--tt-gold)] text-white text-[11px] font-bold">
                 {st.count}
               </span>
             </a>
@@ -127,7 +126,7 @@ const destinations = [
 
     <details
       data-aw-smooth-details
-      class="group rounded-2xl bg-white/80 border border-[var(--tt-border-warm)] shadow-xs overflow-hidden"
+      class="group rounded-none bg-white border border-[var(--tt-border-warm)] shadow-xs overflow-hidden"
     >
       <summary
         class="flex items-center justify-between gap-4 px-5 py-4 cursor-pointer select-none list-none text-sm font-semibold text-[var(--tt-ink)] hover:bg-[var(--tt-cream-soft)]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tt-gold)] focus-visible:ring-inset transition"
@@ -145,14 +144,14 @@ const destinations = [
           allStatesWithCounts.map((st) => (
             <a
               href={getPermalink(`/colleges-in/${st.slug}`)}
-              class="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-[var(--tt-cream)]/60 hover:bg-[var(--tt-cream)] border border-[var(--tt-border-warm)] hover:border-[var(--tt-gold)] text-xs font-medium text-[var(--tt-ink)] transition"
+              class="flex items-center justify-between gap-2 px-3 py-2 rounded-none bg-[var(--tt-cream)]/60 hover:bg-[var(--tt-cream)] border border-[var(--tt-border-warm)] hover:border-[var(--tt-gold)] text-xs font-medium text-[var(--tt-ink)] transition"
             >
               <span class="truncate">{st.name}</span>
               <span
                 class:list={[
-                  'shrink-0 inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-[10px] font-bold',
+                  'shrink-0 inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-none text-[10px] font-bold',
                   st.count > 0
-                    ? 'bg-[var(--tt-gold)] text-[var(--tt-teal-navy)]'
+                    ? 'bg-[var(--tt-gold)] text-white'
                     : 'bg-[var(--tt-border-warm)]/60 text-[var(--tt-ink-muted)]',
                 ]}
               >

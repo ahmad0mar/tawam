@@ -32,7 +32,7 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '' } = Ast
     <div class="grid grid-cols-12 gap-8 pb-8">
       <div class="col-span-12 lg:col-span-4">
         <div class="mb-4">
-          <a class="inline-block bg-white rounded-2xl p-3 shadow-sm border border-white/20" href={getHomePermalink()}>
+          <a class="inline-block bg-white rounded-none p-3 shadow-sm border border-white/25" href={getHomePermalink()}>
             <img
               src={logoImg.src}
               alt={SITE?.name || 'Tawam Travels'}
@@ -43,17 +43,16 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '' } = Ast
             />
           </a>
         </div>
-        <p class="text-[#A3B3D1] text-sm leading-relaxed mb-4 max-w-md">
-          Professional education counselling, entrance exam guidance, and admission assistance for premier colleges and
-          universities across India.
+        <p class="text-[#C6D2E6] text-sm leading-relaxed mb-4 max-w-md">
+          Education counselling, entrance guidance, and admission support across India.
         </p>
-        <div class="text-xs text-[#A3B3D1] flex flex-wrap gap-2">
+        <div class="text-xs text-[#C6D2E6] flex flex-wrap gap-2">
           {
             secondaryLinks.map(({ text, href }, index) => (
               <>
                 {index !== 0 ? ' · ' : ''}
                 <a
-                  class="text-[#A3B3D1] hover:text-[var(--tt-gold-bright)] transition duration-150 ease-in-out"
+                  class="text-[#C6D2E6] hover:text-[var(--tt-gold-bright)] transition duration-150 ease-in-out"
                   href={href}
                   set:html={text}
                 />
@@ -71,7 +70,7 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '' } = Ast
                 {columnLinks.map(({ text, href, ariaLabel }) => (
                   <li>
                     <a
-                      class="inline-flex items-center min-h-[44px] sm:min-h-0 py-1 text-[#A3B3D1] hover:text-[var(--tt-gold-bright)] transition duration-150 ease-in-out"
+                      class="inline-flex items-center min-h-[44px] sm:min-h-0 py-1 text-[#C6D2E6] hover:text-[var(--tt-gold-bright)] transition duration-150 ease-in-out"
                       href={href}
                       aria-label={ariaLabel}
                     >
@@ -85,7 +84,7 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '' } = Ast
         ))
       }
       <div class="col-span-12 lg:col-span-2 flex flex-col lg:items-end justify-between gap-4">
-        <p class="font-heading italic text-xl text-[var(--tt-gold-bright)] lg:text-right leading-snug">
+        <p class="font-heading font-bold text-lg text-[var(--tt-gold-bright)] lg:text-right leading-snug">
           Dream Big<br />Study in India
         </p>
         {
@@ -94,7 +93,7 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '' } = Ast
               {socialLinks.map(({ ariaLabel, href, text, icon }) => (
                 <li>
                   <a
-                    class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/[0.08] border border-white/15 text-[#E8EEF9] hover:text-[var(--tt-teal-navy)] hover:bg-[var(--tt-gold)] hover:border-[var(--tt-gold)] transition-colors"
+                    class="inline-flex items-center justify-center w-11 h-11 rounded-none bg-white/[0.08] border border-white/25 text-[#E8EEF9] hover:text-white hover:bg-[var(--tt-gold)] hover:border-[var(--tt-gold)] transition-colors"
                     aria-label={ariaLabel}
                     href={href}
                     target={href?.startsWith('http') ? '_blank' : undefined}

@@ -62,13 +62,16 @@ const persistKey = `header-${Array.from(
   .toString(36)}`;
 ---
 
-<aw-header transition:persist={persistKey}>
+<aw-header
+  transition:persist={persistKey}
+  class:list={[{ sticky: isSticky, relative: !isSticky }, 'top-0 z-40 block w-full']}
+>
   <header
-    class:list={[{ sticky: isSticky, relative: !isSticky }, 'top-0 z-40 flex-none mx-auto w-full']}
+    class="relative flex-none mx-auto w-full"
     {...isSticky ? { 'data-aw-sticky-header': true } : {}}
     {...id ? { id } : {}}
   >
-    <div class="aw-header-bar w-full">
+    <div class="aw-header-bar w-full bg-[#112542]/92 lg:bg-transparent">
       <div
         class:list={[
           'relative py-1.5 lg:py-2 px-4 lg:px-6 mx-auto w-full min-h-[58px] flex items-center justify-between lg:block',
@@ -90,7 +93,7 @@ const persistKey = `header-${Array.from(
           ]}
         >
           <a
-            class="flex items-center shrink-0 overflow-hidden bg-white/95 rounded-xl px-2.5 py-1 shadow-xs"
+            class="flex items-center shrink-0 overflow-hidden bg-white rounded-none border border-[var(--aw-color-border)] px-2.5 py-1 shadow-xs"
             style="max-height:42px"
             href={getHomePermalink()}
           >
@@ -104,27 +107,18 @@ const persistKey = `header-${Array.from(
           class="items-center w-full lg:w-auto hidden lg:flex lg:justify-center lg:mx-2 text-default overflow-y-auto overflow-x-hidden lg:overflow-visible"
           aria-label="Main navigation"
         >
-          <div class="flex items-center justify-between pb-3 mb-3 border-b border-[var(--tt-border-warm)] lg:hidden">
-            <span class="font-heading font-bold text-lg text-[var(--tt-ink)]">Menu</span>
-            <button
-              type="button"
-              data-aw-close-menu
-              aria-label="Close navigation menu"
-              class="inline-flex items-center justify-center w-11 h-11 rounded-xl text-[var(--tt-ink)] hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tt-gold)]"
-            >
-              <Icon name="tabler:x" class="w-6 h-6" />
-            </button>
-          </div>
           <ul
-            class="flex flex-col lg:flex-row lg:self-center w-full lg:w-auto text-base lg:text-xs xl:text-[0.875rem] tracking-normal font-medium lg:items-center gap-1 lg:gap-0.5 xl:gap-1"
+            class="flex flex-col lg:flex-row lg:self-center w-full lg:w-auto text-base lg:text-xs xl:text-[0.875rem] tracking-normal font-medium lg:items-center gap-0 lg:gap-0.5 xl:gap-1"
           >
             {
               links.map(({ text, href, links }) => (
-                <li class={links?.length ? 'dropdown' : ''}>
+                <li
+                  class:list={[links?.length ? 'dropdown' : '', 'border-b border-[var(--aw-color-border)] lg:border-0']}
+                >
                   {links?.length ? (
                     <>
                       <details class="lg:hidden group/mob">
-                        <summary class="flex items-center justify-between min-h-[48px] px-3 py-2.5 rounded-xl cursor-pointer list-none font-semibold text-[var(--tt-ink)] hover:bg-black/5">
+                        <summary class="flex items-center justify-between min-h-[48px] px-3 py-3 rounded-none cursor-pointer list-none font-semibold text-[var(--tt-ink)] hover:bg-[var(--tt-cream)]">
                           <span>{text}</span>
                           <Icon
                             name="tabler:chevron-down"
@@ -136,7 +130,7 @@ const persistKey = `header-${Array.from(
                             <li>
                               <a
                                 class:list={[
-                                  'flex items-center min-h-[44px] px-3 py-2 rounded-lg text-[var(--tt-ink-muted)] hover:text-[var(--tt-ink)]',
+                                  'flex items-center min-h-[44px] px-3 py-2 rounded-none text-[var(--tt-ink-muted)] hover:text-[var(--tt-ink)]',
                                   { 'aw-link-active font-semibold': isActive(href2) },
                                 ]}
                                 href={href2}
@@ -157,12 +151,12 @@ const persistKey = `header-${Array.from(
                           class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden lg:inline"
                         />
                       </button>
-                      <ul class="dropdown-menu hidden lg:backdrop-blur-md border border-[var(--aw-color-border)] rounded-xl lg:absolute pl-4 lg:pl-0 lg:hidden font-medium bg-white lg:min-w-[200px] drop-shadow-xl">
+                      <ul class="dropdown-menu hidden lg:backdrop-blur-md border border-[var(--aw-color-border)] rounded-none lg:absolute pl-4 lg:pl-0 lg:hidden font-medium bg-white lg:min-w-[200px] drop-shadow-xl">
                         {links.map(({ text: text2, href: href2 }) => (
                           <li>
                             <a
                               class:list={[
-                                'first:rounded-t-xl last:rounded-b-xl hover:bg-[var(--aw-color-bg-soft)] hover:text-link py-2 px-5 block whitespace-nowrap',
+                                'hover:bg-[var(--aw-color-bg-soft)] hover:text-link py-2 px-5 block whitespace-nowrap',
                                 { 'aw-link-active': isActive(href2) },
                               ]}
                               href={href2}
@@ -176,7 +170,7 @@ const persistKey = `header-${Array.from(
                   ) : (
                     <a
                       class:list={[
-                        'hover:text-link px-3 lg:px-2.5 xl:px-3 py-3 lg:py-2 min-h-[48px] lg:min-h-0 flex items-center whitespace-nowrap rounded-xl lg:rounded-none',
+                        'hover:text-link px-3 lg:px-2.5 xl:px-3 py-3.5 lg:py-2 min-h-[48px] lg:min-h-0 flex items-center whitespace-nowrap rounded-none',
                         { 'aw-link-active': isActive(href) },
                       ]}
                       href={href}
@@ -190,9 +184,10 @@ const persistKey = `header-${Array.from(
           </ul>
         </nav>
         <div
+          data-aw-header-actions
           class:list={[
             { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-            'hidden lg:self-center lg:flex items-center lg:mb-0 fixed w-full lg:w-auto lg:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] lg:p-0 lg:justify-self-end z-50 bg-[var(--tt-cream)]/95 lg:bg-transparent border-t border-[var(--tt-border-warm)] lg:border-0',
+            'hidden lg:self-center lg:flex items-center lg:mb-0 fixed w-full lg:w-auto lg:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] lg:p-0 lg:justify-self-end z-50 bg-[#F4F6FA] lg:bg-transparent border-t border-[var(--tt-border-warm)] lg:border-0',
           ]}
         >
           <div class="items-center flex justify-between w-full lg:w-auto">
@@ -232,7 +227,7 @@ const persistKey = `header-${Array.from(
 
 <style>
   aw-header {
-    display: contents;
+    display: block;
   }
 </style>
 
@@ -250,7 +245,7 @@ const persistKey = `header-${Array.from(
       const header = this.querySelector<HTMLElement>('#header');
       const toggle = this.querySelector<HTMLElement>('[data-aw-toggle-menu]');
       const nav = this.querySelector<HTMLElement>('#header nav');
-      const lastChild = this.querySelector<HTMLElement>('#header > div > div:last-child');
+      const lastChild = this.querySelector<HTMLElement>('[data-aw-header-actions]');
 
       // The header persists across view transitions (transition:persist), so
       // the server-rendered `aw-link-active` class would go stale. Re-compute it

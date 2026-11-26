@@ -49,16 +49,16 @@ website: 'https://www.iimb.ac.in'
 featured: false
 cover_image: '~/assets/images/colleges/indian-institute-of-management-bangalore/cover.webp'
 imageAlt: 'IIM Bangalore iconic stone architecture and campus gardens'
-description: 'IIM Bangalore is an Institute of National Importance and India’s premier management institution ranked #2 in NIRF Management.'
+description: 'IIM Bangalore is an Institute of National Importance on Bannerghatta Road, ranked #2 in NIRF Management.'
 last_updated: '2026-11-24'
 ---
 
 ## About IIM Bangalore (IIMB)
 
-The **Indian Institute of Management Bangalore (IIMB)** is a premier public management institute located on Bannerghatta Road, Bengaluru. Established in 1973, IIMB has earned EQUIS accreditation and international acclaim for high-impact business leadership research, entrepreneurial incubation at NSRCEL, and public policy formulation.
+Started in 1973 on Bannerghatta Road in Bengaluru, the **Indian Institute of Management Bangalore (IIMB)** is a public management institute and an Institute of National Importance. It holds EQUIS accreditation and sits close to Bengaluru's tech and startup corridor, which shapes both its electives and its campus recruiting.
 
-## Programmes & Global Standing
+## Programmes & Standing
 
-- **Flagship PGP / MBA:** Ranked among the world's top 50 in Financial Times Global MBA rankings.
-- **NSRCEL Incubation:** One of India's largest startup incubators having supported over 1,000+ early-stage ventures.
-- **Executive Education:** Global network of alumni leading Fortune 500 corporations and policy organizations.
+- **Flagship PGP / MBA:** Listed among the global top 50 in the Financial Times MBA rankings, drawing CAT top-percentilers each year.
+- **NSRCEL Incubation:** One of India's busiest campus incubators, backing more than 1,000 early-stage founders across tech and social ventures.
+- **Alumni Network:** Graduates work across consulting, product management, finance, and public policy in India and abroad.

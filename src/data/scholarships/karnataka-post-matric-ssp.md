@@ -16,9 +16,9 @@ last_updated: '2026-11-24'
 
 ## Overview
 
-Karnataka State Scholarship Portal (SSP) is the single-window electronic platform for pre-matric and post-matric financial schemes for students studying in recognized institutions across Karnataka.
+Karnataka's State Scholarship Portal (SSP) handles both pre-matric and post-matric fee reimbursement schemes for eligible domicile students studying in recognised colleges across the state.
 
 ### Key Benefits
 
-- Full fee reimbursement for government and CET quota seats in leading private and state institutions.
-- Monthly hostel maintenance allowances for verified day scholars and boarders.
+- Tuition reimbursement on government and CET-quota seats in state and participating private colleges.
+- Monthly hostel and maintenance allowances for eligible day scholars and boarders.

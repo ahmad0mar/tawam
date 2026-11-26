@@ -7,8 +7,7 @@ import { SITE_INFO } from '~/data/site';
 
 const metadata = {
   title: 'Contact & Education Counselling',
-  description:
-    'Get in touch with Tawam Travels for personalized education counselling, admission guidance, and college selection assistance.',
+  description: 'Contact Tawam Travels for one-on-one education counselling, admission guidance, and college selection.',
 };
 ---
 
@@ -107,7 +106,7 @@ const metadata = {
         const statusEl = document.createElement('div');
         statusEl.setAttribute('role', 'status');
         statusEl.setAttribute('aria-live', 'polite');
-        statusEl.className = 'hidden mt-4 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200';
+        statusEl.className = 'hidden mt-4 rounded-none px-4 py-3 text-sm font-medium transition-all duration-200';
         form.appendChild(statusEl);
 
         form.addEventListener('submit', (e) => {

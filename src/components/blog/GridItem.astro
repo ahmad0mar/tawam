@@ -18,9 +18,11 @@ const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : 
 ---
 
 <article
-  class="mb-6 group flex flex-col rounded-[20px] bg-white border border-[var(--tt-border-warm)] p-4 shadow-[var(--tt-shadow-soft)]"
+  class="mb-6 group flex flex-col rounded-none bg-white border border-[var(--tt-border-warm)] p-4 shadow-[var(--tt-shadow-soft)]"
 >
-  <div class="relative aspect-[16/10] w-full rounded-[20px] mb-4 overflow-hidden bg-[var(--tt-cream-soft)]">
+  <div
+    class="relative aspect-[16/10] w-full rounded-none border border-[var(--tt-border-warm)] mb-4 overflow-hidden bg-[var(--tt-cream-soft)]"
+  >
     {
       image &&
         (link ? (

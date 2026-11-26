@@ -46,12 +46,12 @@ const metadata = {
 
   <section class="px-4 sm:px-6 py-10 sm:py-14 mx-auto max-w-7xl">
     <!-- Quick State Selection Chips -->
-    <div class="mb-10 p-5 rounded-2xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)]">
+    <div class="mb-10 p-5 rounded-none bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)]">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
         <span
           class="text-xs font-bold uppercase tracking-wider text-[var(--aw-color-primary)] flex items-center gap-1.5"
         >
-          <svg class="w-4 h-4 text-[#9A6300]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg class="w-4 h-4 text-[#C93D25]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -62,18 +62,18 @@ const metadata = {
           </svg>
           Browse Colleges by State
         </span>
-        <span class="text-xs text-[var(--aw-color-text-muted)]">Select a state to view all colleges within it</span>
+        <span class="text-xs text-[var(--aw-color-text-muted)]">Select a state to view colleges</span>
       </div>
 
       <div class="flex flex-wrap gap-2 items-center">
         <!-- Tamil Nadu State Chip -->
         <a
           href={getPermalink('/colleges-in/tamil-nadu')}
-          class="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] shadow-sm hover:bg-[var(--aw-color-accent-hover)] transition"
+          class="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-none border border-[var(--aw-color-accent)] text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] shadow-sm hover:bg-[var(--aw-color-accent-hover)] transition"
           title="Colleges in Tamil Nadu (NIT Trichy, VIT, CMC)"
         >
-          📍 Tamil Nadu
-          <span class="px-1.5 py-0.2 bg-white/30 rounded-full text-[10px]">
+          Tamil Nadu
+          <span class="px-1.5 py-0.2 bg-white/25 rounded-none text-[10px]">
             {colleges.filter((c) => c.data.state_slug === 'tamil-nadu').length}
           </span>
         </a>
@@ -81,9 +81,9 @@ const metadata = {
         <!-- Karnataka State Chip -->
         <a
           href={getPermalink('/colleges-in/karnataka')}
-          class="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
+          class="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-none text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
         >
-          📍 Karnataka
+          Karnataka
           <span class="text-[10px] text-[var(--aw-color-text-muted)]">
             {colleges.filter((c) => c.data.state_slug === 'karnataka').length}
           </span>
@@ -92,9 +92,9 @@ const metadata = {
         <!-- Delhi State Chip -->
         <a
           href={getPermalink('/colleges-in/delhi')}
-          class="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
+          class="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-none text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
         >
-          📍 Delhi
+          Delhi
           <span class="text-[10px] text-[var(--aw-color-text-muted)]">
             {colleges.filter((c) => c.data.state_slug === 'delhi').length}
           </span>
@@ -103,9 +103,9 @@ const metadata = {
         <!-- Maharashtra State Chip -->
         <a
           href={getPermalink('/colleges-in/maharashtra')}
-          class="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
+          class="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-none text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
         >
-          📍 Maharashtra
+          Maharashtra
           <span class="text-[10px] text-[var(--aw-color-text-muted)]">
             {colleges.filter((c) => c.data.state_slug === 'maharashtra').length}
           </span>
@@ -113,7 +113,7 @@ const metadata = {
 
         <a
           href={getPermalink('/colleges-in/kerala')}
-          class="inline-flex items-center min-h-[44px] px-4 py-2 rounded-full text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
+          class="inline-flex items-center min-h-[44px] px-4 py-2 rounded-none text-xs font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
         >
           Kerala
         </a>
@@ -121,7 +121,7 @@ const metadata = {
     </div>
 
     <!-- Live Filter Bar -->
-    <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 sm:p-6 mb-8 shadow-sm">
+    <div class="bg-white border border-[var(--aw-color-border)] rounded-none p-4 sm:p-6 mb-8 shadow-sm">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Search Input -->
         <div>
@@ -133,10 +133,10 @@ const metadata = {
               type="text"
               id="college-search"
               placeholder="e.g. VIT, CMC, Medical, CSE..."
-              class="w-full min-h-[48px] text-base py-3 pl-9 pr-3 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:ring-2 focus:ring-[#0572CE] focus:bg-white transition"
+              class="w-full min-h-[48px] text-base py-3 pl-9 pr-3 rounded-none border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:ring-2 focus:ring-[var(--tt-gold)] focus:bg-white transition"
             />
             <svg
-              class="w-4 h-4 text-slate-400 absolute left-3 top-4"
+              class="w-4 h-4 text-[var(--tt-ink-muted)] absolute left-3 top-4"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -157,7 +157,7 @@ const metadata = {
           </label>
           <select
             id="state-filter"
-            class="w-full min-h-[48px] text-base py-3 px-3 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:ring-2 focus:ring-[#0572CE] focus:bg-white transition cursor-pointer"
+            class="w-full min-h-[48px] text-base py-3 px-3 rounded-none border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:ring-2 focus:ring-[var(--tt-gold)] focus:bg-white transition cursor-pointer"
           >
             <option value="all">All States ({activeStates.length})</option>
             {activeStates.map((s) => <option value={s.slug}>{s.name}</option>)}
@@ -171,7 +171,7 @@ const metadata = {
           </label>
           <select
             id="city-filter"
-            class="w-full min-h-[48px] text-base py-3 px-3 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:ring-2 focus:ring-[#0572CE] focus:bg-white transition cursor-pointer"
+            class="w-full min-h-[48px] text-base py-3 px-3 rounded-none border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:ring-2 focus:ring-[var(--tt-gold)] focus:bg-white transition cursor-pointer"
           >
             <option value="all">All Cities</option>
             {
@@ -191,7 +191,7 @@ const metadata = {
           </label>
           <select
             id="type-filter"
-            class="w-full min-h-[48px] text-base py-3 px-3 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:ring-2 focus:ring-[#0572CE] focus:bg-white transition cursor-pointer"
+            class="w-full min-h-[48px] text-base py-3 px-3 rounded-none border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] focus:outline-none focus:ring-2 focus:ring-[var(--tt-gold)] focus:bg-white transition cursor-pointer"
           >
             <option value="all">All Types</option>
             <option value="Government">Government</option>
@@ -227,12 +227,12 @@ const metadata = {
     <!-- Empty State -->
     <div
       id="empty-state"
-      class="hidden bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] rounded-2xl p-12 text-center max-w-lg mx-auto my-12"
+      class="hidden bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] rounded-none p-12 text-center max-w-lg mx-auto my-12"
     >
       <div
-        class="w-12 h-12 rounded-full bg-white border border-[var(--aw-color-border)] flex items-center justify-center mx-auto mb-3 text-muted"
+        class="w-12 h-12 rounded-none bg-white border border-[var(--aw-color-border)] flex items-center justify-center mx-auto mb-3 text-muted"
       >
-        <svg class="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-6 h-6 text-[var(--tt-ink-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -240,7 +240,7 @@ const metadata = {
             d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
       </div>
-      <h3 class="text-lg font-serif font-bold text-[var(--aw-color-text-heading)] mb-1">
+      <h3 class="text-lg font-heading font-bold text-[var(--aw-color-text-heading)] mb-1">
         No colleges match your filter
       </h3>
       <p class="text-xs text-[var(--aw-color-text-muted)] mb-4">
@@ -248,7 +248,7 @@ const metadata = {
       </p>
       <button
         onclick="document.getElementById('reset-filters').click()"
-        class="py-2 px-4 rounded-full text-xs font-semibold bg-[var(--aw-color-primary)] text-white hover:bg-[var(--aw-color-secondary)] transition cursor-pointer"
+        class="py-2 px-4 rounded-none text-xs font-semibold bg-[var(--aw-color-primary)] text-white hover:bg-[var(--aw-color-secondary)] transition cursor-pointer"
       >
         Clear Filters
       </button>
@@ -256,10 +256,10 @@ const metadata = {
 
     <!-- Counselling Banner -->
     <div
-      class="mt-16 bg-gradient-to-r from-[var(--aw-color-primary)] to-[var(--aw-color-secondary)] rounded-2xl p-8 sm:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-md"
+      class="mt-16 bg-gradient-to-r from-[var(--aw-color-primary)] to-[var(--aw-color-secondary)] rounded-none border border-[var(--aw-color-border)] p-8 sm:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-md"
     >
       <div class="max-w-2xl text-center md:text-left">
-        <h2 class="text-2xl sm:text-3xl font-serif font-bold mb-2">Need Guidance Choosing the Right College?</h2>
+        <h2 class="text-2xl sm:text-3xl font-heading font-bold mb-2">Need Guidance Choosing the Right College?</h2>
         <p class="text-blue-100 text-sm leading-relaxed">
           Our senior educational counsellors analyze your entrance exam score, domicile eligibility, and career
           aspirations to shortlist verified institutions with transparent fees.

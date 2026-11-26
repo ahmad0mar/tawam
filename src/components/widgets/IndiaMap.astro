@@ -96,8 +96,8 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
     <!-- Header -->
     <div class="text-center max-w-3xl mx-auto mb-10">
-      {tagline && <span class="text-xs font-bold uppercase tracking-wider text-[#9A6300]">{tagline}</span>}
-      <h2 class="text-2xl sm:text-4xl font-serif font-bold text-[var(--aw-color-text-heading)] mt-1.5 mb-3">
+      {tagline && <span class="text-xs font-bold uppercase tracking-wider text-[#C93D25]">{tagline}</span>}
+      <h2 class="text-2xl sm:text-4xl font-heading font-bold text-[var(--aw-color-text-heading)] mt-1.5 mb-3">
         {title}
       </h2>
       <p class="text-sm sm:text-base text-[var(--aw-color-text-muted)] leading-relaxed">
@@ -109,13 +109,13 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
       <!-- SVG Map Container (8 cols) -->
       <div
-        class="lg:col-span-7 xl:col-span-8 bg-[var(--aw-color-bg-soft)] rounded-3xl p-4 sm:p-6 border border-[var(--aw-color-border)] relative flex flex-col items-center shadow-inner"
+        class="lg:col-span-7 xl:col-span-8 bg-[var(--aw-color-bg-soft)] rounded-none p-4 sm:p-6 border border-[var(--aw-color-border)] relative flex flex-col items-center shadow-inner"
       >
         <div class="w-full max-w-[650px] relative">
           <!-- Floating Tooltip for Desktop Cursor Tracking -->
           <div
             id="map-floating-tooltip"
-            class="map-tooltip pointer-events-none absolute z-20 px-3 py-1.5 rounded-lg bg-[var(--aw-color-primary)] text-white text-xs font-semibold shadow-lg border border-[var(--aw-color-accent)]"
+            class="map-tooltip pointer-events-none absolute z-20 px-3 py-1.5 rounded-none bg-[var(--aw-color-primary)] text-white text-xs font-semibold shadow-lg border border-[var(--aw-color-accent)]"
           >
             <span id="tooltip-text">State Name</span>
           </div>
@@ -171,27 +171,27 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
           <span class="font-bold text-[var(--aw-color-text-default)]">College Availability:</span>
           <div class="flex flex-wrap items-center gap-3">
             <div class="flex items-center gap-1.5">
-              <span class="w-3.5 h-3.5 rounded bg-[#063F8A] border border-white inline-block"></span>
+              <span class="w-3.5 h-3.5 rounded-none bg-[#063F8A] border border-white inline-block"></span>
               <span class="text-[var(--aw-color-text-muted)]">11+ Colleges</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <span class="w-3.5 h-3.5 rounded bg-[#0572CE] border border-white inline-block"></span>
+              <span class="w-3.5 h-3.5 rounded-none bg-[#0572CE] border border-white inline-block"></span>
               <span class="text-[var(--aw-color-text-muted)]">6–10</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <span class="w-3.5 h-3.5 rounded bg-[#79ADD9] border border-white inline-block"></span>
+              <span class="w-3.5 h-3.5 rounded-none bg-[#79ADD9] border border-white inline-block"></span>
               <span class="text-[var(--aw-color-text-muted)]">3–5</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <span class="w-3.5 h-3.5 rounded bg-[#BEDFF8] border border-white inline-block"></span>
+              <span class="w-3.5 h-3.5 rounded-none bg-[#BEDFF8] border border-white inline-block"></span>
               <span class="text-[var(--aw-color-text-muted)]">1–2</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <span class="w-3.5 h-3.5 rounded bg-[#E6ECF5] border border-[#9DB6DE] inline-block"></span>
+              <span class="w-3.5 h-3.5 rounded-none bg-[#E6ECF5] border border-[#9DB6DE] inline-block"></span>
               <span class="text-[var(--aw-color-text-muted)]">Admissions Open</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <span class="w-3.5 h-3.5 rounded bg-[#79ADD9] border-2 border-[#D9A441] inline-block"></span>
+              <span class="w-3.5 h-3.5 rounded-none bg-[#79ADD9] border-2 border-[#F05F46] inline-block"></span>
               <span class="text-[var(--aw-color-text-muted)]">Selected</span>
             </div>
           </div>
@@ -201,14 +201,14 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
       <!-- Live State Detail Inspector Card (4 cols) -->
       <div
         id="state-detail-panel"
-        class="lg:col-span-5 xl:col-span-4 bg-white rounded-3xl p-6 sm:p-7 border border-[var(--aw-color-border)] shadow-md flex flex-col justify-between min-h-[460px] sticky top-24"
+        class="lg:col-span-5 xl:col-span-4 bg-white rounded-none p-6 sm:p-7 border border-[var(--aw-color-border)] shadow-md flex flex-col justify-between min-h-[460px] sticky top-24"
       >
         <div>
           <!-- State Category Badge & Code -->
           <div class="flex items-center justify-between mb-3">
             <span
               id="panel-badge"
-              class="px-2.5 py-1 rounded-full text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)]"
+              class="px-2.5 py-1 rounded-none text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)]"
             >
               Featured State
             </span>
@@ -218,17 +218,16 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
           <!-- State Name -->
           <h3
             id="panel-title"
-            class="text-2xl sm:text-3xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-1"
+            class="text-2xl sm:text-3xl font-heading font-bold text-[var(--aw-color-text-heading)] mb-1"
           >
             Tamil Nadu
           </h3>
-          <p id="panel-count-text" class="text-xs font-semibold text-[#9A6300] mb-4">
+          <p id="panel-count-text" class="text-xs font-semibold text-[#C93D25] mb-4">
             3 premier institutions catalogued
           </p>
 
           <p id="panel-desc" class="text-sm text-[var(--aw-color-text-muted)] leading-relaxed mb-6">
-            Leading hub for engineering, medical, and technical research with world-class deemed and government
-            universities.
+            Engineering, medical, and research hub with leading deemed and government universities.
           </p>
 
           <!-- Featured Colleges List in Selected State -->
@@ -239,21 +238,21 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
             <div id="panel-colleges-list" class="space-y-2">
               <a
                 href={getPermalink('/colleges/national-institute-of-technology-tiruchirappalli')}
-                class="block p-2.5 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition"
+                class="block p-2.5 rounded-none bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition"
               >
                 <div class="text-xs font-bold text-[var(--aw-color-text-heading)]">NIT Tiruchirappalli</div>
                 <div class="text-[11px] text-[var(--aw-color-text-muted)]">NIRF #9 Engineering · Tiruchirappalli</div>
               </a>
               <a
                 href={getPermalink('/colleges/vellore-institute-of-technology-vellore')}
-                class="block p-2.5 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition"
+                class="block p-2.5 rounded-none bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition"
               >
                 <div class="text-xs font-bold text-[var(--aw-color-text-heading)]">VIT Vellore</div>
                 <div class="text-[11px] text-[var(--aw-color-text-muted)]">NIRF #11 · Vellore, Tamil Nadu</div>
               </a>
               <a
                 href={getPermalink('/colleges/christian-medical-college-vellore')}
-                class="block p-2.5 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition"
+                class="block p-2.5 rounded-none bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition"
               >
                 <div class="text-xs font-bold text-[var(--aw-color-text-heading)]">CMC Vellore</div>
                 <div class="text-[11px] text-[var(--aw-color-text-muted)]">NIRF #3 Medical · Vellore, Tamil Nadu</div>
@@ -268,19 +267,19 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
             </h4>
             <div id="panel-cities-list" class="flex flex-wrap gap-1.5">
               <span
-                class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]"
+                class="text-xs px-2.5 py-0.5 rounded-none bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]"
                 >Vellore</span
               >
               <span
-                class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]"
+                class="text-xs px-2.5 py-0.5 rounded-none bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]"
                 >Tiruchirappalli</span
               >
               <span
-                class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]"
+                class="text-xs px-2.5 py-0.5 rounded-none bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]"
                 >Chennai</span
               >
               <span
-                class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]"
+                class="text-xs px-2.5 py-0.5 rounded-none bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]"
                 >Coimbatore</span
               >
             </div>
@@ -292,7 +291,7 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
           <a
             id="panel-action-btn"
             href={getPermalink('/colleges-in/tamil-nadu')}
-            class="btn-primary w-full py-3 px-5 rounded-full font-bold text-sm flex items-center justify-center gap-2 shadow-sm hover:opacity-95 transition"
+            class="btn-primary w-full py-3 px-5 rounded-none font-bold text-sm flex items-center justify-center gap-2 shadow-sm hover:opacity-95 transition"
           >
             <span>Explore Tamil Nadu Colleges</span>
             <span>&rarr;</span>
@@ -426,21 +425,21 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
           panelCountText.textContent = `${count} ${count === 1 ? 'premier institution' : 'premier institutions'} catalogued`;
           panelBadge.textContent = 'Active Admissions';
           panelBadge.className =
-            'px-2.5 py-1 rounded-full text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)]';
-          panelDesc.textContent = `Browse verified NIRF-ranked institutions, course options, annual fees, and admission procedures in ${name}.`;
+            'px-2.5 py-1 rounded-none text-xs font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)]';
+          panelDesc.textContent = `NIRF colleges, fees, and admissions in ${name}.`;
         } else {
           panelCountText.textContent = 'Admissions counselling available';
           panelBadge.textContent = 'State Profile';
           panelBadge.className =
-            'px-2.5 py-1 rounded-full text-xs font-semibold bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]';
-          panelDesc.textContent = `We provide admission assistance for central, state, and private universities located across ${name}.`;
+            'px-2.5 py-1 rounded-none text-xs font-semibold bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]';
+          panelDesc.textContent = `Admission support for universities across ${name}.`;
         }
 
         if (colleges.length > 0) {
           panelCollegesList.innerHTML = colleges
             .map(
               (c) => `
-          <a href="/colleges/${c.slug}" class="block p-2.5 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition">
+          <a href="/colleges/${c.slug}" class="block p-2.5 rounded-none bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition">
             <div class="text-xs font-bold text-[var(--aw-color-text-heading)]">${c.shortName || c.name}</div>
             <div class="text-[11px] text-[var(--aw-color-text-muted)]">${c.type} · ${c.city}</div>
           </a>
@@ -449,8 +448,8 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
             .join('');
         } else {
           panelCollegesList.innerHTML = `
-          <div class="p-3 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] text-xs text-[var(--aw-color-text-muted)]">
-            Explore colleges in this state or speak with our counsellors for available direct and entrance quota seats.
+          <div class="p-3 rounded-none bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] text-xs text-[var(--aw-color-text-muted)]">
+            Speak with our counsellors for direct and quota seats in ${name}.
           </div>
         `;
         }
@@ -459,7 +458,7 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
           panelCitiesList.innerHTML = cities
             .map(
               (ct) =>
-                `<span class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]">${ct.name}</span>`
+                `<span class="text-xs px-2.5 py-0.5 rounded-none bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]">${ct.name}</span>`
             )
             .join('');
         } else {
@@ -662,7 +661,7 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
   }
 
   .state-path.is-selected {
-    --state-stroke: #d9a441 !important;
+    --state-stroke: #f05f46 !important;
     --state-stroke-w: 2.2 !important;
   }
 
@@ -717,7 +716,7 @@ const enrichedPaths = INDIA_STATE_PATHS.map((item) => {
 
   .map-click-ripple {
     fill: none;
-    stroke: #d9a441;
+    stroke: #f05f46;
     stroke-width: 2.5;
     opacity: 0;
     pointer-events: none;

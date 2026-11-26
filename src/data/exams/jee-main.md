@@ -256,7 +256,7 @@ IITs do **not** offer regular undergraduate admission based only on JEE Main. Ca
 
 ## Cutoff trends (official sources only)
 
-There are different meanings of “cutoff” in JEE Main:
+There are different meanings of "cutoff" in JEE Main:
 
 1. **JEE Advanced qualifying cutoff:** The category-wise JEE Main percentile required to become eligible to appear for JEE Advanced.
 2. **College admission closing rank:** The last rank at which a particular institute and programme offered a seat in a specific JoSAA round and category.

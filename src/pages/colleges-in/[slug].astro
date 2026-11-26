@@ -95,7 +95,7 @@ const metadata = {
     <!-- State Overview & City Filter Strip -->
     {
       allStateColleges.length > 0 && (
-        <div class="mb-10 p-5 rounded-2xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)]">
+        <div class="mb-10 p-5 rounded-none bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)]">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
             <span class="text-xs font-bold uppercase tracking-wider text-[var(--aw-color-primary)]">
               Cities with Colleges in {stateName}
@@ -114,10 +114,10 @@ const metadata = {
             {/* All Cities in State Pill */}
             <a
               href={getPermalink(`/colleges-in/${stateSlug}`)}
-              class={`px-3.5 py-1.5 rounded-full text-xs transition ${
+              class={`px-3.5 py-1.5 rounded-none border text-xs transition ${
                 !focusedCity
-                  ? 'font-bold bg-[var(--aw-color-primary)] text-white shadow-sm'
-                  : 'font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)]'
+                  ? 'font-bold bg-[var(--aw-color-primary)] border-[var(--aw-color-primary)] text-white shadow-sm'
+                  : 'font-medium bg-white text-[var(--aw-color-text-default)] border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)]'
               }`}
             >
               All {stateName} ({allStateColleges.length})
@@ -130,14 +130,16 @@ const metadata = {
               return (
                 <a
                   href={getPermalink(`/colleges-in/${city.slug}`)}
-                  class={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition ${
+                  class={`inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-none border text-xs transition ${
                     isSelected
-                      ? 'font-bold bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] shadow-sm'
-                      : 'font-medium bg-white text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)]'
+                      ? 'font-bold bg-[var(--aw-color-accent)] border-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] shadow-sm'
+                      : 'font-medium bg-white text-[var(--aw-color-text-default)] border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)]'
                   }`}
                 >
-                  📍 {city.name}
-                  <span class="px-1.5 py-0.2 rounded-full text-[10px] bg-slate-100 text-slate-700">{countInCity}</span>
+                  {city.name}
+                  <span class="px-1.5 py-0.2 rounded-none border border-[var(--aw-color-border)] text-[10px] bg-[var(--tt-cream-soft)] text-[var(--tt-ink)]">
+                    {countInCity}
+                  </span>
                 </a>
               );
             })}
@@ -151,7 +153,7 @@ const metadata = {
       stateColleges.length > 0 ? (
         <div>
           <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl font-serif font-bold text-[var(--aw-color-text-heading)]">
+            <h2 class="text-xl font-heading font-bold text-[var(--aw-color-text-heading)]">
               Institutions ({stateColleges.length})
             </h2>
             <a
@@ -169,16 +171,15 @@ const metadata = {
           </div>
         </div>
       ) : (
-        <div class="bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] rounded-2xl p-10 text-center max-w-xl mx-auto my-8">
-          <div class="w-12 h-12 rounded-full bg-white border border-[var(--aw-color-border)] flex items-center justify-center mx-auto mb-3 text-muted">
-            <span class="text-xl font-bold font-serif text-[var(--aw-color-primary)]">T</span>
+        <div class="bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] rounded-none p-10 text-center max-w-xl mx-auto my-8">
+          <div class="w-12 h-12 rounded-none bg-white border border-[var(--aw-color-border)] flex items-center justify-center mx-auto mb-3 text-muted">
+            <span class="text-xl font-bold font-heading text-[var(--aw-color-primary)]">T</span>
           </div>
-          <h3 class="text-lg font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+          <h3 class="text-lg font-heading font-bold text-[var(--aw-color-text-heading)] mb-2">
             Cataloging Colleges in {stateName}
           </h3>
           <p class="text-xs text-[var(--aw-color-text-muted)] leading-relaxed mb-6">
-            We are actively compiling accredited medical, engineering, and management colleges in {stateName}. Contact
-            our counselling team directly for immediate admission assistance.
+            We are compiling colleges in {stateName}. Speak with a counsellor for admission options now.
           </p>
           <div class="flex flex-wrap gap-3 justify-center">
             <Button variant="primary" text="Request Admission Info" href={getPermalink('/contact')} />
@@ -190,10 +191,10 @@ const metadata = {
 
     <!-- Bottom Guidance Strip -->
     <div
-      class="mt-16 bg-white border border-[var(--aw-color-border)] rounded-2xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm"
+      class="mt-16 bg-white border border-[var(--aw-color-border)] rounded-none p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm"
     >
       <div class="max-w-2xl">
-        <h3 class="text-xl sm:text-2xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+        <h3 class="text-xl sm:text-2xl font-heading font-bold text-[var(--aw-color-text-heading)] mb-2">
           Seeking Admission in {stateName}?
         </h3>
         <p class="text-xs sm:text-sm text-[var(--aw-color-text-muted)] leading-relaxed">

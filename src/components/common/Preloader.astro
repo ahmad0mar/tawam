@@ -24,7 +24,7 @@ import logoImg from '~/assets/images/brand/tawam-travels-logo.png';
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--aw-color-primary, #011b4a);
+    background-color: var(--aw-color-primary, #1b365d);
     transform: translateY(0);
     will-change: transform;
     /* CSS-only fail-safe: even if JavaScript fails or is disabled, lift away by 2.5s */
@@ -52,7 +52,8 @@ import logoImg from '~/assets/images/brand/tawam-travels-logo.png';
 
   .aw-preloader-logo-wrap {
     background-color: #ffffff;
-    border-radius: 1rem;
+    border: 1px solid #d5dce6;
+    border-radius: 0;
     padding: 0.875rem 1.5rem;
     box-shadow: 0 12px 36px rgb(0 0 0 / 28%);
     opacity: 0;
@@ -71,8 +72,8 @@ import logoImg from '~/assets/images/brand/tawam-travels-logo.png';
   .aw-preloader-line {
     width: 140px;
     height: 3px;
-    border-radius: 9999px;
-    background-color: var(--aw-color-accent, #d08701);
+    border-radius: 0;
+    background-color: var(--aw-color-accent, #f05f46);
     transform: scaleX(0);
     transform-origin: left center;
     animation: awPreloaderLineDraw 550ms var(--aw-ease-out, cubic-bezier(0.22, 1, 0.36, 1)) 260ms forwards;

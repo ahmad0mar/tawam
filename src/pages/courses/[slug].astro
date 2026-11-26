@@ -61,23 +61,23 @@ const metadata = {
     {
       offeringColleges.length > 0 && (
         <div class="mt-12 pt-8 border-t border-[var(--aw-color-border)] not-prose">
-          <h2 class="text-2xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+          <h2 class="text-2xl font-heading font-bold text-[var(--aw-color-text-heading)] mb-2">
             Top Colleges for {d.name}
           </h2>
           <p class="text-xs sm:text-sm text-[var(--aw-color-text-muted)] mb-6">
-            Compare premier institutions offering this programme with verified cutoffs and counselling guidance:
+            Compare institutions offering this programme:
           </p>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             {offeringColleges.map((col) => (
               <a
                 href={getPermalink(`/colleges/${col.data.slug || col.id}`)}
-                class="p-4 rounded-2xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition flex items-center justify-between group"
+                class="p-4 rounded-none bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] hover:border-[var(--aw-color-primary)] transition flex items-center justify-between group"
               >
                 <div>
-                  <span class="text-[11px] font-bold text-[#9A6300] uppercase">
+                  <span class="text-[11px] font-bold text-[#C93D25] uppercase">
                     {col.data.city}, {col.data.state}
                   </span>
-                  <h3 class="font-serif font-bold text-sm sm:text-base text-[var(--aw-color-text-heading)] group-hover:text-[var(--aw-color-primary)] transition">
+                  <h3 class="font-heading font-bold text-sm sm:text-base text-[var(--aw-color-text-heading)] group-hover:text-[var(--aw-color-primary)] transition">
                     {col.data.name}
                   </h3>
                   <div class="flex gap-2 text-xs text-[var(--aw-color-text-muted)] mt-1">

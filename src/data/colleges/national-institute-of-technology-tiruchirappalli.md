@@ -49,28 +49,28 @@ website: 'https://www.nitt.edu'
 featured: true
 cover_image: '~/assets/images/colleges/national-institute-of-technology-tiruchirappalli/cover.webp'
 imageAlt: 'NIT Trichy campus administrative block and expansive academic grounds in Tiruchirappalli'
-description: 'National Institute of Technology Tiruchirappalli (NIT Trichy) is India’s #1 ranked NIT, situated in Tamil Nadu with stellar academic and placement records.'
+description: "National Institute of Technology Tiruchirappalli (NIT Trichy) is India's top-ranked NIT (#9 in NIRF Engineering) in Tamil Nadu."
 last_updated: '2026-11-24'
 ---
 
 ## About National Institute of Technology Tiruchirappalli (NIT Trichy)
 
-Established in 1964 as Regional Engineering College (REC) Tiruchirappalli and elevated to an Institute of National Importance under the NITSER Act, **NIT Trichy** is the undisputed #1 ranked National Institute of Technology in India, securing the **#9 position nationwide** in the NIRF Engineering rankings.
+Founded in 1964 as Regional Engineering College (REC) Tiruchirappalli and later designated an Institute of National Importance under the NITSER Act, **NIT Trichy** ranks **#9 overall** in NIRF Engineering and tops the NIT list.
 
-Located on an expansive 800-acre campus on the Tiruchirappalli–Thanjavur highway in Tamil Nadu, NIT Trichy serves as a benchmark for technical education, high-performance computing, and faculty research.
+Its 800-acre campus sits on the Tiruchirappalli-Thanjavur highway in Tamil Nadu. Strong core departments sit alongside modern computing labs, and most students live on campus.
 
 ## B.Tech Admissions & Quota System
 
-Admissions to undergraduate B.Tech programmes are strictly based on **JEE Main** performance through JoSAA (Joint Seat Allocation Authority) and CSAB counselling:
+B.Tech seats are filled strictly through **JEE Main** ranks via JoSAA and CSAB counselling:
 
-1. **Home State Quota (50%):** Reserved for candidates who completed Class 12 from schools within Tamil Nadu and Puducherry.
-2. **Other State Quota (50%):** Open to top rank holders from all other Indian states and union territories.
-3. **Tuition Fee Waivers:** Full tuition waivers for SC/ST and economically weaker students with family income under ₹1 Lakh; 2/3rd fee remission for income between ₹1L and ₹5L.
+1. **Home State Quota (50%):** Reserved for students who passed Class 12 from schools in Tamil Nadu or Puducherry.
+2. **Other State Quota (50%):** Open to rank holders from all remaining Indian states and Union Territories.
+3. **Tuition Fee Waivers:** Full tuition waivers apply to SC/ST students and families earning under ₹1 Lakh a year. Families earning between ₹1L and ₹5L receive a two-thirds tuition remission.
 
 ## Placement & Internship Highlights
 
-NIT Trichy records top-tier domestic and global hiring across software, hardware semiconductors, core engineering, and quantitative analytics:
+Recruiters visit NIT Trichy for software roles, semiconductor design, core engineering, and quantitative roles:
 
 - **Average CTC:** ₹15.80 LPA across all B.Tech branches.
-- **Circuit Branches (CSE/ECE):** Average package exceeds ₹22 LPA.
+- **Circuit Branches (CSE/ECE):** Average package crosses ₹22 LPA.
 - **Top Recruiters:** Google, Microsoft, Apple, Qualcomm, Texas Instruments, Morgan Stanley, and Amazon.

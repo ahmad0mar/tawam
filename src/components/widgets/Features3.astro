@@ -40,12 +40,12 @@ const columnsClass = getColumnsClass(columns);
   <div>
     {
       image && (
-        <div class="w-full h-80 object-cover rounded-xl mx-auto bg-gray-500 shadow-lg">
+        <div class="w-full h-80 object-cover rounded-none border border-[var(--tt-border-warm)] mx-auto bg-gray-500 shadow-lg">
           {typeof image === 'string' ? (
             <Fragment set:html={image} />
           ) : (
             <Image
-              class="w-full h-80 object-cover rounded-xl mx-auto bg-gray-500 shadow-lg"
+              class="w-full h-80 object-cover rounded-none border border-[var(--tt-border-warm)] mx-auto bg-gray-500 shadow-lg"
               width={768}
               height={320}
               widths={[400, 768]}

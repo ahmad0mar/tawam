@@ -16,4 +16,4 @@ last_updated: '2026-11-24'
 
 ## Overview
 
-The Post-Matric Scholarship scheme is aimed at supporting meritorious students pursuing higher professional and technical education in recognized institutions across India. Eligible candidates enrolled in MBBS, B.Tech, and BBA programmes can claim tuition fee subsidies and monthly maintenance allowances through direct benefit transfer (DBT).
+Post-Matric Scholarship schemes cover eligible students entering medical, engineering, and management degrees at recognised colleges across India. Depending on category and income rules, students can claim tuition subsidies alongside monthly maintenance money paid through DBT.

@@ -33,8 +33,8 @@ const {
     class:list={[
       'text-center',
       layout === 'banner'
-        ? 'mx-auto rounded-2xl bg-primary px-6 py-12 md:py-16 text-white'
-        : 'max-w-3xl mx-auto p-6 rounded-md shadow-xl dark:shadow-none dark:border dark:border-slate-600',
+        ? 'mx-auto rounded-none border border-white/20 bg-[var(--tt-teal-navy)] px-6 py-12 md:py-16 text-white'
+        : 'max-w-3xl mx-auto p-6 sm:p-10 rounded-none bg-white border border-[var(--tt-border-warm)] shadow-[var(--tt-shadow-soft)]',
     ]}
   >
     <Headline
@@ -43,8 +43,9 @@ const {
       tagline={tagline}
       classes={{
         container: 'mb-0 md:mb-0',
-        title: `text-4xl md:text-4xl font-bold tracking-tighter mb-4 font-heading ${layout === 'banner' ? 'text-white' : ''}`,
-        subtitle: layout === 'banner' ? 'text-xl text-white' : 'text-xl text-muted dark:text-slate-400',
+        title: `text-3xl sm:text-4xl font-bold tracking-tight mb-4 font-heading ${layout === 'banner' ? 'text-white' : 'text-[var(--tt-ink)]'}`,
+        subtitle:
+          layout === 'banner' ? 'text-lg sm:text-xl text-white/85' : 'text-lg sm:text-xl text-[var(--tt-ink-muted)]',
         ...((classes?.headline as Record<string, string>) ?? {}),
       }}
     />

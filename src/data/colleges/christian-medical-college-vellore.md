@@ -48,13 +48,13 @@ website: 'https://www.cmch-vellore.edu'
 featured: true
 cover_image: '~/assets/images/colleges/christian-medical-college-vellore/cover.webp'
 imageAlt: 'Christian Medical College Vellore campus and hospital grounds'
-description: 'Christian Medical College Vellore is one of India’s most prestigious medical teaching hospitals, ranked #3 nationally in NIRF Medical.'
+description: "Christian Medical College Vellore is one of India's leading medical teaching hospitals, ranked #3 nationally in NIRF Medical."
 last_updated: '2026-11-24'
 ---
 
 ## About Christian Medical College (CMC Vellore)
 
-Founded in 1900 by Dr. Ida Sophia Scudder, **Christian Medical College (CMC Vellore)** is an internationally acclaimed medical school and healthcare institution in Vellore, Tamil Nadu. CMC is renowned for clinical excellence, ethical medical practice, and selfless community service. It consistently ranks among the top 3 medical colleges in India alongside AIIMS New Delhi and PGIMER Chandigarh.
+Founded in 1900 by Dr. Ida Sophia Scudder, **Christian Medical College (CMC Vellore)** is an established medical school and teaching hospital in Vellore, Tamil Nadu. CMC is known across India for clinical training, ethical medical practice, and community healthcare. It consistently ranks among the top 3 medical colleges in India alongside AIIMS New Delhi and PGIMER Chandigarh.
 
 The institution includes a 3,000+ bed tertiary multi-specialty healthcare centre catering to patients from all across South Asia and abroad.
 

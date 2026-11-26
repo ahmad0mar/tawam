@@ -1,53 +1,55 @@
 ---
 // Font families are provided by Astro's native Fonts API (see `fonts` in
 // astro.config.ts and <Font /> in Layout.astro):
-// Playfair Display for headings, Inter for body and UI.
+// Normal clean sans-serif (Inter) across headings, UI, and body.
 ---
 
 <style is:inline>
   :root {
-    --aw-font-sans: var(--font-inter);
-    --aw-font-serif: var(--font-playfair-display);
-    --aw-font-heading: var(--font-playfair-display);
+    --aw-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    --aw-font-serif: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    --aw-font-heading: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-    /* Core brand & redesign tokens */
-    --tt-cream: #fbf3e4;
-    --tt-cream-soft: #f5e9d3;
-    --tt-teal-navy: #0b2a3a;
-    --tt-teal-navy-deep: #071d28;
-    --tt-gold: #d9a441;
-    --tt-gold-bright: #ecc268;
-    --tt-gold-dark: #9a6300;
-    --tt-ink: #0b2a3a;
-    --tt-ink-muted: #4a5a6a;
-    --tt-border-warm: #e6d8be;
-    --tt-radius-card: 1.125rem;
-    --tt-shadow-soft: 0 12px 32px rgb(11 42 58 / 10%);
-    --tt-shadow-glass: 0 16px 40px rgb(7 29 40 / 28%);
+    /* IDP India inspired palette (Orange #F05F46, Blue #28558C, Green #1C827D, Charcoal #333333, White #FFFFFF) */
+    --tt-cream: #ffffff;
+    --tt-cream-soft: #f4f6fa;
+    --tt-teal-navy: #1b365d;
+    --tt-teal-navy-deep: #112542;
+    --tt-gold: #f05f46;
+    --tt-gold-bright: #ff7a59;
+    --tt-gold-dark: #c93d25;
+    --tt-idp-green: #1c827d;
+    --tt-idp-blue: #28558c;
+    --tt-ink: #222b38;
+    --tt-ink-muted: #5a6577;
+    --tt-border-warm: #d5dce6;
+    --tt-radius-card: 0px;
+    --tt-shadow-soft: 0 4px 16px rgb(27 54 93 / 7%);
+    --tt-shadow-glass: 0 12px 28px rgb(17 37 66 / 26%);
 
     /* Mapped AstroWind tokens so inner pages & widgets stay consistent */
-    --aw-color-primary: #0b2a3a;
-    --aw-color-secondary: #133f54;
-    --aw-color-accent: #d9a441;
-    --aw-color-accent-hover: #ecc268;
-    --aw-color-accent-text: #9a6300;
-    --aw-color-link: #0a5bc4;
+    --aw-color-primary: #28558c;
+    --aw-color-secondary: #1b365d;
+    --aw-color-accent: #f05f46;
+    --aw-color-accent-hover: #d94a32;
+    --aw-color-accent-text: #c93d25;
+    --aw-color-link: #28558c;
 
-    --aw-color-text-heading: #0b2a3a;
-    --aw-color-text-default: #223544;
-    --aw-color-text-muted: #516273;
-    --aw-color-bg-page: #fbf3e4;
-    --aw-color-bg-soft: #f5e9d3;
-    --aw-color-bg-warm: #fff6df;
-    --aw-color-border: #e6d8be;
+    --aw-color-text-heading: #222b38;
+    --aw-color-text-default: #333333;
+    --aw-color-text-muted: #666666;
+    --aw-color-bg-page: #ffffff;
+    --aw-color-bg-soft: #f4f6fa;
+    --aw-color-bg-warm: #fff5f2;
+    --aw-color-border: #d5dce6;
     --aw-color-on-primary: #ffffff;
-    --aw-color-on-accent: #0b2a3a;
-    --aw-color-success: #15803d;
-    --aw-color-error: #b42318;
+    --aw-color-on-accent: #ffffff;
+    --aw-color-success: #1c827d;
+    --aw-color-error: #c93d25;
 
     ::selection {
-      background-color: #f5e9d3;
-      color: #0b2a3a;
+      background-color: #fde4df;
+      color: #222b38;
     }
   }
 </style>

@@ -37,9 +37,9 @@ const metadata = {
 };
 
 const typeBadgeStyles = {
-  Government: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-  Private: 'bg-blue-50 text-blue-900 border-blue-200',
-  Deemed: 'bg-amber-50 text-amber-900 border-amber-200',
+  Government: 'bg-[#1C827D]/10 text-[#1C827D] border-[#1C827D]/30',
+  Private: 'bg-[var(--tt-cream-soft)] text-[var(--tt-ink)] border-[var(--tt-border-warm)]',
+  Deemed: 'bg-[#F05F46]/10 text-[#C93D25] border-[#F05F46]/30',
 };
 ---
 
@@ -58,7 +58,7 @@ const typeBadgeStyles = {
 
   <article class="px-4 sm:px-6 py-8 sm:py-12 mx-auto max-w-6xl">
     <!-- Hero / College Header Banner -->
-    <header class="mb-10 bg-white border border-[var(--aw-color-border)] rounded-3xl overflow-hidden shadow-sm">
+    <header class="mb-10 bg-white border border-[var(--aw-color-border)] rounded-none overflow-hidden shadow-sm">
       <!-- Cover Photo with Badge Overlays -->
       <div class="relative aspect-[21/9] sm:aspect-[24/9] w-full bg-[var(--aw-color-bg-soft)] overflow-hidden">
         {
@@ -82,20 +82,20 @@ const typeBadgeStyles = {
 
         <div class="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-8 flex flex-wrap gap-2 items-center">
           <span
-            class={`px-3 py-1 text-xs font-semibold rounded-full border shadow-sm ${typeBadgeStyles[d.type] || 'bg-white text-slate-800'}`}
+            class={`px-3 py-1 text-xs font-semibold rounded-none border shadow-sm ${typeBadgeStyles[d.type] || 'bg-white text-slate-800'}`}
           >
             {d.type} Institution
           </span>
           {
             d.naac_grade && (
-              <span class="px-3 py-1 text-xs font-bold rounded-full bg-[var(--aw-color-primary)] text-white border border-white/20 shadow-sm">
+              <span class="px-3 py-1 text-xs font-bold rounded-none bg-[var(--aw-color-primary)] text-white border border-white/25 shadow-sm">
                 NAAC {d.naac_grade}
               </span>
             )
           }
           {
             d.nirf_rank && (
-              <span class="px-3 py-1 text-xs font-bold rounded-full bg-[var(--aw-color-accent)] text-[var(--aw-color-on-accent)] shadow-sm">
+              <span class="px-3 py-1 text-xs font-bold rounded-none bg-[var(--aw-color-accent)] border border-white/25 text-[var(--aw-color-on-accent)] shadow-sm">
                 NIRF #{d.nirf_rank}
               </span>
             )
@@ -108,7 +108,7 @@ const typeBadgeStyles = {
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div>
             <div class="flex items-center gap-2 text-xs sm:text-sm text-[var(--aw-color-text-muted)] mb-2">
-              <svg class="w-4 h-4 text-[#9A6300] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-4 h-4 text-[#C93D25] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -134,14 +134,14 @@ const typeBadgeStyles = {
                   {d.state}
                 </a>
               </span>
-              {d.established && <span class="text-slate-300">•</span>}
+              {d.established && <span class="text-[var(--tt-border-warm)]">•</span>}
               {d.established && <span>Established {d.established}</span>}
-              {d.affiliation && <span class="text-slate-300 hidden sm:inline">•</span>}
+              {d.affiliation && <span class="text-[var(--tt-border-warm)] hidden sm:inline">•</span>}
               {d.affiliation && <span class="hidden sm:inline text-xs">{d.affiliation}</span>}
             </div>
 
             <h1
-              class="text-2xl sm:text-4xl font-serif font-bold text-[var(--aw-color-text-heading)] leading-tight mb-2"
+              class="text-2xl sm:text-4xl font-heading font-bold text-[var(--aw-color-text-heading)] leading-tight mb-2"
             >
               {d.name}
               {d.short_name && <span class="text-[var(--aw-color-secondary)] font-normal">({d.short_name})</span>}
@@ -151,7 +151,7 @@ const typeBadgeStyles = {
               d.streams && d.streams.length > 0 && (
                 <div class="flex flex-wrap gap-1.5 mt-3">
                   {d.streams.map((stream) => (
-                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]">
+                    <span class="text-xs px-2.5 py-0.5 rounded-none bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]">
                       {stream}
                     </span>
                   ))}
@@ -173,7 +173,7 @@ const typeBadgeStyles = {
                   href={d.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-center py-2 px-4 text-xs font-semibold rounded-full border border-[var(--aw-color-border)] text-[var(--aw-color-text-default)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
+                  class="text-center py-2 px-4 text-xs font-semibold rounded-none border border-[var(--aw-color-border)] text-[var(--aw-color-text-default)] hover:border-[var(--aw-color-primary)] hover:text-[var(--aw-color-primary)] transition"
                 >
                   Visit Official Website &nearr;
                 </a>
@@ -191,12 +191,12 @@ const typeBadgeStyles = {
       class="sticky top-[62px] lg:top-[74px] z-20 mb-8 -mx-2 px-2 py-2"
     >
       <div
-        class="inline-flex max-w-full overflow-x-auto aw-no-scrollbar items-center gap-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[var(--aw-color-border)] px-2.5 py-1.5 shadow-sm"
+        class="inline-flex max-w-full overflow-x-auto aw-no-scrollbar items-center gap-1.5 rounded-none bg-white/95 backdrop-blur-md border border-[var(--aw-color-border)] px-2.5 py-1.5 shadow-sm"
       >
         <a
           href="#overview-metrics"
           data-college-nav-link="overview-metrics"
-          class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-full text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
+          class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-none text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
         >
           Overview
         </a>
@@ -205,7 +205,7 @@ const typeBadgeStyles = {
             <a
               href="#courses-fees"
               data-college-nav-link="courses-fees"
-              class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-full text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
+              class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-none text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
             >
               Courses &amp; Fees
             </a>
@@ -216,7 +216,7 @@ const typeBadgeStyles = {
             <a
               href="#accepted-exams"
               data-college-nav-link="accepted-exams"
-              class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-full text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
+              class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-none text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
             >
               Entrance Exams
             </a>
@@ -225,7 +225,7 @@ const typeBadgeStyles = {
         <a
           href="#college-overview"
           data-college-nav-link="college-overview"
-          class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-full text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
+          class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-none text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
         >
           Campus Guide
         </a>
@@ -234,7 +234,7 @@ const typeBadgeStyles = {
             <a
               href="#placements"
               data-college-nav-link="placements"
-              class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-full text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
+              class="college-sec-link shrink-0 inline-flex items-center min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:py-1.5 rounded-none text-xs font-semibold text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-primary)] transition-colors"
             >
               Placements
             </a>
@@ -249,22 +249,22 @@ const typeBadgeStyles = {
         Institutional Overview &amp; Key Metrics
       </h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 shadow-sm text-center">
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-none p-4 shadow-sm text-center">
           <span class="block text-[11px] text-[var(--aw-color-text-muted)] uppercase tracking-wider mb-1">Type</span>
           <span class="font-bold text-sm sm:text-base text-[var(--aw-color-primary)]">{d.type}</span>
         </div>
-        <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 shadow-sm text-center">
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-none p-4 shadow-sm text-center">
           <span class="block text-[11px] text-[var(--aw-color-text-muted)] uppercase tracking-wider mb-1"
             >NIRF Rank</span
           >
           <span
-            class="font-bold text-sm sm:text-base text-[#9A6300] tabular-nums"
+            class="font-bold text-sm sm:text-base text-[#C93D25] tabular-nums"
             data-aw-metric-countup={d.nirf_rank ? String(d.nirf_rank) : undefined}
           >
             {d.nirf_rank || 'Recognized'}
           </span>
         </div>
-        <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 shadow-sm text-center">
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-none p-4 shadow-sm text-center">
           <span class="block text-[11px] text-[var(--aw-color-text-muted)] uppercase tracking-wider mb-1"
             >NAAC Rating</span
           >
@@ -272,7 +272,7 @@ const typeBadgeStyles = {
             >{d.naac_grade || 'Accredited'}</span
           >
         </div>
-        <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 shadow-sm text-center">
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-none p-4 shadow-sm text-center">
           <span class="block text-[11px] text-[var(--aw-color-text-muted)] uppercase tracking-wider mb-1"
             >Campus Size</span
           >
@@ -283,7 +283,7 @@ const typeBadgeStyles = {
             {d.campus_size || 'N/A'}
           </span>
         </div>
-        <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 shadow-sm text-center">
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-none p-4 shadow-sm text-center">
           <span class="block text-[11px] text-[var(--aw-color-text-muted)] uppercase tracking-wider mb-1"
             >Avg Package</span
           >
@@ -294,9 +294,9 @@ const typeBadgeStyles = {
             {d.average_package || 'N/A'}
           </span>
         </div>
-        <div class="bg-white border border-[var(--aw-color-border)] rounded-2xl p-4 shadow-sm text-center">
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-none p-4 shadow-sm text-center">
           <span class="block text-[11px] text-[var(--aw-color-text-muted)] uppercase tracking-wider mb-1">Hostels</span>
-          <span class="font-bold text-sm sm:text-base text-emerald-700"
+          <span class="font-bold text-sm sm:text-base text-[#1C827D]"
             >{d.hostel_available ? 'Available' : 'Day Scholar'}</span
           >
         </div>
@@ -313,11 +313,11 @@ const typeBadgeStyles = {
             <section
               id="courses-fees"
               data-college-section="courses-fees"
-              class="bg-white border border-[var(--aw-color-border)] rounded-3xl p-6 sm:p-8 shadow-sm scroll-mt-32"
+              class="bg-white border border-[var(--aw-color-border)] rounded-none p-6 sm:p-8 shadow-sm scroll-mt-32"
             >
               <div class="flex items-center justify-between mb-4">
                 <div>
-                  <h2 class="text-xl font-serif font-bold text-[var(--aw-color-text-heading)]">
+                  <h2 class="text-xl font-heading font-bold text-[var(--aw-color-text-heading)]">
                     Courses Offered &amp; Fee Structure
                   </h2>
                   <p class="text-xs text-[var(--aw-color-text-muted)]">
@@ -331,10 +331,10 @@ const typeBadgeStyles = {
                   <table class="w-full text-left text-xs sm:text-sm min-w-[480px]">
                     <thead>
                       <tr class="border-b border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-heading)] font-semibold">
-                        <th class="py-3 px-3 rounded-l-lg">Course</th>
+                        <th class="py-3 px-3">Course</th>
                         <th class="py-3 px-3">Duration</th>
                         <th class="py-3 px-3">Annual Fees</th>
-                        <th class="py-3 px-3 rounded-r-lg">Cutoff Trend</th>
+                        <th class="py-3 px-3">Cutoff Trend</th>
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-[var(--aw-color-border)]">
@@ -368,7 +368,7 @@ const typeBadgeStyles = {
                 <div
                   aria-hidden="true"
                   class="pointer-events-none absolute top-0 right-0 bottom-1 w-6 bg-gradient-to-l from-white to-transparent md:hidden"
-                ></div>
+                />
               </div>
             </section>
           )
@@ -380,18 +380,18 @@ const typeBadgeStyles = {
             <section
               id="accepted-exams"
               data-college-section="accepted-exams"
-              class="bg-white border border-[var(--aw-color-border)] rounded-3xl p-6 sm:p-8 shadow-sm scroll-mt-32"
+              class="bg-white border border-[var(--aw-color-border)] rounded-none p-6 sm:p-8 shadow-sm scroll-mt-32"
             >
-              <h2 class="text-xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+              <h2 class="text-xl font-heading font-bold text-[var(--aw-color-text-heading)] mb-2">
                 Accepted Entrance Examinations
               </h2>
               <p class="text-xs text-[var(--aw-color-text-muted)] mb-4">
-                Admissions to {d.name} require qualifying scores in these national or institutional entrance exams:
+                Admissions to {d.name} require qualifying scores in these entrance exams:
               </p>
               <div class="flex flex-wrap gap-2">
                 {d.accepted_exams.map((exam) => (
-                  <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-primary)] border border-[var(--aw-color-border)]">
-                    <svg class="w-3.5 h-3.5 text-[#9A6300]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-none text-xs font-semibold bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-primary)] border border-[var(--aw-color-border)]">
+                    <svg class="w-3.5 h-3.5 text-[#C93D25]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
@@ -411,7 +411,7 @@ const typeBadgeStyles = {
         <section
           id="college-overview"
           data-college-section="college-overview"
-          class="bg-white border border-[var(--aw-color-border)] rounded-3xl p-6 sm:p-8 shadow-sm prose prose-sm sm:prose max-w-none text-[var(--aw-color-text-default)] prose-headings:font-serif prose-headings:text-[var(--aw-color-text-heading)] prose-a:text-[var(--aw-color-link)] scroll-mt-32"
+          class="bg-white border border-[var(--aw-color-border)] rounded-none p-6 sm:p-8 shadow-sm prose prose-sm sm:prose max-w-none text-[var(--aw-color-text-default)] prose-headings:font-heading prose-headings:text-[var(--aw-color-text-heading)] prose-a:text-[var(--aw-color-link)] scroll-mt-32"
         >
           <Content />
         </section>
@@ -422,22 +422,22 @@ const typeBadgeStyles = {
             <section
               id="placements"
               data-college-section="placements"
-              class="bg-white border border-[var(--aw-color-border)] rounded-3xl p-6 sm:p-8 shadow-sm scroll-mt-32"
+              class="bg-white border border-[var(--aw-color-border)] rounded-none p-6 sm:p-8 shadow-sm scroll-mt-32"
             >
-              <h2 class="text-xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+              <h2 class="text-xl font-heading font-bold text-[var(--aw-color-text-heading)] mb-2">
                 Placement &amp; Corporate Recruiters
               </h2>
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
                 {d.highest_package && (
-                  <div class="p-3 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] text-center">
+                  <div class="p-3 rounded-none bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] text-center">
                     <span class="block text-[10px] uppercase text-muted">Highest Offer</span>
                     <span class="font-bold text-sm text-[var(--aw-color-primary)]">{d.highest_package}</span>
                   </div>
                 )}
                 {d.average_package && (
-                  <div class="p-3 rounded-xl bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] text-center">
+                  <div class="p-3 rounded-none bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] text-center">
                     <span class="block text-[10px] uppercase text-muted">Average Package</span>
-                    <span class="font-bold text-sm text-[#9A6300]">
+                    <span class="font-bold text-sm text-[#C93D25]">
                       {d.average_package.startsWith('N/A') ? 'Not applicable' : d.average_package}
                     </span>
                   </div>
@@ -446,7 +446,7 @@ const typeBadgeStyles = {
               <p class="text-xs text-[var(--aw-color-text-muted)] mb-3">Key Hiring Partners:</p>
               <div class="flex flex-wrap gap-2">
                 {d.top_recruiters.map((recruiter) => (
-                  <span class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-50 text-slate-700 border border-slate-200">
+                  <span class="px-3 py-1 rounded-none text-xs font-medium bg-[var(--tt-cream-soft)]/70 text-[var(--tt-ink)] border border-[var(--tt-border-warm)]">
                     {recruiter}
                   </span>
                 ))}
@@ -460,36 +460,35 @@ const typeBadgeStyles = {
       <aside class="space-y-6">
         <!-- Counselling Enquiry Box -->
         <div
-          class="bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] rounded-3xl p-6 shadow-sm sticky top-24"
+          class="bg-[var(--aw-color-bg-soft)] border border-[var(--aw-color-border)] rounded-none p-6 shadow-sm sticky top-24"
         >
           <div
-            class="w-12 h-12 rounded-full bg-white border border-[var(--aw-color-border)] flex items-center justify-center mb-4 text-[var(--aw-color-primary)]"
+            class="w-12 h-12 rounded-none bg-white border border-[var(--aw-color-border)] flex items-center justify-center mb-4 text-[var(--aw-color-primary)]"
           >
-            <span class="font-serif font-bold text-xl">T</span>
+            <span class="font-heading font-bold text-xl">T</span>
           </div>
-          <h3 class="text-xl font-serif font-bold text-[var(--aw-color-text-heading)] mb-2">
+          <h3 class="text-xl font-heading font-bold text-[var(--aw-color-text-heading)] mb-2">
             Interested in {d.short_name || d.name}?
           </h3>
           <p class="text-xs text-[var(--aw-color-text-muted)] leading-relaxed mb-6">
-            Get personalized advisory on admission criteria, management/NRI seat quotas, fee waivers, and choice
-            filling.
+            Direct advice on eligibility, quotas, fees, and choice filling.
           </p>
 
           <div class="space-y-3 mb-6">
             <div class="flex items-center gap-2 text-xs text-[var(--aw-color-text-default)]">
-              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-4 h-4 text-[#1C827D] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
               <span>Verified fee notice and payment schedules</span>
             </div>
             <div class="flex items-center gap-2 text-xs text-[var(--aw-color-text-default)]">
-              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-4 h-4 text-[#1C827D] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
               <span>Past cutoff trends for your rank/score</span>
             </div>
             <div class="flex items-center gap-2 text-xs text-[var(--aw-color-text-default)]">
-              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-4 h-4 text-[#1C827D] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
               <span>Hostel allocation and campus visit assistance</span>
@@ -505,7 +504,7 @@ const typeBadgeStyles = {
         </div>
 
         <!-- Campus Location Card -->
-        <div class="bg-white border border-[var(--aw-color-border)] rounded-3xl p-6 shadow-sm">
+        <div class="bg-white border border-[var(--aw-color-border)] rounded-none p-6 shadow-sm">
           <h4 class="text-sm font-bold uppercase tracking-wider text-[var(--aw-color-primary)] mb-3">
             Campus Address &amp; Contact
           </h4>
@@ -535,8 +534,8 @@ const typeBadgeStyles = {
 
   <style>
     .college-sec-link[aria-current='true'] {
-      background-color: var(--tt-teal-navy, #0b2a3a);
-      color: var(--tt-gold-bright, #ecc268);
+      background-color: var(--tt-teal-navy, #1b365d);
+      color: var(--tt-gold-bright, #ff7a59);
     }
   </style>
 

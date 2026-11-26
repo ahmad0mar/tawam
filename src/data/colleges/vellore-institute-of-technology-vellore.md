@@ -58,7 +58,7 @@ website: 'https://vit.ac.in'
 featured: true
 cover_image: '~/assets/images/colleges/vellore-institute-of-technology-vellore/cover.webp'
 imageAlt: 'Vellore Institute of Technology campus view in Katpadi Vellore'
-description: 'Vellore Institute of Technology (VIT Vellore) is one of India’s top private engineering universities, ranked #11 in NIRF Engineering with NAAC A++ accreditation.'
+description: 'Vellore Institute of Technology (VIT Vellore) is a private engineering university ranked #11 in NIRF Engineering with NAAC A++ accreditation.'
 last_updated: '2026-11-24'
 ---
 
@@ -71,7 +71,7 @@ The university operates under a Flexible Credit System (FFCS), which allows stud
 ## Key Academic Highlights
 
 - **Flexible Choice-Based Credit System (FFCS):** Tailor course schedules, choose interdisciplinary electives, and balance major-minor specializations.
-- **Vibrant Research Culture:** Thousands of Scopus-indexed research papers published annually, supported by state-of-the-art nanotechnology and IoT research facilities.
+- **Research Output:** Thousands of Scopus-indexed research papers published annually, supported by nanotechnology and IoT research facilities.
 - **Accreditation:** ABET (USA) accreditation for major B.Tech programmes in addition to NAAC A++ and UGC recognition.
 - **International Collaborations:** Semester Abroad Programmes (SAP) with over 300 international universities across the US, UK, Europe, and Australia.
 

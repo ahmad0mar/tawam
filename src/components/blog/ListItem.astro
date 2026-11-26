@@ -26,10 +26,10 @@ const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : 
     image &&
       (link ? (
         <a class="relative block w-full" href={link}>
-          <div class="relative aspect-[16/9] w-full overflow-hidden rounded-2xl shadow-sm bg-slate-100">
+          <div class="relative aspect-[16/9] w-full overflow-hidden rounded-none border border-[var(--aw-color-border)] shadow-sm bg-slate-100">
             <Image
               src={image}
-              class="w-full h-full object-cover group-hover:scale-105 transition duration-300 rounded-2xl"
+              class="w-full h-full object-cover group-hover:scale-105 transition duration-300 rounded-none"
               widths={[400, 900]}
               width={900}
               height={506}
@@ -42,10 +42,10 @@ const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : 
           </div>
         </a>
       ) : (
-        <div class="relative aspect-[16/9] w-full overflow-hidden rounded-2xl shadow-sm bg-slate-100">
+        <div class="relative aspect-[16/9] w-full overflow-hidden rounded-none border border-[var(--aw-color-border)] shadow-sm bg-slate-100">
           <Image
             src={image}
-            class="w-full h-full object-cover rounded-2xl"
+            class="w-full h-full object-cover rounded-none"
             widths={[400, 900]}
             width={900}
             height={506}
@@ -61,8 +61,8 @@ const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : 
   <div class="mt-2 flex flex-col justify-center">
     <header>
       <div class="mb-1">
-        <span class="text-sm text-[#55658A]">
-          <Icon name="tabler:clock" class="w-3.5 h-3.5 inline-block -mt-0.5 text-[#55658A]" />
+        <span class="text-sm text-[var(--aw-color-text-muted)]">
+          <Icon name="tabler:clock" class="w-3.5 h-3.5 inline-block -mt-0.5 text-[var(--aw-color-text-muted)]" />
           <time datetime={post.publishDate.toISOString()} class="inline-block"
             >{getFormattedDate(post.publishDate)}</time
           >
@@ -70,8 +70,8 @@ const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : 
             post.author && (
               <>
                 {' '}
-                · <Icon name="tabler:user" class="w-3.5 h-3.5 inline-block -mt-0.5 text-[#55658A]" />
-                <span class="text-[#011B4A] font-medium">{post.author.replaceAll('-', ' ')}</span>
+                · <Icon name="tabler:user" class="w-3.5 h-3.5 inline-block -mt-0.5 text-[var(--aw-color-text-muted)]" />
+                <span class="text-[var(--aw-color-primary)] font-medium">{post.author.replaceAll('-', ' ')}</span>
               </>
             )
           }
@@ -81,7 +81,7 @@ const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : 
                 {' '}
                 ·{' '}
                 <a
-                  class="hover:underline text-[#011B4A] font-semibold"
+                  class="hover:underline text-[var(--aw-color-primary)] font-semibold"
                   href={getPermalink(post.category.slug, 'category')}
                 >
                   {post.category.title}
@@ -91,10 +91,10 @@ const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : 
           }
         </span>
       </div>
-      <h2 class="text-xl sm:text-2xl font-serif font-bold leading-tight mb-2 text-[#011B4A]">
+      <h2 class="text-xl sm:text-2xl font-heading font-bold leading-tight mb-2 text-[var(--aw-color-primary)]">
         {
           link ? (
-            <a class="inline-block hover:text-[#D08701] transition-colors duration-200" href={link}>
+            <a class="inline-block hover:text-[var(--aw-color-accent)] transition-colors duration-200" href={link}>
               {post.title}
             </a>
           ) : (

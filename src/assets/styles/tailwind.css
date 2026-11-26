@@ -35,8 +35,8 @@
   --font-sans:
     var(--aw-font-sans, ui-sans-serif), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-serif: var(--aw-font-serif, ui-serif), ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
-  --font-heading: var(--aw-font-heading, ui-serif), ui-serif, Georgia, Cambria, serif;
+  --font-serif: var(--aw-font-sans, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--aw-font-heading, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
 
   --animate-fade: fadeInUp 0.5s both;
 
@@ -73,16 +73,16 @@
 }
 
 @utility btn {
-  @apply inline-flex items-center justify-center rounded-full font-medium text-center text-base leading-snug transition-all py-3 px-6 md:px-8 ease-out duration-200 cursor-pointer active:scale-[0.98] focus:ring-2 focus:ring-offset-2 focus:ring-[#0572CE] outline-none;
+  @apply inline-flex items-center justify-center rounded-none font-semibold text-center text-base leading-snug transition-all py-3 px-6 md:px-8 ease-out duration-200 cursor-pointer active:scale-[0.98] focus:ring-2 focus:ring-offset-2 focus:ring-[var(--tt-gold)] outline-none;
 }
 
 @utility btn-primary {
-  @apply btn relative overflow-hidden font-semibold text-on-accent border border-[#D9A441] shadow-sm;
-  background-image: linear-gradient(135deg, #d9a441 0%, #ecc268 100%);
+  @apply btn relative overflow-hidden font-semibold text-white border border-[#d94a32] shadow-sm;
+  background-color: #f05f46;
 }
 
 @utility btn-glass {
-  @apply btn font-semibold bg-white/12 backdrop-blur-md border border-white/35 text-white shadow-sm;
+  @apply btn font-semibold bg-white/12 backdrop-blur-md border border-white/45 text-white shadow-sm;
 }
 
 .btn-primary::after {
@@ -90,15 +90,16 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(110deg, transparent 25%, rgb(255 255 255 / 38%) 50%, transparent 75%);
+  background: linear-gradient(110deg, transparent 25%, rgb(255 255 255 / 30%) 50%, transparent 75%);
   transform: translateX(-120%);
   transition: none;
 }
 
 @media (hover: hover) {
   .btn-primary:hover {
+    background-color: #d94a32;
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgb(11 42 58 / 16%);
+    box-shadow: 0 6px 16px rgb(27 54 93 / 16%);
   }
 
   .btn-primary:hover::after {
@@ -108,7 +109,7 @@
 
   .btn-glass:hover {
     background-color: rgb(255 255 255 / 22%);
-    border-color: rgb(255 255 255 / 55%);
+    border-color: rgb(255 255 255 / 70%);
   }
 }
 
@@ -118,7 +119,7 @@
   gap: 0.75rem;
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -132,7 +133,7 @@
 }
 
 .tt-gold-gradient-text {
-  background-image: linear-gradient(135deg, #f8de9a 0%, #d9a441 55%, #b97d1c 100%);
+  background-image: linear-gradient(135deg, #ff7a59 0%, #f05f46 65%, #d94a32 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -189,26 +190,31 @@
 }
 
 #header.scroll .aw-header-bar {
-  background-color: color-mix(in srgb, var(--tt-cream, #fbf3e4) 94%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom-color: var(--tt-border-warm, #e6d8be);
-  box-shadow: 0 8px 24px rgb(11 42 58 / 8%);
+  background-color: #ffffff;
+  border-bottom-color: var(--tt-border-warm, #d5dce6);
+  box-shadow: 0 6px 20px rgb(27 54 93 / 8%);
 }
 
 #header.scroll nav a,
 #header.scroll nav button,
 #header.scroll [data-aw-toggle-menu] {
-  color: var(--tt-ink, #0b2a3a);
+  color: var(--tt-ink, #222b38);
+}
+
+#header.scroll [data-aw-toggle-menu],
+#header.expanded [data-aw-toggle-menu] {
+  background-color: #ffffff;
+  border-color: var(--tt-border-warm, #d5dce6);
+  color: var(--tt-ink, #222b38);
 }
 
 #header.scroll nav a:hover,
 #header.scroll nav button:hover {
-  color: var(--tt-gold-dark, #9a6300);
+  color: var(--tt-gold, #f05f46);
 }
 
 #header.scroll nav .aw-link-active {
-  color: var(--tt-gold-dark, #9a6300);
+  color: var(--tt-idp-blue, #28558c);
 }
 
 @media (width >= 64rem) {
@@ -227,7 +233,7 @@
     bottom: 0.25rem;
     height: 2px;
     border-radius: 9999px;
-    background-color: var(--tt-gold-bright, #ecc268);
+    background-color: var(--tt-gold-bright, #ff7a59);
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform var(--aw-motion-base) var(--aw-ease-out);
@@ -236,7 +242,7 @@
 
   #header.scroll nav > ul > li > a::after,
   #header.scroll nav > ul > li > button::after {
-    background-color: var(--tt-gold-dark, #9a6300);
+    background-color: var(--tt-gold, #f05f46);
   }
 
   #header nav > ul > li > a:hover::after,
@@ -251,31 +257,35 @@
 #header.expanded {
   pointer-events: auto;
   padding: 0;
-  background-color: var(--tt-cream, #fbf3e4);
-  color: var(--tt-ink, #0b2a3a);
+  background-color: #ffffff;
+  color: var(--tt-ink, #222b38);
 }
 
 #header.expanded nav a,
 #header.expanded nav button,
 #header.expanded [data-aw-toggle-menu] {
-  color: var(--tt-ink, #0b2a3a);
+  color: var(--tt-ink, #222b38);
 }
 
 #header.expanded .aw-header-bar {
   border-radius: 0;
   border-left: 0;
   border-right: 0;
-  background-color: var(--tt-cream, #fbf3e4);
+  border-bottom: 1px solid var(--tt-border-warm, #d5dce6);
+  background-color: #ffffff;
 }
 
 #header.expanded nav {
+  display: flex !important;
+  flex-direction: column;
+  align-items: stretch;
   position: fixed;
-  top: 60px;
+  top: 58px;
   left: 0;
   right: 0;
-  bottom: 0;
-  padding: 1rem 1.25rem calc(5.5rem + env(safe-area-inset-bottom));
-  background-color: var(--tt-cream, #fbf3e4);
+  bottom: 80px;
+  padding: 0.75rem 1.25rem 2rem;
+  background-color: #ffffff;
   overflow-y: auto;
   z-index: 45;
 }
@@ -327,13 +337,12 @@ body.aw-menu-open #aw-whatsapp-floating {
 
 /* Blog prose: inline code without the typography plugin's backticks, and
    code blocks. */
-/* Force all prose body text to the brand dark slate for readability */
+/* Force all prose body and heading text to our warm ink tokens */
 .prose :where(p, li, dd, td, blockquote):not(:where([class~='not-prose'] *)) {
-  color: var(--aw-color-text-default, #2b3a5a);
+  color: var(--aw-color-text-default, #223544);
 }
-/* Force all prose headings to the brand dark navy for readability */
 .prose :where(h1, h2, h3, h4, h5, h6):not(:where([class~='not-prose'] *)) {
-  color: var(--aw-color-text-heading, #011b4a);
+  color: var(--tt-ink, #0b2a3a);
 }
 .prose :where(code):not(:where(pre *)) {
   background-color: color-mix(in oklab, var(--aw-color-text-default) 8%, transparent);

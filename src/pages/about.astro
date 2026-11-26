@@ -30,13 +30,14 @@ const metadata = {
         <Image
           src="~/assets/images/random/taj-mahal-travel.jpeg"
           alt="Student traveller viewing the Taj Mahal at sunset representing educational journeys across India"
+          layout="cover"
           class="w-full h-full object-cover object-center"
           width={1920}
           height={600}
           loading="eager"
           decoding="async"
         />
-        <div class="absolute inset-0 bg-gradient-to-r from-[#071D28]/95 via-[#0B2A3A]/88 to-[#123E54]/80"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#112542]/95 via-[#1B365D]/88 to-[#28558C]/80"></div>
       </div>
     </Fragment>
 
@@ -45,17 +46,16 @@ const metadata = {
     </Fragment>
 
     <Fragment slot="subtitle">
-      <span class="text-blue-100">
-        Tawam Travels provides personalized, transparent, and expert education counselling for students seeking
-        admissions in premier colleges across India. We simplify entrance exam counselling, course selection, and
-        college applications.
+      <span class="text-white/85">
+        Tawam Travels gives students straightforward, one-on-one counselling for college admissions across India. We
+        help you sort through entrance exam rules, course options, and application deadlines.
       </span>
     </Fragment>
   </Hero>
 
   <Features3
     title="Our Counselling Services"
-    subtitle="Comprehensive admission support tailored to your career goals and merit."
+    subtitle="Admission guidance built around your scores, budget, and career goals."
     columns={3}
     items={[
       {
@@ -67,7 +67,7 @@ const metadata = {
       {
         title: 'Engineering & Technology',
         description:
-          'Navigating JEE Main, state CETs, NIRF rankings, and finding premier institutions matching your specialization.',
+          'Comparing JEE Main and state CET cutoffs alongside NIRF data to shortlist engineering colleges that match your branch.',
         icon: 'tabler:cpu',
       },
       {
@@ -80,7 +80,8 @@ const metadata = {
 
   <Steps2
     title="How We Work With You"
-    subtitle="Our structured three-step counselling framework ensures clarity and confidence."
+    subtitle="Three clear steps from profile review to final seat allotment."
+    bg="<div class='absolute inset-0 bg-[var(--tt-cream-soft)]/70 border-y border-[var(--tt-border-warm)]'></div>"
     items={[
       {
         title: '1. Profile Evaluation & Aspirations',
@@ -104,6 +105,7 @@ const metadata = {
   />
 
   <CallToAction
+    layout="banner"
     title="Ready to Start Your Academic Journey?"
     subtitle="Speak directly with our counsellors and discover the right colleges for your profile."
     actions={[

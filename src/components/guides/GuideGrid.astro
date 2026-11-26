@@ -15,7 +15,7 @@ const resolved = await Promise.all(items.map(async (item) => ({ ...item, img: aw
     resolved.map((item) => (
       <article class="transition group">
         <a href={item.href} class="block group">
-          <div class="relative aspect-[16/9] w-full rounded-2xl shadow-sm mb-4 overflow-hidden bg-slate-100">
+          <div class="relative aspect-[16/9] w-full rounded-none border border-[var(--tt-border-warm)] shadow-sm mb-4 overflow-hidden bg-[var(--tt-cream-soft)]">
             {item.img && (
               <Image
                 src={item.img}
@@ -31,10 +31,10 @@ const resolved = await Promise.all(items.map(async (item) => ({ ...item, img: aw
               />
             )}
           </div>
-          <h3 class="text-xl sm:text-2xl font-serif font-bold leading-tight mb-2 text-[#011B4A] group-hover:text-[#D08701] transition-colors duration-200">
+          <h3 class="text-xl sm:text-2xl font-heading font-bold leading-tight mb-2 text-[var(--tt-ink)] group-hover:text-[var(--tt-gold-dark)] transition-colors duration-200">
             {item.title}
           </h3>
-          <p class="text-[#2B3A5A] text-base leading-relaxed">{item.summary}</p>
+          <p class="text-[var(--tt-ink-muted)] text-base leading-relaxed">{item.summary}</p>
         </a>
       </article>
     ))

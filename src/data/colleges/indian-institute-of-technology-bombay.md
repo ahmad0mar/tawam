@@ -44,16 +44,16 @@ website: 'https://www.iitb.ac.in'
 featured: false
 cover_image: '~/assets/images/colleges/indian-institute-of-technology-bombay/cover.webp'
 imageAlt: 'IIT Bombay campus main building and Powai lake vista'
-description: 'IIT Bombay is India’s premier technical institute in Powai Mumbai, famous for top JEE Advanced rankers and world-class innovation.'
+description: 'IIT Bombay is an Institute of Eminence in Powai, Mumbai, attracting top JEE Advanced rankers across engineering and research.'
 last_updated: '2026-11-24'
 ---
 
 ## About IIT Bombay (Powai, Mumbai)
 
-Set up in 1958 with assistance from UNESCO, **IIT Bombay** is recognized globally for technical education and scientific research. Situated on the scenic banks of Powai Lake in Mumbai, IIT Bombay is traditionally the topmost choice of the top 100 rankers in the JEE Advanced examination.
+Set up in 1958 with assistance from UNESCO, **IIT Bombay** is an Institute of Eminence known for engineering education and scientific research. Located beside Powai Lake in Mumbai, IIT Bombay remains the top pick for many top-100 rankers in JEE Advanced.
 
 ## Key Highlights
 
-- **Premier Engineering Education:** Groundbreaking research across artificial intelligence, semiconductor fabrication, clean energy, and aerospace engineering.
-- **Vibrant Entrepreneurship Culture:** SINE (Society for Innovation and Development) has incubated over 200 high-growth deep-tech startups.
+- **Premier Engineering Education:** Research labs and faculty groups working in artificial intelligence, semiconductor fabrication, clean energy, and aerospace engineering.
+- **Startup and Incubator Support:** SINE (Society for Innovation and Entrepreneurship) has incubated over 200 deep-tech startups.
 - **Top Placements:** Highest international and domestic pay packages in algorithmic trading, software engineering, and core engineering domains.

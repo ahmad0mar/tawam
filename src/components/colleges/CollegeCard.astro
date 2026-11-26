@@ -35,14 +35,14 @@ const stateUrl = getPermalink(`/colleges-in/${college.state_slug}`);
 const cover = await findImage(college.cover_image);
 
 const typeBadgeStyles = {
-  Government: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-  Private: 'bg-blue-50 text-blue-900 border-blue-200',
-  Deemed: 'bg-amber-50 text-amber-900 border-amber-200',
+  Government: 'bg-[#1C827D]/10 text-[#1C827D] border-[#1C827D]/30',
+  Private: 'bg-[var(--tt-cream-soft)] text-[var(--tt-ink)] border-[var(--tt-border-warm)]',
+  Deemed: 'bg-[#F05F46]/10 text-[#C93D25] border-[#F05F46]/30',
 };
 ---
 
 <article
-  class="flex flex-col bg-white border border-[var(--aw-color-border)] rounded-2xl overflow-hidden shadow-sm hover:shadow-lg focus-within:shadow-lg hover:-translate-y-1 focus-within:-translate-y-1 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group"
+  class="flex flex-col bg-white border border-[var(--aw-color-border)] rounded-none overflow-hidden shadow-sm hover:shadow-lg focus-within:shadow-lg hover:-translate-y-1 focus-within:-translate-y-1 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group"
   data-college-card
   data-state={college.state_slug}
   data-city={college.city_slug}
@@ -67,8 +67,8 @@ const typeBadgeStyles = {
             decoding="async"
           />
         ) : (
-          <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
-            <span class="font-serif text-2xl font-bold">{college.short_name || college.name.slice(0, 3)}</span>
+          <div class="w-full h-full flex items-center justify-center bg-[var(--tt-cream-soft)] text-[var(--tt-ink-muted)]">
+            <span class="font-heading text-2xl font-bold">{college.short_name || college.name.slice(0, 3)}</span>
           </div>
         )
       }
@@ -77,13 +77,13 @@ const typeBadgeStyles = {
     <!-- Top Badges -->
     <div class="absolute top-3 left-3 right-3 flex flex-wrap gap-2 items-center justify-between pointer-events-none">
       <span
-        class={`px-2.5 py-1 text-xs font-semibold rounded-full border shadow-sm pointer-events-auto ${typeBadgeStyles[college.type] || 'bg-slate-50 text-slate-700 border-slate-200'}`}
+        class={`px-2.5 py-1 text-xs font-semibold rounded-none border shadow-sm pointer-events-auto ${typeBadgeStyles[college.type] || 'bg-slate-50 text-slate-700 border-slate-200'}`}
       >
         {college.type}
       </span>
       {
         college.naac_grade && (
-          <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-[var(--aw-color-primary)] text-white shadow-sm pointer-events-auto">
+          <span class="px-2.5 py-1 text-xs font-bold rounded-none bg-[var(--aw-color-primary)] text-white shadow-sm pointer-events-auto">
             NAAC {college.naac_grade}
           </span>
         )
@@ -92,7 +92,7 @@ const typeBadgeStyles = {
 
     {
       college.nirf_rank && (
-        <div class="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-md border border-[var(--aw-color-border)] text-[11px] font-semibold text-[var(--aw-color-primary)] shadow-sm">
+        <div class="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-none border border-[var(--aw-color-border)] text-[11px] font-semibold text-[var(--aw-color-primary)] shadow-sm">
           NIRF #{college.nirf_rank}
         </div>
       )
@@ -104,7 +104,7 @@ const typeBadgeStyles = {
     <div>
       <!-- Location Tag (Clickable City & State) -->
       <div class="flex items-center gap-1.5 text-xs text-[var(--aw-color-text-muted)] mb-2">
-        <svg class="w-4 h-4 text-[#9A6300] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-4 h-4 text-[#C93D25] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -129,13 +129,13 @@ const typeBadgeStyles = {
             {college.state}
           </a>
         </span>
-        {college.established && <span class="text-slate-300 mx-1">•</span>}
+        {college.established && <span class="text-[var(--tt-border-warm)] mx-1">•</span>}
         {college.established && <span>Est. {college.established}</span>}
       </div>
 
       <!-- College Title -->
       <h3
-        class="text-lg font-serif font-bold text-[var(--aw-color-text-heading)] mb-2 line-clamp-2 leading-snug group-hover:text-[var(--aw-color-secondary)] transition"
+        class="text-lg font-heading font-bold text-[var(--aw-color-text-heading)] mb-2 line-clamp-2 leading-snug group-hover:text-[var(--aw-color-secondary)] transition"
       >
         <a href={collegeUrl}>{college.name}</a>
       </h3>
@@ -145,7 +145,7 @@ const typeBadgeStyles = {
         college.streams && college.streams.length > 0 && (
           <div class="flex flex-wrap gap-1 mb-3">
             {college.streams.slice(0, 3).map((stream) => (
-              <span class="text-[11px] px-2 py-0.5 rounded bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]">
+              <span class="text-[11px] px-2 py-0.5 rounded-none bg-[var(--aw-color-bg-soft)] text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)]">
                 {stream}
               </span>
             ))}
@@ -155,7 +155,7 @@ const typeBadgeStyles = {
 
       <!-- Key Details Snippet -->
       <div
-        class="grid grid-cols-2 gap-2 text-xs py-2.5 my-2 border-y border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)]/50 rounded-lg px-3"
+        class="grid grid-cols-2 gap-2 text-xs py-2.5 my-2 border-y border-[var(--aw-color-border)] bg-[var(--aw-color-bg-soft)]/50 rounded-none px-3"
       >
         {
           college.average_package && (
@@ -196,7 +196,7 @@ const typeBadgeStyles = {
     <div class="pt-3 flex items-center gap-2">
       <a
         href={collegeUrl}
-        class="group/detail flex-1 inline-flex items-center justify-center gap-1 min-h-[44px] text-center py-2.5 px-3 text-xs sm:text-sm font-semibold rounded-full border border-[var(--aw-color-primary)] text-[var(--aw-color-primary)] hover:bg-[var(--aw-color-bg-soft)] active:scale-[0.98] transition"
+        class="group/detail flex-1 inline-flex items-center justify-center gap-1 min-h-[44px] text-center py-2.5 px-3 text-xs sm:text-sm font-semibold rounded-none border border-[var(--aw-color-primary)] text-[var(--aw-color-primary)] hover:bg-[var(--aw-color-bg-soft)] active:scale-[0.98] transition"
       >
         <span>View Details</span>
         <span aria-hidden="true" class="transition-transform duration-200 group-hover/detail:translate-x-0.5"
@@ -205,7 +205,7 @@ const typeBadgeStyles = {
       </a>
       <a
         href={getPermalink('/contact')}
-        class="flex-1 inline-flex items-center justify-center min-h-[44px] text-center py-2.5 px-3 text-xs sm:text-sm font-semibold rounded-full bg-[var(--aw-color-accent)] hover:bg-[var(--aw-color-accent-hover)] text-[var(--aw-color-on-accent)] active:scale-[0.98] transition shadow-sm"
+        class="flex-1 inline-flex items-center justify-center min-h-[44px] text-center py-2.5 px-3 text-xs sm:text-sm font-semibold rounded-none bg-[var(--aw-color-accent)] hover:bg-[var(--aw-color-accent-hover)] text-[var(--aw-color-on-accent)] active:scale-[0.98] transition shadow-sm"
       >
         Enquire Now
       </a>

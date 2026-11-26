@@ -15,7 +15,7 @@ const { contentSelector = '.prose' } = Astro.props;
   <!-- Mobile/Tablet (<1200px): compact dropdown placed before content -->
   <div class="toc-mobile-dropdown-wrap mx-auto max-w-3xl px-4 sm:px-6 mb-6">
     <details
-      class="toc-mobile-details rounded-2xl bg-white border border-[var(--tt-border-warm)] shadow-xs overflow-hidden"
+      class="toc-mobile-details rounded-none bg-white border border-[var(--tt-border-warm)] shadow-xs overflow-hidden"
     >
       <summary
         class="flex items-center justify-between gap-3 px-4 py-3 text-xs sm:text-sm font-semibold text-[var(--tt-ink)] cursor-pointer select-none list-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tt-gold)]"
@@ -37,14 +37,14 @@ const { contentSelector = '.prose' } = Astro.props;
     <div
       tabindex="0"
       aria-label="Toggle table of contents"
-      class="toc-rail-track relative flex flex-col items-start py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tt-gold)] rounded-sm"
+      class="toc-rail-track relative flex flex-col items-start py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tt-gold)] rounded-none"
     >
       <div class="toc-ticks flex flex-col items-start gap-4"></div>
     </div>
 
     <!-- Expanded floating card (revealed to the right on hover or keyboard focus-within) -->
     <div
-      class="toc-card pointer-events-none opacity-0 -translate-x-2 group-hover:pointer-events-auto group-hover:opacity-100 group-hover:translate-x-0 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-focus-within:translate-x-0 transition-all duration-200 ml-3 w-64 max-h-[60vh] overflow-y-auto rounded-2xl bg-white/95 backdrop-blur-md border border-[var(--tt-border-warm)] shadow-xl p-4"
+      class="toc-card pointer-events-none opacity-0 -translate-x-2 group-hover:pointer-events-auto group-hover:opacity-100 group-hover:translate-x-0 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-focus-within:translate-x-0 transition-all duration-200 ml-3 w-64 max-h-[60vh] overflow-y-auto rounded-none bg-white/95 backdrop-blur-md border border-[var(--tt-border-warm)] shadow-xl p-4"
     >
       <div
         class="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--tt-gold-dark)] mb-2.5 pb-2 border-b border-[var(--tt-border-warm)]"
@@ -68,14 +68,14 @@ const { contentSelector = '.prose' } = Astro.props;
     right: 0;
     height: 3px;
     z-index: 50;
-    background: rgb(11 42 58 / 8%);
+    background: rgb(27 54 93 / 10%);
     pointer-events: none;
   }
 
   .toc-mobile-progress-fill {
     height: 100%;
     width: 100%;
-    background: linear-gradient(90deg, #d9a441 0%, #ecc268 100%);
+    background: linear-gradient(90deg, #f05f46 0%, #ff7a59 100%);
     transform-origin: left center;
     transform: scaleX(0);
   }

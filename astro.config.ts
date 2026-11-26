@@ -33,22 +33,13 @@ export default defineConfig({
     defaultStrategy: 'viewport',
   },
 
-  // Native Fonts API: self-hosts + subsets + preloads Playfair Display & Inter
+  // Native Fonts API: self-hosts + subsets + preloads Inter
   fonts: [
-    {
-      provider: fontProviders.fontsource(),
-      name: 'Playfair Display',
-      cssVariable: '--font-playfair-display',
-      weights: [600, 700],
-      styles: ['normal'],
-      subsets: ['latin'],
-      fallbacks: ['serif'],
-    },
     {
       provider: fontProviders.fontsource(),
       name: 'Inter',
       cssVariable: '--font-inter',
-      weights: [400, 500, 600],
+      weights: [400, 500, 600, 700],
       styles: ['normal'],
       subsets: ['latin'],
       fallbacks: ['sans-serif'],

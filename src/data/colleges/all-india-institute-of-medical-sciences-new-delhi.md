@@ -41,18 +41,16 @@ website: 'https://www.aiims.edu'
 featured: true
 cover_image: '~/assets/images/colleges/all-india-institute-of-medical-sciences-new-delhi/cover.webp'
 imageAlt: 'AIIMS New Delhi main hospital entrance and medical research facility'
-description: 'AIIMS New Delhi is India’s foremost medical university and teaching hospital, undisputed #1 in NIRF Medical rankings.'
+description: "AIIMS New Delhi is India's top-ranked public medical institute, holding #1 in NIRF Medical with a 2,478-bed hospital."
 last_updated: '2026-11-24'
 ---
 
 ## About AIIMS New Delhi
 
-Established in 1956 as an autonomous Institute of National Importance by an Act of Parliament, the **All India Institute of Medical Sciences (AIIMS New Delhi)** represents the apex of medical education, advanced clinical care, and biomedical research in India.
-
-AIIMS treats over 3.5 million outpatients and performs thousands of complex surgeries annually, providing medical students with unmatched clinical exposure.
+Parliament created the **All India Institute of Medical Sciences (AIIMS New Delhi)** as an autonomous Institute of National Importance in 1956. It sits at the top of Indian medical education and biomedical research. Over 3.5 million outpatients visit the hospital each year, and surgical teams handle thousands of complex referrals, so MBBS students see cases from day one that most colleges rarely treat.
 
 ## MBBS at AIIMS New Delhi
 
-- **Admission Route:** 100% of seats are allotted through **NEET-UG** national counselling conducted by MCC.
-- **Top Rankers:** Every year, the top 50–60 rank holders in NEET UG select AIIMS New Delhi as their first preference.
-- **Tuition & Subsidy:** Fully government-subsidized education with nominal fees, ensuring access based purely on merit.
+- **Admission Route:** 100% of seats go through **NEET-UG** national counselling run by MCC. No state quota exists here.
+- **Top Rankers:** Most students who pick AIIMS New Delhi rank inside the top 50 to 60 in NEET UG.
+- **Tuition & Subsidy:** Government funding keeps tuition nominal, so admission comes down to rank alone rather than family budget.

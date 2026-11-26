@@ -16,9 +16,9 @@ last_updated: '2026-11-24'
 
 ## Overview
 
-The Central Sector Scholarship Scheme is a prestigious national initiative by the Ministry of Education awarding financial support to 82,000 fresh scholars every year (41,000 boys and 41,000 girls) based on merit.
+The Ministry of Education awards 82,000 fresh Central Sector Scholarships every year (41,000 for boys and 41,000 for girls) based on Class 12 board merit.
 
 ### Key Benefits
 
-- ₹12,000 per year for the first three years of undergraduate studies.
-- Directly disbursed to the student's Aadhaar-linked bank account through Direct Benefit Transfer (DBT).
+- ₹12,000 a year for the first three years of undergraduate study (₹20,000 a year in PG or 4th-year technical courses).
+- Sent straight to the student's Aadhaar-seeded bank account via Direct Benefit Transfer (DBT).
